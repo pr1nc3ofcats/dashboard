@@ -37,6 +37,14 @@ export class Library {
                     });
                 }
             }
+            this.instance.applications.push({
+                id: 890,
+                title: "YouTube",
+                command: ["whoami"],
+                imgSquare: "C:/Users/ZloyKot/Desktop/assets/youtube-logo.jpeg",
+                lastLaunched: dayjs().toDate(),
+                isGame: false
+            })
             // this.instance.applications = await invoke('parse_library');
         }
     }

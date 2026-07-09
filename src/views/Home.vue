@@ -1,6 +1,8 @@
 <script setup lang="ts">
+import ControllerHint from '../components/ControllerHint.vue';
 import Backgorund from '../components/home/Backgorund.vue';
 import Ribbon from '../components/home/Ribbon.vue';
+import { appIsGame, appIsSelected } from './homeViewModel.ts';
 </script>
 
 <template>
@@ -13,6 +15,7 @@ import Ribbon from '../components/home/Ribbon.vue';
         </div>
     </div> -->
     <Ribbon/>
+    <ControllerHint :is-game="appIsGame" :should-show="appIsSelected"/>
 </template>
 
 <style scoped>
