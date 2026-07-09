@@ -1,11 +1,12 @@
 export interface Application {
+    id: number;
     title: string;
     command: string[];
     shortDescription?: string;
-    lastLaunched?: Date;
+    lastLaunched: Date;
     dataPath?: string;
-    logo?: string;
     imgSquare: string;
+    isGame: boolean;
 
     steamDetails?: SteamDetails;
 }

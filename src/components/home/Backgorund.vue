@@ -1,24 +1,21 @@
 <script setup lang="ts">
-import { onMounted, ref } from 'vue';
-import { getFileUrl } from '../../utils/fileLoader';
+import { computed, onMounted, ref } from 'vue';
 import { Settings } from '../../models/settings';
-import { currentId } from '../../views/homeViewModel';
-import { computedAsync } from '@vueuse/core';
+import { useHomeVM, currentId } from '../../views/homeViewModel';
 import { Library } from '../../models/library';
+import { convertFileSrc } from '@tauri-apps/api/core';
+
+useHomeVM();
 
 const wallapper = ref('');
 
-const currentBg = computedAsync(async () => {
-    const bg = Library.get(currentId.value, "steamDetails")?.imgBackground;
-    return bg ? await getFileUrl(bg!) : wallapper.value
-}, wallapper.value);
+const currentBg = computed(() => {
+    const bg = Library.get(currentId.value)?.steamDetails?.imgBackground;
+    return bg ? convertFileSrc(bg!) : wallapper.value
+});
 
-onMounted(async () => {
-    try {
-        wallapper.value = await getFileUrl(Settings.get("wallapper"));
-    } catch (err) {
-        console.error(err);
-    }
+onMounted(() => {
+    wallapper.value = convertFileSrc(Settings.get("wallapper"));
 })
 </script>
 
@@ -44,6 +41,7 @@ onMounted(async () => {
 .bg-fade-enter-active {
     transition: opacity .2s ease;
 }
+
 .bg-fade-leave-active {
     transition: opacity .6s ease;
 }

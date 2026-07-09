@@ -1,7 +1,6 @@
 <script setup lang="ts">
-import { invoke } from '@tauri-apps/api/core';
+import { convertFileSrc, invoke } from '@tauri-apps/api/core';
 import { onBeforeUnmount, onMounted, ref } from 'vue';
-import { getFileUrl } from '../utils/fileLoader';
 import { Settings } from '../models/settings';
 import { scale, scaleH, scaleW } from '../utils/styles';
 import { RouterLink } from 'vue-router';
@@ -31,7 +30,7 @@ onBeforeUnmount(() => {
 
 onMounted(async () => {
     try {
-        pfpImgUrl.value = await getFileUrl(Settings.get("avatar_image"));
+        pfpImgUrl.value = convertFileSrc(Settings.get("avatar_image"));
         userName.value = await invoke('get_user_name');
     } catch (err) {
         console.error(err);

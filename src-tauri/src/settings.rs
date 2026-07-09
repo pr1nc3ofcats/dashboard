@@ -12,8 +12,8 @@ impl Default for Settings {
     fn default() -> Self {
         Self {
             accent_color: String::from("#C48A61"),
-            wallapper: String::from("images/backgrounds/default.webp"),
-            avatar_image: String::from("images/avatar.png"),
+            wallapper: String::default(),
+            avatar_image: String::default(),
         }
     }
 }
@@ -21,6 +21,14 @@ impl Default for Settings {
 #[tauri::command]
 pub fn parse_settings(app_handle: tauri::AppHandle) -> Result<Settings, String> {
     let mut settings = Settings::default();
+    settings.wallapper = app_handle
+        .path()
+        .app_local_data_dir()
+        .map_err(|e| e.to_string())?.join("images/backgrounds/default.webp").to_str().unwrap().into();
+    settings.avatar_image = app_handle
+        .path()
+        .app_local_data_dir()
+        .map_err(|e| e.to_string())?.join("images/avatar.png").to_str().unwrap().into();
 
     let file_path = app_handle
         .path()

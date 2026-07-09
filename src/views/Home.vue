@@ -1,43 +1,23 @@
 <script setup lang="ts">
 import Backgorund from '../components/home/Backgorund.vue';
-import { scale, scaleH, scaleW } from '../utils/styles.ts';
-import { Library } from "../models/library";
-import { getFileUrl } from "../utils/fileLoader";
-import { computedAsync } from "@vueuse/core";
-import { currentId } from './homeViewModel.ts';
-
-const currentLogo = computedAsync(async () => {
-    const logo = Library.get(currentId.value, "logo");
-    return logo ? await getFileUrl(logo!) : ''
-}, '');
-const nextId = () => {
-    if (currentId.value >= 8) {
-        currentId.value = 0;
-    } else {
-        currentId.value++;
-    }
-}
+import Ribbon from '../components/home/Ribbon.vue';
 </script>
 
 <template>
     <Backgorund />
-    <div class="content-container">
+    <!-- <div class="content-container">
         <div class="logo-container">
             <Transition name="logo-fade">
-                <img :key="currentLogo" :src="currentLogo" class="logo" @click="nextId">
+                <img :key="currentLogo" :src="currentLogo" class="logo">
             </Transition>
         </div>
-
-        <div class="ribbon">
-
-        </div>
-    </div>
+    </div> -->
+    <Ribbon/>
 </template>
 
 <style scoped>
-.content-container {
+/* .content-container {
     margin-top: v-bind(scaleH(50));
-    margin-bottom: v-bind(scaleH(75));
     margin-left: v-bind(scaleW(100));
     margin-right: v-bind(scaleW(100));
 
@@ -49,12 +29,6 @@ const nextId = () => {
             max-height: 20vh;
             max-width: 25vw;
         }
-    }
-
-    & .ribbon {
-        position: fixed;
-        bottom: v-bind(scaleH(75));
-        width: calc(100% - v-bind(scaleW(200)));
     }
 }
 
@@ -70,5 +44,5 @@ const nextId = () => {
 
 .logo-fade-leave-to {
     opacity: 0;
-}
+} */
 </style>
