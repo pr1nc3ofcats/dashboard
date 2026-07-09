@@ -39,15 +39,17 @@ onMounted(() => {
 }
 
 .bg-fade-enter-active {
-    transition: opacity .2s ease;
+    transition: all 0.2s ease;
 }
 
 .bg-fade-leave-active {
-    transition: opacity .6s ease;
+    transition: opacity 4s ease-in-out;
 }
 
 .bg-fade-enter-from {
     opacity: 0;
+    transform: scale(1.1);
+    transform-origin: center center;
 }
 
 .bg-fade-leave-to {

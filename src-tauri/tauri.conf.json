@@ -12,9 +12,7 @@
   "app": {
     "windows": [
       {
-        "title": "huinya",
-        "width": 800,
-        "height": 600
+        "title": "dashboard"
       }
     ],
     "security": {

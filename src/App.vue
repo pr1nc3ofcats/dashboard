@@ -17,6 +17,7 @@ onMounted(() => {
 <style lang="scss">
 body {
   margin: 0 0;
+  overflow: hidden;
 }
 
 h1,

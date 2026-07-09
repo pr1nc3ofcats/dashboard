@@ -22,7 +22,8 @@ onMounted(() => {
 
 <template>
     <div v-focus-section:ribbon class="ribbon">
-        <div v-for="app in appsStripped" v-focus v-focus-events="{ focused: () => select(app.id), unfocused: leaveSection }" class="tile"
+        <div v-for="app in appsStripped" v-focus
+            v-focus-events="{ focused: () => select(app.id), unfocused: leaveSection }" class="tile"
             :class="{ active: app.id === currentId }">
             <img :src="convertFileSrc(app.imgSquare)" class="tile-image">
             <h2>{{ app.title }}</h2>
@@ -79,7 +80,6 @@ onMounted(() => {
 .tile.active {
     width: v-bind(scale(160 * 1.5));
     height: v-bind(scale(160 * 1.5));
-
 
     & h2 {
         opacity: 1;
