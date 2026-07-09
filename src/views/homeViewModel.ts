@@ -15,5 +15,13 @@ export const appIsGame = computed(() => {
 
 export function useHomeVM() {
     appsStripped.value = Library.getAll("last_launch").slice(0, 9);
-    // currentId.value = appsStripped.value.at(0)?.id ?? -1;
+    //currentId.value = appsStripped.value.at(0)?.id ?? -1;
+
+    // Idk if it helps
+    // for (let app of appsStripped.value) {
+    //     if (app.steamDetails?.imgBackground) {
+    //         let preload = new Image();
+    //         preload.src = convertFileSrc(app.steamDetails.imgBackground);
+    //     }
+    // }
 }

@@ -44,4 +44,8 @@ h3,
 p {
   font-size: v-bind(scale(20));
 }
+
+*:focus {
+  outline: none;
+}
 </style>

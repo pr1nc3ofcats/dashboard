@@ -8,35 +8,30 @@ export class Library {
     public static async init() {
         if (!this.instance) {
             this.instance = new Library;
-            for (let i = 0; i < 5; i++) {
-                if (i % 2 !== 0) {
-                    this.instance.applications.push({
-                        id: i,
-                        title: "Minecraft",
-                        command: ["whoami"],
-                        imgSquare: "C:/Users/ZloyKot/Desktop/assets/minecraft.webp",
-                        lastLaunched: dayjs().add(i, "minute").toDate(),
-                        isGame: true,
+            this.instance.applications.push({
+                id: 124,
+                title: "Nine Sols",
+                command: ["whoami"],
+                imgSquare: "C:/Users/ZloyKot/Desktop/assets/nine sols.webp",
+                lastLaunched: dayjs().toDate(),
+                isGame: true,
 
-                        steamDetails: {
-                            imgBackground: "C:/Users/ZloyKot/Desktop/assets/minecraft-cover.jpg"
-                        }
-                    });
-                } else {
-                    this.instance.applications.push({
-                        id: i,
-                        title: "Nine Sols",
-                        command: ["whoami"],
-                        imgSquare: "C:/Users/ZloyKot/Desktop/assets/nine sols.webp",
-                        lastLaunched: dayjs().add(i, "minute").toDate(),
-                        isGame: true,
-
-                        steamDetails: {
-                            imgBackground: "C:/Users/ZloyKot/Desktop/assets/nine-sols-16-9.webp"
-                        }
-                    });
+                steamDetails: {
+                    imgBackground: "C:/Users/ZloyKot/Desktop/assets/nine-sols-16-9.webp"
                 }
-            }
+            });
+            this.instance.applications.push({
+                id: 12,
+                title: "Minecraft",
+                command: ["whoami"],
+                imgSquare: "C:/Users/ZloyKot/Desktop/assets/minecraft.webp",
+                lastLaunched: dayjs().toDate(),
+                isGame: true,
+
+                steamDetails: {
+                    imgBackground: "C:/Users/ZloyKot/Desktop/assets/minecraft-cover.jpg"
+                }
+            });
             this.instance.applications.push({
                 id: 890,
                 title: "YouTube",

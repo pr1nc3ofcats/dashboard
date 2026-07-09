@@ -3,20 +3,27 @@ import { convertFileSrc } from '@tauri-apps/api/core';
 import { scale, scaleH, scaleW } from '../../utils/styles.ts';
 import { appsStripped, currentId, useHomeVM } from '../../views/homeViewModel.ts';
 import { Settings } from '../../models/settings.ts';
+import { inject, onMounted } from 'vue';
 
 useHomeVM();
 
 const select = (id: number) => {
     currentId.value = id;
 }
+const leaveSection = (event: any) => {
+    if (event.detail.nextSectionId !== "ribbon") currentId.value = -1
+}
+
+onMounted(() => {
+    const spatialNavigation: any = inject('spatialNavigation');
+    spatialNavigation.focus("ribbon");
+})
 </script>
 
 <template>
-    <div class="ribbon">
-        <div v-for="app in appsStripped"
-        class="tile"
-        :class="{ active: app.id === currentId }"
-        @click="select(app.id)">
+    <div v-focus-section:ribbon class="ribbon">
+        <div v-for="app in appsStripped" v-focus v-focus-events="{ focused: () => select(app.id), unfocused: leaveSection }" class="tile"
+            :class="{ active: app.id === currentId }">
             <img :src="convertFileSrc(app.imgSquare)" class="tile-image">
             <h2>{{ app.title }}</h2>
         </div>

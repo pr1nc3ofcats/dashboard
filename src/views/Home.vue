@@ -6,7 +6,6 @@ import { appIsGame, appIsSelected } from './homeViewModel.ts';
 </script>
 
 <template>
-    <Backgorund />
     <!-- <div class="content-container">
         <div class="logo-container">
             <Transition name="logo-fade">
@@ -14,6 +13,8 @@ import { appIsGame, appIsSelected } from './homeViewModel.ts';
             </Transition>
         </div>
     </div> -->
+
+    <Backgorund />
     <Ribbon/>
     <ControllerHint :is-game="appIsGame" :should-show="appIsSelected"/>
 </template>

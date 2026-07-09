@@ -16,16 +16,16 @@ const date = ref('');
 let interval: number;
 
 const updateDateTime = () => {
-  const now = dayjs()
-  time.value = now.format('HH:mm')
-  date.value = now.format('DD.MM.YYYY')
+    const now = dayjs()
+    time.value = now.format('HH:mm')
+    date.value = now.format('DD.MM.YYYY')
 }
 onMounted(() => {
-  updateDateTime()
-  interval = setInterval(updateDateTime, 1000)
+    updateDateTime()
+    interval = setInterval(updateDateTime, 1000)
 })
 onBeforeUnmount(() => {
-  clearInterval(interval)
+    clearInterval(interval)
 })
 
 onMounted(async () => {
@@ -40,8 +40,8 @@ onMounted(async () => {
 
 <template>
     <div id="top-bar">
-        <div class="user-profile-container">
-            <img :src="pfpImgUrl" class="avatar">
+        <div v-focus-section class="user-profile-container">
+            <img v-focus :src="pfpImgUrl" class="avatar">
             <h3>{{ userName }}</h3>
         </div>
 
