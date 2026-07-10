@@ -2,6 +2,7 @@ import { ref } from "vue"
 
 const windowWidth = ref(window.innerWidth);
 const windowHeight = ref(window.innerHeight);
+
 export const solidBgColor = "#1A191C";
 
 export function updateResolution() {

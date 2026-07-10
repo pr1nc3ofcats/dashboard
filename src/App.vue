@@ -3,6 +3,8 @@ import { onMounted } from 'vue';
 import { RouterView } from 'vue-router';
 import { scale, updateResolution } from './utils/styles';
 import TopBar from './components/TopBar.vue';
+import { Settings } from './models/settings.ts';
+import Backgorund from './components/Backgorund.vue';
 
 onMounted(() => {
   window.addEventListener('resize', updateResolution);
@@ -10,11 +12,19 @@ onMounted(() => {
 </script>
 
 <template>
+  <Backgorund />
   <TopBar />
-  <RouterView />
+
+  <RouterView v-slot="{ Component, route }">
+    <Transition name="page">
+      <component :is="Component" :key="route.fullPath" />
+    </Transition>
+  </RouterView>
 </template>
 
 <style lang="scss">
+@use "./styles/pages-transition.scss";
+
 body {
   margin: 0 0;
   overflow: hidden;
@@ -48,5 +58,33 @@ p {
 
 *:focus {
   outline: none;
+}
+
+.focusable-br7 {
+  position: relative;
+
+  &:focus::after {
+    content: "";
+    position: absolute;
+    inset: v-bind(scale(-6));
+    border: v-bind(scale(3)) solid v-bind('Settings.get("accent_color")');
+    border-radius: calc(7px + v-bind(scale(6)));
+    box-shadow: 0 0 v-bind(scale(4)) v-bind(scale(4)) v-bind('Settings.get("accent_color") + "40"');
+    pointer-events: none;
+  }
+}
+
+.focusable-circle {
+  position: relative;
+
+  &:focus::after {
+    content: "";
+    position: absolute;
+    inset: v-bind(scale(-6));
+    border: v-bind(scale(3)) solid v-bind('Settings.get("accent_color")');
+    border-radius: 100%;
+    box-shadow: 0 0 v-bind(scale(4)) v-bind(scale(4)) v-bind('Settings.get("accent_color") + "40"');
+    pointer-events: none;
+  }
 }
 </style>

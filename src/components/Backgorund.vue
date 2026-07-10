@@ -1,9 +1,10 @@
 <script setup lang="ts">
 import { computed, onMounted, ref } from 'vue';
-import { Settings } from '../../models/settings';
-import { useHomeVM, currentId } from '../../views/homeViewModel';
-import { Library } from '../../models/library';
+import { Settings } from '../models/settings';
+import { useHomeVM, currentId } from '../views/homeViewModel';
+import { Library } from '../models/library';
 import { convertFileSrc } from '@tauri-apps/api/core';
+import { solidBgColor } from '../utils/styles';
 
 useHomeVM();
 
@@ -20,8 +21,10 @@ onMounted(() => {
 </script>
 
 <template>
+    <div class="solid-bg"></div>
     <Transition name="bg-fade">
-        <img :key="currentBg" :src="currentBg" class="background-image">
+        <img :key="currentBg" :src="currentBg"
+            @error="($event.currentTarget as HTMLImageElement).style.display = 'none'" class="background-image">
     </Transition>
     <div class="overlay"></div>
 </template>
@@ -36,6 +39,17 @@ onMounted(() => {
     object-fit: cover;
 
     z-index: -100;
+}
+
+.solid-bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    width: 100vw;
+    background-color: v-bind(solidBgColor);
+
+    z-index: -101;
 }
 
 .bg-fade-enter-active {

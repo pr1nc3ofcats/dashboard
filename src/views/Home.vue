@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import ControllerHint from '../components/ControllerHint.vue';
-import Backgorund from '../components/home/Backgorund.vue';
 import Ribbon from '../components/home/Ribbon.vue';
 import { appIsGame, appIsSelected } from './homeViewModel.ts';
 </script>
@@ -14,17 +13,14 @@ import { appIsGame, appIsSelected } from './homeViewModel.ts';
         </div>
     </div> -->
 
-    <Backgorund />
-    <Ribbon/>
-    <ControllerHint :is-game="appIsGame" :should-show="appIsSelected"/>
+    <div class="page">
+        <Ribbon/>
+        <ControllerHint :is-game="appIsGame" :should-show="appIsSelected" />
+    </div>
 </template>
 
 <style scoped>
 /* .content-container {
-    margin-top: v-bind(scaleH(50));
-    margin-left: v-bind(scaleW(100));
-    margin-right: v-bind(scaleW(100));
-
     & .logo-container {
         position: relative;
 

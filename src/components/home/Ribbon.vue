@@ -2,7 +2,6 @@
 import { convertFileSrc } from '@tauri-apps/api/core';
 import { scale, scaleH, scaleW } from '../../utils/styles.ts';
 import { appsStripped, currentId, useHomeVM } from '../../views/homeViewModel.ts';
-import { Settings } from '../../models/settings.ts';
 import { inject, onMounted } from 'vue';
 
 useHomeVM();
@@ -21,9 +20,9 @@ onMounted(() => {
 </script>
 
 <template>
-    <div v-focus-section:ribbon class="ribbon">
+    <div v-focus-section:ribbon class="ribbon page-content">
         <div v-for="app in appsStripped" v-focus
-            v-focus-events="{ focused: () => select(app.id), unfocused: leaveSection }" class="tile"
+            v-focus-events="{ focused: () => select(app.id), unfocused: leaveSection }" class="tile focusable-br7"
             >
             <img :src="convertFileSrc(app.imgSquare)" class="tile-image">
             <h2>{{ app.title }}</h2>
@@ -84,15 +83,5 @@ onMounted(() => {
     & h2 {
         opacity: 1;
     }
-}
-
-.tile:focus::after {
-    content: "";
-    position: absolute;
-    inset: v-bind(scale(-6));
-    border: v-bind(scale(3)) solid #C48A61;
-    border-radius: calc(7px + v-bind(scale(6)));
-    box-shadow: 0 0 v-bind(scale(4)) v-bind(scale(4)) v-bind('Settings.get("accent_color") + "40"');
-    pointer-events: none;
 }
 </style>
