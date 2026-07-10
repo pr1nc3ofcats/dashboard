@@ -14,7 +14,7 @@ export class Library {
                 command: ["whoami"],
                 imgSquare: "C:/Users/ZloyKot/Desktop/assets/nine sols.webp",
                 lastLaunched: dayjs().toDate(),
-                isGame: true,
+                categories: ["Games", "Metroidvanias"],
 
                 steamDetails: {
                     imgBackground: "C:/Users/ZloyKot/Desktop/assets/nine-sols-16-9.webp"
@@ -26,7 +26,7 @@ export class Library {
                 command: ["whoami"],
                 imgSquare: "C:/Users/ZloyKot/Desktop/assets/minecraft.webp",
                 lastLaunched: dayjs().toDate(),
-                isGame: true,
+                categories: ["Games"],
 
                 steamDetails: {
                     imgBackground: "C:/Users/ZloyKot/Desktop/assets/minecraft-cover.jpg"
@@ -38,7 +38,7 @@ export class Library {
                 command: ["whoami"],
                 imgSquare: "C:/Users/ZloyKot/Desktop/assets/youtube-logo.jpeg",
                 lastLaunched: dayjs().toDate(),
-                isGame: false
+                categories: ["Applications"],
             })
             // this.instance.applications = await invoke('parse_library');
         }

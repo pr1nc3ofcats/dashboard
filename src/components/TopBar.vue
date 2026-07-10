@@ -41,7 +41,7 @@ onMounted(async () => {
 <template>
     <div id="top-bar">
         <div v-focus-section class="user-profile-container">
-            <img v-focus :src="pfpImgUrl" class="avatar">
+            <div v-focus class="avatar-wrapper"><img :src="pfpImgUrl" class="avatar"></div>
             <h3>{{ userName }}</h3>
         </div>
 
@@ -83,9 +83,26 @@ onMounted(async () => {
     gap: v-bind(scaleW(15));
 
     & .avatar {
+        width: 100%;
+        height: 100%;
+        border-radius: 100%;
+        object-fit: cover;
+    }
+
+    & .avatar-wrapper {
         width: v-bind(scale(60));
         height: v-bind(scale(60));
+        position: relative;
+    }
+
+    & .avatar-wrapper:focus::after {
+        content: "";
+        position: absolute;
+        inset: v-bind(scale(-6));
+        border: v-bind(scale(3)) solid #C48A61;
+        box-shadow: 0 0 v-bind(scale(4)) v-bind(scale(4)) v-bind('Settings.get("accent_color") + "40"');
         border-radius: 100%;
+        pointer-events: none;
     }
 }
 

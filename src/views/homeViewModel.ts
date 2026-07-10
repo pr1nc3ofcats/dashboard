@@ -10,7 +10,7 @@ export const appIsSelected = computed(() => {
 });
 export const appIsGame = computed(() => {
     let app = Library.get(currentId.value);
-    return app ? app.isGame : false;
+    return app ? app.categories.includes("Games"): false;
 });
 
 // Idk if it works at all

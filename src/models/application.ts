@@ -3,7 +3,7 @@ export interface Application {
     title: string;
     command: string[];
     imgSquare: string;
-    isGame: boolean;
+    categories: string[];
     lastLaunched: Date;
     shortDescription?: string;
     dataPath?: string;
