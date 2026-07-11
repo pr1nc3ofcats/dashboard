@@ -5,11 +5,20 @@ import { scale, updateResolution } from './utils/styles';
 import TopBar from './components/TopBar.vue';
 import { Settings } from './models/settings.ts';
 import Backgorund from './components/Backgorund.vue';
-import { initBasicWatchers } from './utils/gamepad.ts';
+import { initBasicWatchers, pauseGamepad, resumeGameapd } from './utils/gamepad.ts';
+import { getCurrentWindow } from '@tauri-apps/api/window';
 
-onMounted(() => {
+onMounted(async () => {
   window.addEventListener('resize', updateResolution);
+
   initBasicWatchers(inject('spatialNavigation'));
+  await getCurrentWindow().onFocusChanged(({ payload }) => {
+    if (payload) {
+      resumeGameapd();
+    } else {
+      pauseGamepad();
+    }
+  });
 });
 </script>
 

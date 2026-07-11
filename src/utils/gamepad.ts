@@ -2,7 +2,7 @@ import { mapGamepadToXbox360Controller, useGamepad } from '@vueuse/core';
 import { computed, ref, watch, WatchHandle } from 'vue';
 import router from '../router';
 
-const { gamepads, onConnected, onDisconnected } = useGamepad();
+const { pause, resume, gamepads, onConnected, onDisconnected } = useGamepad();
 const currentGamepadIndex = ref(0);
 
 const currentGamepadMapped = computed(() => {
@@ -121,4 +121,12 @@ export function setBtnYHandler(callback: () => void) {
     stopBtnYHandler = watch(() => currentGamepadMapped.value?.buttons.y.pressed, (v) => {
         if (v) callback()
     })
+}
+
+export function pauseGamepad() {
+    pause();
+}
+
+export function resumeGameapd() {
+    resume();
 }
