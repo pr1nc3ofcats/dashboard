@@ -2,7 +2,7 @@
 import { convertFileSrc, invoke } from '@tauri-apps/api/core';
 import { onBeforeUnmount, onMounted, ref } from 'vue';
 import { Settings } from '../models/settings';
-import { scale, scaleH, scaleW } from '../utils/styles';
+import { performPulse, scale, scaleH, scaleW } from '../utils/styles';
 import { RouterLink } from 'vue-router';
 import HomeIcon from '../assets/svg/home.svg';
 import SettingsIcon from '../assets/svg/settings.svg';
@@ -41,7 +41,8 @@ onMounted(async () => {
 <template>
     <div id="top-bar">
         <div v-focus-section class="user-profile-container">
-            <div v-focus class="avatar-wrapper focusable-circle"><img :src="pfpImgUrl" class="avatar"></div>
+            <div v-focus @sn:enter-down="performPulse" class="avatar-wrapper focusable-circle"><img :src="pfpImgUrl"
+                    class="avatar"></div>
             <h3>{{ userName }}</h3>
         </div>
 

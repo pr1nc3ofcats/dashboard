@@ -1,0 +1,8 @@
+.pulse-active {
+    transition: transform .1s linear !important;
+}
+
+.pulse-down {
+    transform: scale(0.9);
+    transform-origin: center center;
+}

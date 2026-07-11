@@ -24,6 +24,7 @@ onMounted(() => {
 
 <style lang="scss">
 @use "./styles/pages-transition.scss";
+@use "./styles/pulse.scss";
 
 body {
   margin: 0 0;

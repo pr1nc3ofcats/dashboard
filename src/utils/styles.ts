@@ -1,10 +1,24 @@
 import { ref } from "vue"
 
-const windowWidth = ref(window.innerWidth);
-const windowHeight = ref(window.innerHeight);
-
+// Consts
 export const solidBgColor = "#1A191C";
 
+// Pulse
+export function performPulse(event: any) {
+    const el = event.currentTarget;
+    el.classList.add('pulse-active', 'pulse-down');
+
+    setTimeout(() => {
+        el.classList.remove('pulse-down');
+        setTimeout(() => {
+            el.classList.remove('pulse-active');
+        }, 100);
+    }, 100);
+}
+
+// Scaling
+const windowWidth = ref(window.innerWidth);
+const windowHeight = ref(window.innerHeight);
 export function updateResolution() {
     windowWidth.value = window.innerWidth;
     windowHeight.value = window.innerHeight;

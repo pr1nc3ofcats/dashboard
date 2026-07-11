@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { convertFileSrc } from '@tauri-apps/api/core';
-import { scale, scaleH, scaleW } from '../../utils/styles.ts';
+import { performPulse, scale, scaleH, scaleW } from '../../utils/styles.ts';
 import { appsStripped, currentId, useHomeVM } from '../../views/homeViewModel.ts';
 import { inject, onMounted } from 'vue';
 
@@ -21,9 +21,8 @@ onMounted(() => {
 
 <template>
     <div v-focus-section:ribbon class="ribbon page-content">
-        <div v-for="app in appsStripped" v-focus
-            v-focus-events="{ focused: () => select(app.id), unfocused: leaveSection }" class="tile focusable-br7"
-            >
+        <div v-for="app in appsStripped" v-focus @sn:focused="() => select(app.id)" @sn:unfocused="leaveSection"
+            @sn:enter-down="performPulse" class="tile focusable-br7">
             <img :src="convertFileSrc(app.imgSquare)" class="tile-image">
             <h2>{{ app.title }}</h2>
         </div>
