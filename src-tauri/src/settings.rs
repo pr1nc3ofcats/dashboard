@@ -23,12 +23,12 @@ pub fn parse_settings(app_handle: tauri::AppHandle) -> Result<Settings, String> 
     let mut settings = Settings::default();
     settings.wallapper = app_handle
         .path()
-        .app_local_data_dir()
+        .resource_dir()
         .map_err(|e| e.to_string())?.join("images/backgrounds/default.webp").to_str().unwrap().into();
     settings.avatar_image = app_handle
         .path()
-        .app_local_data_dir()
-        .map_err(|e| e.to_string())?.join("images/avatar.png").to_str().unwrap().into();
+        .resource_dir()
+        .map_err(|e| e.to_string())?.join("images/default-avatar.webp").to_str().unwrap().into();
 
     let file_path = app_handle
         .path()
