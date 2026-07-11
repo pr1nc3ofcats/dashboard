@@ -3,7 +3,10 @@ import { Library } from "../models/library.ts";
 
 const categories: Ref<string[], string[]> = ref([]);
 const currentCategoryIndex = ref(0);
-const currentGridView = computed(() => Library.getAllFromCategory(categories.value[currentCategoryIndex.value], "last_launch"));
+const currentCategory = computed(() => categories.value[currentCategoryIndex.value]);
+const currentGridView = computed(() => Library.getAllFromCategory(currentCategory.value, "last_launch"));
+
+const categoriesLengths = computed(() => categories.value.map((value) => Library.getAllFromCategory(value, "last_launch").length));
 
 const currentAppId = ref(-1);
 const appIsSelected = computed(() => {
@@ -17,5 +20,5 @@ const appIsGame = computed(() => {
 export function useLibraryVM() {
     categories.value = Library.getAllCategories();
 
-    return { categories, currentCategoryIndex, currentGridView, appIsSelected, appIsGame };
+    return { categories, currentCategoryIndex, currentCategory, categoriesLengths, currentGridView, appIsSelected, appIsGame };
 }

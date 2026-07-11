@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import AppGrid from '../components/library/AppGrid.vue';
 import CategoryList from '../components/library/CategoryList.vue';
 import { Settings } from '../models/settings';
 import { contentHeight, solidBgColor } from '../utils/styles';
@@ -11,7 +12,10 @@ import { contentHeight, solidBgColor } from '../utils/styles';
         <div class="solid-bg"></div>
         <div class="page-content">
             <div class="left-part">
-                <CategoryList/>
+                <CategoryList />
+            </div>
+            <div class="right-part">
+                <AppGrid />
             </div>
         </div>
     </div>
@@ -44,5 +48,10 @@ import { contentHeight, solidBgColor } from '../utils/styles';
     height: 100%;
 
     border-right: 1px solid v-bind('Settings.get("accent_color") + "40"');
+}
+
+.right-part {
+    width: 100%;
+    height: 100%;
 }
 </style>

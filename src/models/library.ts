@@ -63,11 +63,11 @@ export class Library {
     }
 
     public static getAllCategories(): string[] {
-        let result: string[] = [];
+        let result: string[] = ["Games", "Applications"];
         for (let app of this.instance.applications) {
-            result.concat(app.categories)
+            result = result.concat(app.categories)
         }
-        return [...new Set(result)];
+        return Array.from(new Set(result));
     }
 
     private static sort(arr: Application[], sort: "last_launch" | "a-z" | "z-a"): Application[] {
