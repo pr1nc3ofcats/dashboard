@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import { convertFileSrc } from '@tauri-apps/api/core';
 import { performPulse, scale, scaleH, scaleW } from '../../utils/styles.ts';
-import { appsStripped, currentId, useHomeVM } from '../../views/homeViewModel.ts';
+import { useHomeVM } from '../../views/homeViewModel.ts';
 import { inject, onMounted } from 'vue';
 
-useHomeVM();
+const { appsStripped, currentId } = useHomeVM();
 
 const select = (id: number) => {
     currentId.value = id;

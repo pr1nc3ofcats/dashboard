@@ -1,19 +1,18 @@
 import { computed, Ref, ref } from "vue";
 import { Library } from "../models/library";
-import { Application } from "../models/application";
 import { convertFileSrc } from "@tauri-apps/api/core";
+import { Application } from "../models/application";
 
-export const currentId = ref(-1);
-export const appsStripped: Ref<Application[], Application[]> = ref([]);
-export const appIsSelected = computed(() => {
+const currentId = ref(-1);
+const appsStripped: Ref<Application[], Application[]> = ref([]);
+const appIsSelected = computed(() => {
     return Library.get(currentId.value) ? true : false;
 });
-export const appIsGame = computed(() => {
+const appIsGame = computed(() => {
     let app = Library.get(currentId.value);
-    return app ? app.categories.includes("Games"): false;
+    return app ? app.categories.includes("Games") : false;
 });
 
-// Idk if it works at all
 const preloadContainer = computed(() => {
     let preloadImages = [];
     for (let app of appsStripped.value) {
@@ -28,5 +27,6 @@ const preloadContainer = computed(() => {
 
 export function useHomeVM() {
     appsStripped.value = Library.getAll("last_launch").slice(0, 9);
-    //currentId.value = appsStripped.value.at(0)?.id ?? -1;
+
+    return { currentId, appsStripped, appIsSelected, appIsGame }
 }

@@ -1,12 +1,12 @@
 <script setup lang="ts">
 import { computed, onMounted, ref } from 'vue';
 import { Settings } from '../models/settings';
-import { useHomeVM, currentId } from '../views/homeViewModel';
+import { useHomeVM } from '../views/homeViewModel';
 import { Library } from '../models/library';
 import { convertFileSrc } from '@tauri-apps/api/core';
 import { solidBgColor } from '../utils/styles';
 
-useHomeVM();
+const { currentId } = useHomeVM();
 
 const wallapper = ref('');
 

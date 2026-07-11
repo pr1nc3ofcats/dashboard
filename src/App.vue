@@ -1,13 +1,15 @@
 <script setup lang="ts">
-import { onMounted } from 'vue';
+import { inject, onMounted } from 'vue';
 import { RouterView } from 'vue-router';
 import { scale, updateResolution } from './utils/styles';
 import TopBar from './components/TopBar.vue';
 import { Settings } from './models/settings.ts';
 import Backgorund from './components/Backgorund.vue';
+import { initBasicWatchers } from './utils/gamepad.ts';
 
 onMounted(() => {
   window.addEventListener('resize', updateResolution);
+  initBasicWatchers(inject('spatialNavigation'));
 });
 </script>
 
