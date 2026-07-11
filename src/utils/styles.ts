@@ -1,4 +1,4 @@
-import { ref } from "vue"
+import { computed, ref } from "vue"
 
 // Consts
 export const solidBgColor = "#1A191C";
@@ -36,3 +36,12 @@ export function scale(v: number): string {
     const avg = ((windowWidth.value / 1920) + (windowHeight.value / 1080)) / 2;
     return (v * avg) + "px";
 }
+
+// For absolutely placed page content
+export const contentHeight = computed(() => {
+    const scalingFactor = windowHeight.value / 1080;
+    const headerMargin = scalingFactor * 75;
+    const headerHeight = scalingFactor * 60;
+    const marginFromHeader = scalingFactor * 50;
+    return (windowHeight.value - headerHeight - headerMargin - marginFromHeader) + "px"
+});

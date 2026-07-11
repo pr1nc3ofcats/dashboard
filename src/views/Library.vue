@@ -1,5 +1,7 @@
 <script setup lang="ts">
-import { solidBgColor } from '../utils/styles';
+import CategoryList from '../components/library/CategoryList.vue';
+import { Settings } from '../models/settings';
+import { contentHeight, solidBgColor } from '../utils/styles';
 
 
 </script>
@@ -7,7 +9,11 @@ import { solidBgColor } from '../utils/styles';
 <template>
     <div class="page">
         <div class="solid-bg"></div>
-        <div class="page-content"></div>
+        <div class="page-content">
+            <div class="left-part">
+                <CategoryList/>
+            </div>
+        </div>
     </div>
 </template>
 
@@ -24,8 +30,19 @@ import { solidBgColor } from '../utils/styles';
 }
 
 .page-content {
-    width: 400px;
-    height: 400px;
-    background-color: aqua;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: v-bind(contentHeight);
+
+    display: flex;
+}
+
+.left-part {
+    width: 23vw;
+    height: 100%;
+
+    border-right: 1px solid v-bind('Settings.get("accent_color") + "40"');
 }
 </style>

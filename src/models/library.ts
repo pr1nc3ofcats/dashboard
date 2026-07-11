@@ -1,6 +1,8 @@
 import dayjs from "dayjs";
 import { Application } from "./application";
 
+type SortingMode = "last_launch" | "a-z" | "z-a";
+
 export class Library {
     private static instance: Library;
     private applications: Application[] = [];
@@ -51,9 +53,26 @@ export class Library {
         return undefined;
     }
 
-    public static getAll(sort: "last_launch" | "a-z" | "z-a"): Application[] {
-        if (sort === "last_launch") return this.instance.applications.toSorted((a, b) => b.lastLaunched.getTime() - a.lastLaunched.getTime())
-        else if (sort === "a-z") return this.instance.applications.toSorted((a, b) => a.title.localeCompare(b.title))
-        else return this.instance.applications.toSorted((a, b) => b.title.localeCompare(a.title))
+    public static getAll(sort: SortingMode): Application[] {
+        return this.sort(this.instance.applications, sort);
+    }
+
+    public static getAllFromCategory(category: string, sort: SortingMode) {
+        const filtered = this.instance.applications.filter((el) => el.categories.includes(category));
+        return this.sort(filtered, sort);
+    }
+
+    public static getAllCategories(): string[] {
+        let result: string[] = [];
+        for (let app of this.instance.applications) {
+            result.concat(app.categories)
+        }
+        return [...new Set(result)];
+    }
+
+    private static sort(arr: Application[], sort: "last_launch" | "a-z" | "z-a"): Application[] {
+        if (sort === "last_launch") return arr.toSorted((a, b) => b.lastLaunched.getTime() - a.lastLaunched.getTime())
+        else if (sort === "a-z") return arr.toSorted((a, b) => a.title.localeCompare(b.title))
+        else return arr.toSorted((a, b) => b.title.localeCompare(a.title))
     }
 }

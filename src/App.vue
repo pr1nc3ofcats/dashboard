@@ -95,7 +95,7 @@ p {
     inset: v-bind(scale(-6));
     border: v-bind(scale(3)) solid v-bind('Settings.get("accent_color")');
     border-radius: 100%;
-    box-shadow: 0 0 v-bind(scale(4)) v-bind(scale(4)) v-bind('Settings.get("accent_color") + "40"');
+    box-shadow: 0 0 v-bind(scale(4)) v-bind(scale(4)) v-bind('Settings.get("accent_color") + "40"'); /* 40 = 25% */
     pointer-events: none;
   }
 }
