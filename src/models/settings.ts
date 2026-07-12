@@ -28,14 +28,11 @@ export class Settings {
 
     public static async init() {
         Object.assign(this.data, await invoke<SettingsData>("parse_settings"));
+        invoke('dump_settings', { settings: { ...this.data } }).catch((err) => console.error(err));
     }
 
-    public static async set<K extends keyof SettingsData, V extends SettingsData[K]>(k: K, v: V) {
+    public static set<K extends keyof SettingsData, V extends SettingsData[K]>(k: K, v: V) {
         this.data[k] = v;
-        try {
-            await invoke('dump_settings', { settings: { ...this.data } });
-        } catch (err) {
-            console.error(err);
-        }
+        invoke('dump_settings', { settings: { ...this.data } }).catch((err) => console.error(err));
     }
 }

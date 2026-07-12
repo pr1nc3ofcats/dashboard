@@ -4,6 +4,7 @@ import { performPulse, scale } from '../../modules/stylingHelper';
 import { useLibraryVM } from '../../view_models/libraryViewModel';
 import { inject, onMounted } from 'vue';
 import { useAudioManager } from '../../modules/audioManager';
+import { Library } from '../../models/library';
 
 const { currentGridView, currentAppId } = useLibraryVM();
 const { sfxNav, sfxActivate } = useAudioManager();
@@ -24,7 +25,7 @@ onMounted(() => {
 <template>
     <div v-focus-section:app-grid class="container">
         <div v-for="app in currentGridView" v-focus @sn:focused="() => { sfxNav.play(); select(app.id) }"
-            @sn:unfocused="leaveSection" @sn:enter-down="(e: any) => { sfxActivate.play(); performPulse(e) }"
+            @sn:unfocused="leaveSection" @sn:enter-down="(e: any) => { sfxActivate.play(); performPulse(e); Library.tryLaunch(app.id); }"
             class="tile focusable-br7">
             <img :src="convertFileSrc(app.imgSquare)" class="tile-image">
             <h2>{{ app.title }}</h2>

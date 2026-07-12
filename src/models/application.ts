@@ -4,7 +4,7 @@ export interface Application {
     command: string[];
     imgSquare: string;
     categories: string[];
-    lastLaunched: Date;
+    lastLaunched?: Date;
     shortDescription?: string;
     dataPath?: string;
 

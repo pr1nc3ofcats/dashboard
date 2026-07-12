@@ -4,6 +4,7 @@ import { performPulse, scale, scaleH, scaleW } from '../../modules/stylingHelper
 import { useHomeVM } from '../../view_models/homeViewModel.ts';
 import { inject, onMounted } from 'vue';
 import { useAudioManager } from '../../modules/audioManager.ts';
+import { Library } from '../../models/library.ts';
 
 const { appsStripped, currentId } = useHomeVM();
 const { sfxNav, sfxActivate } = useAudioManager();
@@ -24,7 +25,7 @@ onMounted(() => {
 <template>
     <div v-focus-section:ribbon class="ribbon page-content">
         <div v-for="app in appsStripped" v-focus @sn:focused="() => { sfxNav.play(); select(app.id) }"
-            @sn:unfocused="leaveSection" @sn:enter-down="(e: any) => { sfxActivate.play(); performPulse(e); }"
+            @sn:unfocused="leaveSection" @sn:enter-down="(e: any) => { sfxActivate.play(); performPulse(e); Library.tryLaunch(app.id);}"
             class="tile focusable-br7">
             <img :src="convertFileSrc(app.imgSquare)" class="tile-image">
             <h2>{{ app.title }}</h2>
