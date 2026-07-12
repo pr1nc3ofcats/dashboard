@@ -1,4 +1,5 @@
 import { computed, ref } from "vue"
+import { onAfterAppMount } from "./dependencyInjector";
 
 // Consts
 export const solidBgColor = "#1A191C";
@@ -19,10 +20,13 @@ export function performPulse(event: any) {
 // Scaling
 const windowWidth = ref(window.innerWidth);
 const windowHeight = ref(window.innerHeight);
-export function updateResolution() {
-    windowWidth.value = window.innerWidth;
-    windowHeight.value = window.innerHeight;
-}
+
+onAfterAppMount(() => {
+    window.addEventListener('resize', () => {
+        windowWidth.value = window.innerWidth;
+        windowHeight.value = window.innerHeight;
+    });
+});
 
 export function scaleH(v: number): string {
     return (v * (windowHeight.value / 1080)) + "px";

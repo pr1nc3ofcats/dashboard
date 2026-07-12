@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { convertFileSrc } from '@tauri-apps/api/core';
-import { performPulse, scale, scaleH, scaleW } from '../../utils/styles.ts';
-import { useHomeVM } from '../../views/homeViewModel.ts';
+import { performPulse, scale, scaleH, scaleW } from '../../modules/stylingHelper.ts';
+import { useHomeVM } from '../../view_models/homeViewModel.ts';
 import { inject, onMounted } from 'vue';
 
 const { appsStripped, currentId } = useHomeVM();

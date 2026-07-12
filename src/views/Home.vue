@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import ControllerHint from '../components/ControllerHint.vue';
 import Ribbon from '../components/home/Ribbon.vue';
-import { useHomeVM } from './homeViewModel.ts';
+import { useHomeVM } from '../view_models/homeViewModel.ts';
 
 const { appIsGame, appIsSelected } = useHomeVM();
 </script>

@@ -1,22 +1,24 @@
 <script setup lang="ts">
-import { inject, onMounted } from 'vue';
+import { onBeforeMount, onMounted } from 'vue';
 import { RouterView } from 'vue-router';
-import { scale, updateResolution } from './utils/styles';
+import { scale } from './modules/stylingHelper.ts';
 import TopBar from './components/TopBar.vue';
 import { Settings } from './models/settings.ts';
 import Backgorund from './components/Backgorund.vue';
-import { initBasicWatchers, pauseGamepad, resumeGameapd } from './utils/gamepad.ts';
 import { getCurrentWindow } from '@tauri-apps/api/window';
+import { execOnAfterAppMount, execOnAppSetup, execOnBeforeAppMount, execOnWindowFocus, execOnWindowUnfocus } from './modules/dependencyInjector.ts';
+import './modules/gamepad.ts';
 
+execOnAppSetup();
+onBeforeMount(execOnBeforeAppMount);
 onMounted(async () => {
-  window.addEventListener('resize', updateResolution);
+  execOnAfterAppMount();
 
-  initBasicWatchers(inject('spatialNavigation'));
   await getCurrentWindow().onFocusChanged(({ payload }) => {
     if (payload) {
-      resumeGameapd();
+      execOnWindowFocus();
     } else {
-      pauseGamepad();
+      execOnWindowUnfocus();
     }
   });
 });

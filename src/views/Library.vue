@@ -2,7 +2,7 @@
 import AppGrid from '../components/library/AppGrid.vue';
 import CategoryList from '../components/library/CategoryList.vue';
 import { Settings } from '../models/settings';
-import { contentHeight, solidBgColor } from '../utils/styles';
+import { contentHeight, solidBgColor } from '../modules/stylingHelper.ts';
 
 
 </script>

@@ -1,6 +1,7 @@
 import { mapGamepadToXbox360Controller, useGamepad } from '@vueuse/core';
-import { computed, ref, watch, WatchHandle } from 'vue';
+import { computed, inject, ref, watch } from 'vue';
 import router from '../router';
+import { onAfterAppMount, onWindowFocus, onWindowUnfocus } from './dependencyInjector';
 
 const { pause, resume, gamepads, onConnected, onDisconnected } = useGamepad();
 const currentGamepadIndex = ref(0);
@@ -18,8 +19,6 @@ onDisconnected((i: number) => {
     console.log("Gamepad ", gamepads.value[i].id, " is disconnected");
     currentGamepadIndex.value = Math.max(0, gamepads.value.length - 1);
 })
-
-let stopBtnYHandler: WatchHandle | null = null;
 
 export function initBasicWatchers(spatialNavigation: any) {
     // BUTTON A
@@ -116,17 +115,6 @@ export function initBasicWatchers(spatialNavigation: any) {
     });
 }
 
-export function setBtnYHandler(callback: () => void) {
-    if (stopBtnYHandler) stopBtnYHandler();
-    stopBtnYHandler = watch(() => currentGamepadMapped.value?.buttons.y.pressed, (v) => {
-        if (v) callback()
-    })
-}
-
-export function pauseGamepad() {
-    pause();
-}
-
-export function resumeGameapd() {
-    resume();
-}
+onAfterAppMount(() => initBasicWatchers(inject('spatialNavigation')));
+onWindowFocus(resume);
+onWindowUnfocus(pause);
