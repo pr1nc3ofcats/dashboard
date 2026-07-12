@@ -40,7 +40,7 @@ pub fn parse_settings(app_handle: tauri::AppHandle) -> Result<Settings, String> 
     settings.background_music = app_handle
         .path()
         .resource_dir()
-        .map_err(|e| e.to_string())?.join("music/The Night Swim.mp3").to_str().unwrap().into();
+        .map_err(|e| e.to_string())?.join("music/The Night Swim.wav").to_str().unwrap().into();
 
     let file_path = app_handle
         .path()

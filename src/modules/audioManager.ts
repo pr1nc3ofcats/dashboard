@@ -4,7 +4,7 @@ import Activation from '../assets/sound/sfx/deck_ui_default_activation.wav'
 import { Settings } from "../models/settings";
 import { convertFileSrc } from "@tauri-apps/api/core";
 import { watch } from "vue";
-import { onAfterAppMount } from "./dependencyInjector";
+import { onAfterAppMount, onWindowFocus, onWindowUnfocus } from "./dependencyInjector";
 
 const backgroundMusic = new Audio();
 backgroundMusic.loop = true;
@@ -39,3 +39,6 @@ onAfterAppMount(() => {
         { immediate: true }
     );
 })
+
+onWindowUnfocus(() => backgroundMusic.pause());
+onWindowFocus(() => backgroundMusic.play());
