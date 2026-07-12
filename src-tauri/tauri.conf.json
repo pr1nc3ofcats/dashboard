@@ -12,7 +12,8 @@
   "app": {
     "windows": [
       {
-        "title": "dashboard"
+        "title": "dashboard",
+        "alwaysOnBottom": true
       }
     ],
     "security": {

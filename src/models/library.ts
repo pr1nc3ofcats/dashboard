@@ -51,9 +51,15 @@ export class Library {
 
     public static tryLaunch(id: number) {
         const cmd = this.get(id)?.command;
-        invoke('try_spawn_detached', { cmd: cmd }).then(() =>
-            this.set(id, "lastLaunched", dayjs().toDate())).catch((err) =>
-                console.error("Error while spawning process: ", err));
+        invoke('try_focuse_window', { cmd: cmd }).catch((err) => {
+            if (err === "process is not running") {
+                invoke('try_spawn_detached', { cmd: cmd }).then(() =>
+                    this.set(id, "lastLaunched", dayjs().toDate())).catch((err) =>
+                        console.error("Error while spawning process: ", err));
+            } else {
+                console.error(err);
+            }
+        })
     }
 
     private static sort(arr: Application[], sort: "last_launch" | "a-z" | "z-a"): Application[] {
