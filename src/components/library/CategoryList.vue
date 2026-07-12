@@ -4,8 +4,10 @@ import GamepadIcon from '../../assets/svg/category_games.svg';
 import AppsIcon from '../../assets/svg/category_apps.svg';
 import { scale, scaleH, scaleW } from '../../modules/stylingHelper';
 import { Settings } from '../../models/settings';
+import { inject } from 'vue';
 
 const { categories, currentCategory, currentCategoryIndex, categoriesLengths } = useLibraryVM();
+const spatialNavigation: any = inject('spatialNavigation');
 
 const select = (index: number) => {
     currentCategoryIndex.value = index;
@@ -13,8 +15,8 @@ const select = (index: number) => {
 </script>
 
 <template>
-    <div v-focus-section:cat-list class="container">
-        <div v-for="(category, index) in categories" v-focus @sn:focused="() => select(index)" class="list-element"
+    <div v-focus-section:cat-list="{enterTo:'last-focused'}" class="container">
+        <div v-for="(category, index) in categories" v-focus @sn:focused="() => select(index)" @sn:enter-down="() => spatialNavigation.move('right')" class="list-element"
             :class="{ active: currentCategory === category }">
             <div class="first-item">
                 <GamepadIcon v-if="category === 'Games'" class="icon" />

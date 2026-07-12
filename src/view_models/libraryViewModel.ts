@@ -20,5 +20,5 @@ const appIsGame = computed(() => {
 export function useLibraryVM() {
     categories.value = Library.getAllCategories();
 
-    return { categories, currentCategoryIndex, currentCategory, categoriesLengths, currentGridView, appIsSelected, appIsGame };
+    return { currentAppId, categories, currentCategoryIndex, currentCategory, categoriesLengths, currentGridView, appIsSelected, appIsGame };
 }

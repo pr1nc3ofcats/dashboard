@@ -1,10 +1,12 @@
 <script setup lang="ts">
+import ControllerHint from '../components/ControllerHint.vue';
 import AppGrid from '../components/library/AppGrid.vue';
 import CategoryList from '../components/library/CategoryList.vue';
 import { Settings } from '../models/settings';
 import { contentHeight, solidBgColor } from '../modules/stylingHelper.ts';
+import { useLibraryVM } from '../view_models/libraryViewModel.ts';
 
-
+const {appIsGame, appIsSelected} = useLibraryVM()
 </script>
 
 <template>
@@ -18,6 +20,7 @@ import { contentHeight, solidBgColor } from '../modules/stylingHelper.ts';
                 <AppGrid />
             </div>
         </div>
+        <ControllerHint :is-game="appIsGame" :should-show="appIsSelected"/>
     </div>
 </template>
 
