@@ -8,7 +8,10 @@ import HomeIcon from '../assets/svg/home.svg';
 import SettingsIcon from '../assets/svg/settings.svg';
 import LibraryIcon from '../assets/svg/library.svg';
 import dayjs from 'dayjs'
+import { useAudioManager } from '../modules/audioManager';
 
+const { sfxNav } = useAudioManager();
+const settings = Settings.getData();
 const pfpImgUrl = ref('');
 const userName = ref('');
 const time = ref('');
@@ -30,7 +33,7 @@ onBeforeUnmount(() => {
 
 onMounted(async () => {
     try {
-        pfpImgUrl.value = convertFileSrc(Settings.get("avatar_image"));
+        pfpImgUrl.value = convertFileSrc(settings.avatar_image);
         userName.value = await invoke('get_user_name');
     } catch (err) {
         console.error(err);
@@ -41,7 +44,7 @@ onMounted(async () => {
 <template>
     <div id="top-bar">
         <div v-focus-section class="user-profile-container">
-            <div v-focus @sn:enter-down="performPulse" class="avatar-wrapper focusable-circle"><img :src="pfpImgUrl"
+            <div v-focus @sn:focused="() => sfxNav.play()" @sn:enter-down="performPulse" class="avatar-wrapper focusable-circle"><img :src="pfpImgUrl"
                     class="avatar"></div>
             <h3>{{ userName }}</h3>
         </div>

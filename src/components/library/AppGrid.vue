@@ -3,8 +3,10 @@ import { convertFileSrc } from '@tauri-apps/api/core';
 import { performPulse, scale } from '../../modules/stylingHelper';
 import { useLibraryVM } from '../../view_models/libraryViewModel';
 import { inject, onMounted } from 'vue';
+import { useAudioManager } from '../../modules/audioManager';
 
 const { currentGridView, currentAppId } = useLibraryVM();
+const { sfxNav, sfxActivate } = useAudioManager();
 
 const select = (id: number) => {
     currentAppId.value = id;
@@ -21,8 +23,9 @@ onMounted(() => {
 
 <template>
     <div v-focus-section:app-grid class="container">
-        <div v-for="app in currentGridView" v-focus @sn:focused="() => select(app.id)" @sn:unfocused="leaveSection"
-            @sn:enter-down="performPulse" class="tile focusable-br7">
+        <div v-for="app in currentGridView" v-focus @sn:focused="() => { sfxNav.play(); select(app.id) }"
+            @sn:unfocused="leaveSection" @sn:enter-down="(e: any) => { sfxActivate.play(); performPulse(e) }"
+            class="tile focusable-br7">
             <img :src="convertFileSrc(app.imgSquare)" class="tile-image">
             <h2>{{ app.title }}</h2>
         </div>

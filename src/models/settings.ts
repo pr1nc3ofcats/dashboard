@@ -1,30 +1,39 @@
 import { invoke } from "@tauri-apps/api/core";
+import { reactive } from "vue";
 
 interface SettingsData {
     accent_color: string;
     wallapper: string;
     avatar_image: string;
+
+    sfx_volume: number;
+    background_music: string,
+    background_music_volume: number
 }
 
 export class Settings {
-    private static instance: Settings;
-    private data!: SettingsData;
+    private static data = reactive({
+        accent_color: '',
+        wallapper: '',
+        avatar_image: '',
+
+        sfx_volume: 0,
+        background_music: '',
+        background_music_volume: 0
+    });
+
+    public static getData() {
+        return this.data
+    }
 
     public static async init() {
-        if (!this.instance) {
-            this.instance = new Settings;
-            this.instance.data = await invoke('parse_settings');
-        }
+        Object.assign(this.data, await invoke<SettingsData>("parse_settings"));
     }
 
-    public static get<K extends keyof SettingsData>(k: K) {
-        return this.instance.data[k];
-    }
-
-    public static async set<K extends keyof SettingsData, V extends SettingsData[K] >(k: K, v: V) {
-        this.instance.data[k] = v;
+    public static async set<K extends keyof SettingsData, V extends SettingsData[K]>(k: K, v: V) {
+        this.data[k] = v;
         try {
-            await invoke('dump_settings', { settings: Settings.instance.data});
+            await invoke('dump_settings', { settings: { ...this.data } });
         } catch (err) {
             console.error(err);
         }

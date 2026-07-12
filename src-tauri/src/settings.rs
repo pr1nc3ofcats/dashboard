@@ -6,6 +6,10 @@ pub struct Settings {
     accent_color: String,
     wallapper: String,
     avatar_image: String,
+
+    sfx_volume: f32,
+    background_music: String,
+    background_music_volume: f32,
 }
 
 impl Default for Settings {
@@ -14,6 +18,10 @@ impl Default for Settings {
             accent_color: String::from("#C48A61"),
             wallapper: String::default(),
             avatar_image: String::default(),
+
+            sfx_volume: 0.3,
+            background_music: String::default(),
+            background_music_volume: 0.1
         }
     }
 }
@@ -29,6 +37,10 @@ pub fn parse_settings(app_handle: tauri::AppHandle) -> Result<Settings, String> 
         .path()
         .resource_dir()
         .map_err(|e| e.to_string())?.join("images/default-avatar.webp").to_str().unwrap().into();
+    settings.background_music = app_handle
+        .path()
+        .resource_dir()
+        .map_err(|e| e.to_string())?.join("music/The Night Swim.mp3").to_str().unwrap().into();
 
     let file_path = app_handle
         .path()

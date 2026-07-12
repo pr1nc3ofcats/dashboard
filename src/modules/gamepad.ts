@@ -20,7 +20,7 @@ onDisconnected((i: number) => {
     currentGamepadIndex.value = Math.max(0, gamepads.value.length - 1);
 })
 
-export function initBasicWatchers(spatialNavigation: any) {
+function initBasicWatchers(spatialNavigation: any) {
     // BUTTON A
     watch(() => currentGamepadMapped.value?.buttons.a.pressed, (v) => {
         if (v) {

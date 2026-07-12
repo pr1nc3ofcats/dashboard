@@ -6,7 +6,8 @@ import { Settings } from '../models/settings';
 import { contentHeight, solidBgColor } from '../modules/stylingHelper.ts';
 import { useLibraryVM } from '../view_models/libraryViewModel.ts';
 
-const {appIsGame, appIsSelected} = useLibraryVM()
+const { appIsGame, appIsSelected } = useLibraryVM()
+const settings = Settings.getData();
 </script>
 
 <template>
@@ -20,7 +21,7 @@ const {appIsGame, appIsSelected} = useLibraryVM()
                 <AppGrid />
             </div>
         </div>
-        <ControllerHint :is-game="appIsGame" :should-show="appIsSelected"/>
+        <ControllerHint :is-game="appIsGame" :should-show="appIsSelected" />
     </div>
 </template>
 
@@ -50,7 +51,7 @@ const {appIsGame, appIsSelected} = useLibraryVM()
     width: 23vw;
     height: 100%;
 
-    border-right: 1px solid v-bind('Settings.get("accent_color") + "40"');
+    border-right: 1px solid v-bind('settings.accent_color + "40"');
 }
 
 .right-part {

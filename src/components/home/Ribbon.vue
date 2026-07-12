@@ -3,8 +3,10 @@ import { convertFileSrc } from '@tauri-apps/api/core';
 import { performPulse, scale, scaleH, scaleW } from '../../modules/stylingHelper.ts';
 import { useHomeVM } from '../../view_models/homeViewModel.ts';
 import { inject, onMounted } from 'vue';
+import { useAudioManager } from '../../modules/audioManager.ts';
 
 const { appsStripped, currentId } = useHomeVM();
+const { sfxNav, sfxActivate } = useAudioManager();
 
 const select = (id: number) => {
     currentId.value = id;
@@ -21,8 +23,9 @@ onMounted(() => {
 
 <template>
     <div v-focus-section:ribbon class="ribbon page-content">
-        <div v-for="app in appsStripped" v-focus @sn:focused="() => select(app.id)" @sn:unfocused="leaveSection"
-            @sn:enter-down="performPulse" class="tile focusable-br7">
+        <div v-for="app in appsStripped" v-focus @sn:focused="() => { sfxNav.play(); select(app.id) }"
+            @sn:unfocused="leaveSection" @sn:enter-down="(e: any) => { sfxActivate.play(); performPulse(e); }"
+            class="tile focusable-br7">
             <img :src="convertFileSrc(app.imgSquare)" class="tile-image">
             <h2>{{ app.title }}</h2>
         </div>

@@ -7,6 +7,7 @@ import { convertFileSrc } from '@tauri-apps/api/core';
 import { solidBgColor } from '../modules/stylingHelper';
 
 const { currentId } = useHomeVM();
+const settings = Settings.getData();
 
 const wallapper = ref('');
 
@@ -16,7 +17,7 @@ const currentBg = computed(() => {
 });
 
 onMounted(() => {
-    wallapper.value = convertFileSrc(Settings.get("wallapper"));
+    wallapper.value = convertFileSrc(settings.wallapper);
 })
 </script>
 

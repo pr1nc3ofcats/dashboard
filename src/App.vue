@@ -9,6 +9,8 @@ import { getCurrentWindow } from '@tauri-apps/api/window';
 import { execOnAfterAppMount, execOnAppSetup, execOnBeforeAppMount, execOnWindowFocus, execOnWindowUnfocus } from './modules/dependencyInjector.ts';
 import './modules/gamepad.ts';
 
+const settings = Settings.getData();
+
 execOnAppSetup();
 onBeforeMount(execOnBeforeAppMount);
 onMounted(async () => {
@@ -81,9 +83,9 @@ p {
     content: "";
     position: absolute;
     inset: v-bind(scale(-6));
-    border: v-bind(scale(3)) solid v-bind('Settings.get("accent_color")');
+    border: v-bind(scale(3)) solid v-bind('settings.accent_color');
     border-radius: calc(7px + v-bind(scale(6)));
-    box-shadow: 0 0 v-bind(scale(4)) v-bind(scale(4)) v-bind('Settings.get("accent_color") + "40"');
+    box-shadow: 0 0 v-bind(scale(4)) v-bind(scale(4)) v-bind('settings.accent_color + "40"');
     pointer-events: none;
   }
 }
@@ -95,9 +97,9 @@ p {
     content: "";
     position: absolute;
     inset: v-bind(scale(-6));
-    border: v-bind(scale(3)) solid v-bind('Settings.get("accent_color")');
+    border: v-bind(scale(3)) solid v-bind('settings.accent_color');
     border-radius: 100%;
-    box-shadow: 0 0 v-bind(scale(4)) v-bind(scale(4)) v-bind('Settings.get("accent_color") + "40"'); /* 40 = 25% */
+    box-shadow: 0 0 v-bind(scale(4)) v-bind(scale(4)) v-bind('settings.accent_color + "40"'); /* 40 = 25% */
     pointer-events: none;
   }
 }
