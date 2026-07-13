@@ -27,8 +27,8 @@ pub struct HowLongToBeat {
 
 #[derive(Debug, Serialize, Deserialize, Clone, Default)]
 pub struct SteamDetails {
-    #[serde(rename = "imgBackground", skip_serializing_if = "Option::is_none")]
-    pub img_background: Option<String>,
+    #[serde(rename = "imgHero", skip_serializing_if = "Option::is_none")]
+    pub img_hero: Option<String>,
 
     #[serde(rename = "imgSteamHorizontal", skip_serializing_if = "Option::is_none")]
     pub img_steam_horizontal: Option<String>,
@@ -57,9 +57,6 @@ pub struct SteamDetails {
     #[serde(rename = "linuxRequirements", skip_serializing_if = "Option::is_none")]
     pub linux_requirements: Option<Requirements>,
 
-    #[serde(rename = "playtimeSeconds", skip_serializing_if = "Option::is_none")]
-    pub playtime_seconds: Option<u64>,
-
     #[serde(skip_serializing_if = "Option::is_none")]
     pub achievements: Option<Vec<Achievement>>,
 
@@ -80,6 +77,8 @@ pub struct Application {
     pub img_square: String,
 
     pub categories: Vec<String>,
+
+    pub playtime: u64,
 
     // dayjs().toDate()
     #[serde(rename = "lastLaunched", skip_serializing_if = "Option::is_none")]

@@ -4,6 +4,7 @@ export interface Application {
     command: string[];
     imgSquare: string;
     categories: string[];
+    playtime: number;
     lastLaunched?: Date;
     shortDescription?: string;
     dataPath?: string;
@@ -12,11 +13,11 @@ export interface Application {
 }
 
 export interface SteamDetails {
-    imgBackground?: string; // 16:9
+    imgHero?: string; // 16:9
     imgSteamHorizontal?: string; // 92:43
     screeenshots?: string[];
     detailedDescription?: string;
-    releaseDate?: string;
+    releaseDate?: Date;
     developers?: string[];
     publishers?: string[];
     pcRequirements?: {
@@ -27,7 +28,6 @@ export interface SteamDetails {
         minimal: string;
         recommended: string;
     };
-    playtimeSeconds?: number;
     achievements?: Achievement[];
     howLongToBeat?: {
         mainStory: number;
