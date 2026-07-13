@@ -1,11 +1,11 @@
 use std::collections::HashMap;
-use std::process::Command;
+use std::process::{Child, Command};
 use std::sync::Mutex;
 use std::time::{Duration, Instant};
 use windows::Win32::Foundation::{BOOL, HWND, LPARAM};
 use windows::Win32::UI::WindowsAndMessaging::{
-    EnumWindows, GetWindowThreadProcessId, IsWindowVisible, GetWindowTextLengthW,
-    ShowWindow, SetForegroundWindow, SW_RESTORE, IsIconic,
+    EnumWindows, GetWindowTextLengthW, GetWindowThreadProcessId, IsIconic, IsWindowVisible,
+    SetForegroundWindow, ShowWindow, SW_RESTORE,
 };
 
 struct FindWindowData {
@@ -67,11 +67,14 @@ fn try_focus_with_timeout(pid: u32, timeout: Duration) -> Result<(), String> {
 
 #[derive(Default)]
 pub struct RunningProcesses {
-    data: HashMap<Vec<String>, u32>
+    data: HashMap<Vec<String>, Child>,
 }
 
 #[tauri::command(rename_all = "snake_case")]
-pub fn try_spawn_detached(state: tauri::State<Mutex<RunningProcesses>>, cmd: Vec<String>) -> Result<(), String> {
+pub async fn try_spawn_detached(
+    state: tauri::State<'_, Mutex<RunningProcesses>>,
+    cmd: Vec<String>,
+) -> Result<(), String> {
     if cmd.is_empty() {
         return Err(String::from("Empty command provided"));
     }
@@ -80,23 +83,46 @@ pub fn try_spawn_detached(state: tauri::State<Mutex<RunningProcesses>>, cmd: Vec
         .args(&cmd[1..])
         .spawn()
         .map_err(|err| err.to_string())?;
+    let pid = proc.id();
 
-    state.lock().unwrap().data.insert(cmd, proc.id());
+    tauri::async_runtime::spawn_blocking(move || {
+        try_focus_with_timeout(pid, Duration::from_secs(20))
+    })
+    .await
+    .map_err(|err| err.to_string())??;
 
-    let _ = try_focus_with_timeout(proc.id(), Duration::from_secs(20));
+    state.lock().unwrap().data.insert(cmd, proc);
 
     Ok(())
 }
 
 #[tauri::command(rename_all = "snake_case")]
-pub fn try_focuse_window(state: tauri::State<Mutex<RunningProcesses>>, cmd: Vec<String>) -> Result<(), String> {
-    let procs = &mut state.lock().unwrap().data;
-    if !procs.contains_key(&cmd) {
-        return Err(String::from("process is not running"));
-    }
+pub async fn try_focuse_window(
+    state: tauri::State<'_, Mutex<RunningProcesses>>,
+    cmd: Vec<String>,
+) -> Result<(), String> {
+    let pid = {
+        let procs = &mut state.lock().unwrap().data;
+        if !procs.contains_key(&cmd) {
+            return Err(String::from("process is not running"));
+        }
 
-    if let Err(err) = try_focus_with_timeout(*procs.get(&cmd).unwrap(), Duration::from_secs(5)) {
-        procs.remove(&cmd);
+        let proc = procs.get_mut(&cmd).unwrap();
+        if proc.try_wait().map_err(|err| err.to_string())?.is_some() {
+            return Err(String::from("process is not running"));
+        }
+
+        proc.id()
+    };
+
+    let result = tauri::async_runtime::spawn_blocking(move || {
+        try_focus_with_timeout(pid, Duration::from_secs(5))
+    })
+    .await
+    .map_err(|err| err.to_string())?;
+
+    if let Err(err) = result {
+        state.lock().unwrap().data.remove(&cmd);
         return Err(err);
     }
 
