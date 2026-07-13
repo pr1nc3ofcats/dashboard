@@ -2,8 +2,8 @@
 import ControllerHint from '../components/ControllerHint.vue';
 import AppGrid from '../components/library/AppGrid.vue';
 import CategoryList from '../components/library/CategoryList.vue';
-import { Settings } from '../services/settings.ts';
-import { contentHeight, solidBgColor } from '../modules/stylingHelper.ts';
+import { Settings } from '../models/settings.ts';
+import { contentHeight, solidBgColor } from '../services/stylingHelper.ts';
 import { useLibraryVM } from '../view_models/libraryViewModel.ts';
 
 const { appIsGame, appIsSelected } = useLibraryVM()

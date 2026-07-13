@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import { convertFileSrc } from '@tauri-apps/api/core';
-import { performPulse, scale } from '../../modules/stylingHelper';
+import { performPulse, scale } from '../../services/stylingHelper';
 import { useLibraryVM } from '../../view_models/libraryViewModel';
 import { inject, onMounted } from 'vue';
-import { useAudioManager } from '../../modules/audioManager';
-import { Library } from '../../services/library';
+import { useAudioManager } from '../../services/audioManager';
+import { Library } from '../../models/library';
 
 const { currentGridView, currentAppId } = useLibraryVM();
 const { sfxNav, sfxActivate } = useAudioManager();

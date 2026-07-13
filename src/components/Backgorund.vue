@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import { computed, onMounted, ref } from 'vue';
-import { Settings } from '../services/settings';
+import { Settings } from '../models/settings';
 import { useHomeVM } from '../view_models/homeViewModel';
-import { Library } from '../services/library';
+import { Library } from '../models/library';
 import { convertFileSrc } from '@tauri-apps/api/core';
-import { solidBgColor } from '../modules/stylingHelper';
+import { solidBgColor } from '../services/stylingHelper';
 
 const { currentId } = useHomeVM();
 const settings = Settings.getData();

@@ -1,14 +1,14 @@
 <script setup lang="ts">
 import { convertFileSrc, invoke } from '@tauri-apps/api/core';
 import { onBeforeUnmount, onMounted, ref } from 'vue';
-import { Settings } from '../services/settings';
-import { performPulse, scale, scaleH, scaleW } from '../modules/stylingHelper';
+import { Settings } from '../models/settings';
+import { performPulse, scale, scaleH, scaleW } from '../services/stylingHelper';
 import { RouterLink } from 'vue-router';
 import HomeIcon from '../assets/svg/home.svg';
 import SettingsIcon from '../assets/svg/settings.svg';
 import LibraryIcon from '../assets/svg/library.svg';
 import dayjs from 'dayjs'
-import { useAudioManager } from '../modules/audioManager';
+import { useAudioManager } from '../services/audioManager';
 
 const { sfxNav } = useAudioManager();
 const settings = Settings.getData();

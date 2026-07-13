@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import { convertFileSrc } from '@tauri-apps/api/core';
-import { performPulse, scale, scaleH, scaleW } from '../../modules/stylingHelper.ts';
+import { performPulse, scale, scaleH, scaleW } from '../../services/stylingHelper.ts';
 import { useHomeVM } from '../../view_models/homeViewModel.ts';
 import { inject, onMounted } from 'vue';
-import { useAudioManager } from '../../modules/audioManager.ts';
-import { Library } from '../../services/library.ts';
+import { useAudioManager } from '../../services/audioManager.ts';
+import { Library } from '../../models/library.ts';
 
 const { appsStripped, currentId } = useHomeVM();
 const { sfxNav, sfxActivate } = useAudioManager();

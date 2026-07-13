@@ -1,13 +1,13 @@
 <script setup lang="ts">
 import { onBeforeMount, onMounted } from 'vue';
 import { RouterView } from 'vue-router';
-import { scale } from './modules/stylingHelper.ts';
+import { scale } from './services/stylingHelper.ts';
 import TopBar from './components/TopBar.vue';
-import { Settings } from './services/settings.ts';
+import { Settings } from './models/settings.ts';
 import Backgorund from './components/Backgorund.vue';
 import { getCurrentWindow } from '@tauri-apps/api/window';
-import { execOnAfterAppMount, execOnAppSetup, execOnBeforeAppMount, execOnWindowFocus, execOnWindowUnfocus } from './modules/dependencyInjector.ts';
-import './modules/gamepad.ts';
+import { execOnAfterAppMount, execOnAppSetup, execOnBeforeAppMount, execOnWindowFocus, execOnWindowUnfocus } from './services/dependencyInjector.ts';
+import './services/gamepad.ts';
 
 const settings = Settings.getData();
 
