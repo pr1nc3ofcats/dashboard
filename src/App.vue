@@ -3,7 +3,7 @@ import { onBeforeMount, onMounted } from 'vue';
 import { RouterView } from 'vue-router';
 import { scale } from './modules/stylingHelper.ts';
 import TopBar from './components/TopBar.vue';
-import { Settings } from './models/settings.ts';
+import { Settings } from './services/settings.ts';
 import Backgorund from './components/Backgorund.vue';
 import { getCurrentWindow } from '@tauri-apps/api/window';
 import { execOnAfterAppMount, execOnAppSetup, execOnBeforeAppMount, execOnWindowFocus, execOnWindowUnfocus } from './modules/dependencyInjector.ts';

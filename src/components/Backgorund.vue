@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { computed, onMounted, ref } from 'vue';
-import { Settings } from '../models/settings';
+import { Settings } from '../services/settings';
 import { useHomeVM } from '../view_models/homeViewModel';
-import { Library } from '../models/library';
+import { Library } from '../services/library';
 import { convertFileSrc } from '@tauri-apps/api/core';
 import { solidBgColor } from '../modules/stylingHelper';
 

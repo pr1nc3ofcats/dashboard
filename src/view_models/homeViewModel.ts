@@ -1,7 +1,7 @@
 import { computed, Ref, ref } from "vue";
-import { Library } from "../models/library";
+import { Library } from "../services/library";
 import { convertFileSrc } from "@tauri-apps/api/core";
-import { Application } from "../models/application";
+import { Application } from "../services/application";
 
 const currentId = ref(-1);
 const appsStripped: Ref<Application[], Application[]> = ref([]);

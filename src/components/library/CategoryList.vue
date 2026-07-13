@@ -3,7 +3,7 @@ import { useLibraryVM } from '../../view_models/libraryViewModel';
 import GamepadIcon from '../../assets/svg/category_games.svg';
 import AppsIcon from '../../assets/svg/category_apps.svg';
 import { scale, scaleH, scaleW } from '../../modules/stylingHelper';
-import { Settings } from '../../models/settings';
+import { Settings } from '../../services/settings';
 import { inject } from 'vue';
 import { useAudioManager } from '../../modules/audioManager';
 

@@ -4,7 +4,7 @@ import { performPulse, scale, scaleH, scaleW } from '../../modules/stylingHelper
 import { useHomeVM } from '../../view_models/homeViewModel.ts';
 import { inject, onMounted } from 'vue';
 import { useAudioManager } from '../../modules/audioManager.ts';
-import { Library } from '../../models/library.ts';
+import { Library } from '../../services/library.ts';
 
 const { appsStripped, currentId } = useHomeVM();
 const { sfxNav, sfxActivate } = useAudioManager();

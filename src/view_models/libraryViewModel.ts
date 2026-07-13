@@ -1,5 +1,5 @@
 import { computed, ref, Ref } from "vue";
-import { Library } from "../models/library.ts";
+import { Library } from "../services/library.ts";
 
 const categories: Ref<string[], string[]> = ref([]);
 const currentCategoryIndex = ref(0);

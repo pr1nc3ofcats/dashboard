@@ -2,10 +2,11 @@ use std::sync::Mutex;
 
 use tauri::Manager;
 
-mod library;
-mod settings;
+mod models;
 mod utils;
 mod windows_utils;
+
+use models::{settings, library};
 
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
 pub fn run() {

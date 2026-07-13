@@ -1,7 +1,7 @@
 import { useSound } from "@vueuse/sound";
 import Navigation from '../assets/sound/sfx/deck_ui_navigation.wav'
 import Activation from '../assets/sound/sfx/deck_ui_default_activation.wav'
-import { Settings } from "../models/settings";
+import { Settings } from "../services/settings";
 import { convertFileSrc } from "@tauri-apps/api/core";
 import { watch } from "vue";
 import { onAfterAppMount, onWindowFocus, onWindowUnfocus } from "./dependencyInjector";

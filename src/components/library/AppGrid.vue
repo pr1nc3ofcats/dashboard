@@ -4,7 +4,7 @@ import { performPulse, scale } from '../../modules/stylingHelper';
 import { useLibraryVM } from '../../view_models/libraryViewModel';
 import { inject, onMounted } from 'vue';
 import { useAudioManager } from '../../modules/audioManager';
-import { Library } from '../../models/library';
+import { Library } from '../../services/library';
 
 const { currentGridView, currentAppId } = useLibraryVM();
 const { sfxNav, sfxActivate } = useAudioManager();

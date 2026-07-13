@@ -2,7 +2,7 @@
 import ControllerHint from '../components/ControllerHint.vue';
 import AppGrid from '../components/library/AppGrid.vue';
 import CategoryList from '../components/library/CategoryList.vue';
-import { Settings } from '../models/settings';
+import { Settings } from '../services/settings.ts';
 import { contentHeight, solidBgColor } from '../modules/stylingHelper.ts';
 import { useLibraryVM } from '../view_models/libraryViewModel.ts';
 
