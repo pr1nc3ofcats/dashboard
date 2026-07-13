@@ -30,3 +30,5 @@ export function useHomeVM() {
 
     return { currentId, appsStripped, appIsSelected, appIsGame }
 }
+
+Library.watch(useHomeVM)

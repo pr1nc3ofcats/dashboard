@@ -9,7 +9,6 @@ import { useAudioManager } from '../../services/audioManager';
 
 const { categories, currentCategory, currentCategoryIndex, categoriesLengths } = useLibraryVM();
 const spatialNavigation: any = inject('spatialNavigation');
-const settings = Settings.getData();
 const { sfxNav } = useAudioManager();
 
 const select = (index: number) => {
@@ -73,8 +72,8 @@ const select = (index: number) => {
 }
 
 .list-element:focus {
-    background-color: v-bind('settings.accent_color');
-    box-shadow: 0px 0 4px 3px v-bind('settings.accent_color');
+    background-color: v-bind('Settings.get("accent_color")');
+    box-shadow: 0px 0 4px 3px v-bind('Settings.get("accent_color")');
 
     & .second-item {
         color: white;

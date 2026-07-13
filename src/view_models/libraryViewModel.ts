@@ -22,3 +22,5 @@ export function useLibraryVM() {
 
     return { currentAppId, categories, currentCategoryIndex, currentCategory, categoriesLengths, currentGridView, appIsSelected, appIsGame };
 }
+
+Library.watch(useLibraryVM)

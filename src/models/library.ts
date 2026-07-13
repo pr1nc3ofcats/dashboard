@@ -1,5 +1,5 @@
 import { Application } from "./application";
-import { reactive } from "vue";
+import { reactive, watch, WatchCallback } from "vue";
 import { invoke } from "@tauri-apps/api/core";
 import dayjs from "dayjs";
 
@@ -8,8 +8,13 @@ type SortingMode = "last_launch" | "a-z" | "z-a";
 export class Library {
     private static applications: Application[] = reactive([]);
 
+    public static watch(f: WatchCallback, immediate: boolean = false) {
+        return watch(this.applications, f, { immediate: immediate })
+    }
+
     public static async init() {
-        this.applications = await invoke('parse_applications');
+        Object.assign(this.applications, await invoke<Application[]>("parse_applications"));
+        
         // In runtime this property becomes a string 
         for (let app of this.applications) {
             app.lastLaunched = app.lastLaunched ? new Date(app.lastLaunched) : undefined;

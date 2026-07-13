@@ -6,8 +6,7 @@ import { Settings } from '../models/settings.ts';
 import { contentHeight, solidBgColor } from '../services/stylingHelper.ts';
 import { useLibraryVM } from '../view_models/libraryViewModel.ts';
 
-const { appIsGame, appIsSelected } = useLibraryVM()
-const settings = Settings.getData();
+const { appIsGame, appIsSelected } = useLibraryVM();
 </script>
 
 <template>
@@ -51,7 +50,7 @@ const settings = Settings.getData();
     width: 23vw;
     height: 100%;
 
-    border-right: 1px solid v-bind('settings.accent_color + "40"');
+    border-right: 1px solid v-bind('Settings.get("accent_color") + "40"');
 }
 
 .right-part {
