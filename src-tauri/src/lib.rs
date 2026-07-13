@@ -17,6 +17,7 @@ pub fn run() {
             settings::parse_settings,
             settings::dump_settings,
             utils::get_user_name,
+            utils::show_window,
             windows_utils::try_spawn_detached,
             windows_utils::try_focuse_window,
             library::dump_applications,
