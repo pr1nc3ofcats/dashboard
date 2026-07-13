@@ -13,14 +13,15 @@
     "@tauri-apps/api": "^2.11.1",
     "@tauri-apps/plugin-opener": "^2",
     "@vueuse/core": "^14.3.0",
-    "@vueuse/sound": "^2.1.3",
     "dayjs": "^1.11.21",
+    "howler": "^2.2.4",
     "vue": "^3.5.13",
     "vue-router": "^5.1.0",
     "vue-spatial-nav": "^1.0.11"
   },
   "devDependencies": {
     "@tauri-apps/cli": "^2",
+    "@types/howler": "^2.2.13",
     "@vitejs/plugin-vue": "^5.2.1",
     "sass": "^1.101.0",
     "sass-loader": "^17.0.0",

@@ -1,13 +1,11 @@
 <script setup lang="ts">
 import { convertFileSrc } from '@tauri-apps/api/core';
-import { performPulse, scale, scaleH, scaleW } from '../../services/stylingHelper.ts';
+import { scale, scaleH, scaleW } from '../../services/stylingHelper.ts';
 import { useHomeVM } from '../../view_models/homeViewModel.ts';
 import { inject, onMounted } from 'vue';
-import { useAudioManager } from '../../services/audioManager.ts';
 import { Library } from '../../models/library.ts';
 
 const { appsStripped, currentId } = useHomeVM();
-const { sfxNav, sfxActivate } = useAudioManager();
 
 const select = (id: number) => {
     currentId.value = id;
@@ -24,9 +22,9 @@ onMounted(() => {
 
 <template>
     <div v-focus-section:ribbon class="ribbon page-content">
-        <div v-for="app in appsStripped" v-focus @sn:focused="() => { sfxNav.play(); select(app.id) }"
-            @sn:unfocused="leaveSection" @sn:enter-down="(e: any) => { sfxActivate.play(); performPulse(e); Library.tryLaunch(app.id);}"
-            class="tile focusable-br7">
+        <div v-for="app in appsStripped" v-focus @sn:focused="select(app.id)" @sn:unfocused="leaveSection"
+            @sn:enter-down="Library.tryLaunch(app.id)"
+            class="tile focusable-br7 pulse-handler sfx-nav-handler sfx-activation-handler">
             <img :src="convertFileSrc(app.imgSquare)" class="tile-image">
             <h2>{{ app.title }}</h2>
         </div>

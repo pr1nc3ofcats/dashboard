@@ -1,9 +1,13 @@
 <script setup lang="ts">
+import { onMounted } from 'vue';
 import ControllerHint from '../components/ControllerHint.vue';
 import Ribbon from '../components/home/Ribbon.vue';
 import { useHomeVM } from '../view_models/homeViewModel.ts';
+import { onViewMountedHook } from '../services/globalHooks.ts';
 
 const { appIsGame, appIsSelected } = useHomeVM();
+
+onMounted(onViewMountedHook)
 </script>
 
 <template>

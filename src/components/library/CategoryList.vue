@@ -5,11 +5,9 @@ import AppsIcon from '../../assets/svg/category_apps.svg';
 import { scale, scaleH, scaleW } from '../../services/stylingHelper';
 import { Settings } from '../../models/settings';
 import { inject } from 'vue';
-import { useAudioManager } from '../../services/audioManager';
 
 const { categories, currentCategory, currentCategoryIndex, categoriesLengths } = useLibraryVM();
 const spatialNavigation: any = inject('spatialNavigation');
-const { sfxNav } = useAudioManager();
 
 const select = (index: number) => {
     currentCategoryIndex.value = index;
@@ -18,8 +16,8 @@ const select = (index: number) => {
 
 <template>
     <div v-focus-section:cat-list="{ enterTo: 'last-focused' }" class="container">
-        <div v-for="(category, index) in categories" v-focus @sn:focused="() => {sfxNav.play(); select(index);}"
-            @sn:enter-down="() => spatialNavigation.move('right')" class="list-element"
+        <div v-for="(category, index) in categories" v-focus @sn:focused="select(index)"
+            @sn:enter-down="() => spatialNavigation.move('right')" class="list-element sfx-nav-handler"
             :class="{ active: currentCategory === category }">
             <div class="first-item">
                 <GamepadIcon v-if="category === 'Games'" class="icon" />

@@ -1,22 +1,26 @@
-import { useSound } from "@vueuse/sound";
 import Navigation from '../assets/sound/sfx/deck_ui_navigation.wav'
 import Activation from '../assets/sound/sfx/deck_ui_default_activation.wav'
 import { Settings } from "../models/settings";
 import { convertFileSrc } from "@tauri-apps/api/core";
 import { onAfterAppMount, onWindowFocus, onWindowUnfocus } from "./dependencyInjector";
-import { ref } from "vue";
+import { WatchCallback } from "vue";
+import { Howl } from 'howler';
+
+const sfxNav = new Howl({ src: [Navigation] });
+const sfxActivate = new Howl({ src: [Activation] });
 
 const backgroundMusic = new Audio();
 backgroundMusic.loop = true;
 
-export function useAudioManager() {
-    const sfxNav = ref(useSound(Navigation, { volume: Settings.get("sfx_volume") }));
-    const sfxActivate = ref(useSound(Activation, { volume: Settings.get("sfx_volume") }));
+let sfxVolumeWatch: WatchCallback | undefined = undefined;
 
-    Settings.watch("sfx_volume", (volume) => {
-        sfxNav.value = useSound(Navigation, { volume: volume });
-        sfxActivate.value = useSound(Activation, { volume: volume });
-    });
+export function useAudioManager() {
+    if (!sfxVolumeWatch) {
+        sfxVolumeWatch = Settings.watch("sfx_volume", (volume) => {
+            sfxNav.volume(volume);
+            sfxActivate.volume(volume)
+        }, true);
+    }
 
     return { sfxNav, sfxActivate }
 }

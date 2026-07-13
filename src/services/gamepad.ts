@@ -77,6 +77,7 @@ function initBasicWatchers(spatialNavigation: any) {
 
     // Rb Lb
     // Looks like shit
+    // TODO: unshit
     watch(() => currentGamepadMapped.value?.bumper.left.pressed, (v) => {
         if (v) {
             const currentRouteName = router.currentRoute.value.name?.toString();

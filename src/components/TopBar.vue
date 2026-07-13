@@ -2,15 +2,13 @@
 import { convertFileSrc, invoke } from '@tauri-apps/api/core';
 import { onBeforeUnmount, onMounted, ref } from 'vue';
 import { Settings } from '../models/settings';
-import { performPulse, scale, scaleH, scaleW } from '../services/stylingHelper';
+import { scale, scaleH, scaleW } from '../services/stylingHelper';
 import { RouterLink } from 'vue-router';
 import HomeIcon from '../assets/svg/home.svg';
 import SettingsIcon from '../assets/svg/settings.svg';
 import LibraryIcon from '../assets/svg/library.svg';
 import dayjs from 'dayjs'
-import { useAudioManager } from '../services/audioManager';
 
-const { sfxNav } = useAudioManager();
 const pfpImgUrl = ref('');
 const userName = ref('');
 const time = ref('');
@@ -43,8 +41,8 @@ onMounted(async () => {
 <template>
     <div id="top-bar">
         <div v-focus-section class="user-profile-container">
-            <div v-focus @sn:focused="() => sfxNav.play()" @sn:enter-down="performPulse"
-                class="avatar-wrapper focusable-circle"><img :src="pfpImgUrl" class="avatar"></div>
+            <div v-focus class="avatar-wrapper focusable-circle pulse-handler sfx-nav-handler sfx-activation-handler">
+                <img :src="pfpImgUrl" class="avatar"></div>
             <h3>{{ userName }}</h3>
         </div>
 
