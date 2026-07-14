@@ -7,7 +7,7 @@ const { pause, resume, gamepads, onConnected, onDisconnected } = useGamepad();
 const currentGamepadIndex = ref(0);
 
 const currentGamepadMapped = computed(() => {
-    const gp = gamepads.value[0]
+    const gp = gamepads.value[currentGamepadIndex.value]
     return gp ? mapGamepadToXbox360Controller(ref(gp)).value : undefined
 })
 
@@ -20,59 +20,58 @@ onDisconnected((i: number) => {
     currentGamepadIndex.value = Math.max(0, gamepads.value.length - 1);
 })
 
-function initBasicWatchers(spatialNavigation: any) {
-    // BUTTON A
-    watch(() => currentGamepadMapped.value?.buttons.a.pressed, (v) => {
-        if (v) {
-            const keydownEvent = new KeyboardEvent('keydown', {
-                key: 'Enter',
-                code: 'Enter',
-                isComposing: false,
-                keyCode: 13,
-                bubbles: true,
-            });
-
-            const keyupEvent = new KeyboardEvent('keyup', {
-                key: 'Enter',
-                code: 'Enter',
-                isComposing: false,
-                keyCode: 13,
-                bubbles: true,
-            });
-
-            document.dispatchEvent(keydownEvent);
-            document.dispatchEvent(keyupEvent);
-        }
+function dispatchKeyEvents(key: string, code: string, keyCode: number) {
+    const keydownEvent = new KeyboardEvent('keydown', {
+        key,
+        code,
+        isComposing: false,
+        keyCode,
+        bubbles: true,
     });
 
-    // D-PAD
+    const keyupEvent = new KeyboardEvent('keyup', {
+        key,
+        code,
+        isComposing: false,
+        keyCode,
+        bubbles: true,
+    });
+
+    document.dispatchEvent(keydownEvent);
+    document.dispatchEvent(keyupEvent);
+};
+
+function initBasicWatchers() {
+    watch(() => currentGamepadMapped.value?.buttons.a.pressed, (v) => {
+        if (v) dispatchKeyEvents('Enter', 'Enter', 13);
+    });
+
     watch(() => currentGamepadMapped.value?.dpad.up.pressed, (v) => {
-        if (v) spatialNavigation.move('up')
+        if (v) dispatchKeyEvents('ArrowUp', 'ArrowUp', 38);
     });
     watch(() => currentGamepadMapped.value?.dpad.down.pressed, (v) => {
-        if (v) spatialNavigation.move('down')
+        if (v) dispatchKeyEvents('ArrowDown', 'ArrowDown', 40);
     });
 
     watch(() => currentGamepadMapped.value?.dpad.left.pressed, (v) => {
-        if (v) spatialNavigation.move('left')
+        if (v) dispatchKeyEvents('ArrowLeft', 'ArrowLeft', 37);
     });
 
     watch(() => currentGamepadMapped.value?.dpad.right.pressed, (v) => {
-        if (v) spatialNavigation.move('right')
+        if (v) dispatchKeyEvents('ArrowRight', 'ArrowRight', 39);
     });
 
-    // Sticks
-    watch(() => currentGamepadMapped.value?.stick.left.vertical.toPrecision(1), (v) => {
-        if (v === "1")
-            spatialNavigation.move('down');
-        else if (v === "-1")
-            spatialNavigation.move('up');
+    watch(() => Math.round(currentGamepadMapped.value?.stick.left.vertical * 1000) / 1000, (v) => {
+        if (v == 1)
+            dispatchKeyEvents('ArrowDown', 'ArrowDown', 40);
+        else if (v == -1)
+            dispatchKeyEvents('ArrowUp', 'ArrowUp', 38);
     });
-    watch(() => currentGamepadMapped.value?.stick.left.horizontal.toPrecision(1), (v) => {
-        if (v === "1")
-            spatialNavigation.move('right');
-        else if (v === "-1")
-            spatialNavigation.move('left');
+    watch(() => Math.round(currentGamepadMapped.value?.stick.left.horizontal * 1000) / 1000, (v) => {
+        if (v == 1)
+            dispatchKeyEvents('ArrowRight', 'ArrowRight', 39);
+        else if (v == -1)
+            dispatchKeyEvents('ArrowLeft', 'ArrowLeft', 37);
     });
 
     // Rb Lb
@@ -116,6 +115,6 @@ function initBasicWatchers(spatialNavigation: any) {
     });
 }
 
-onAfterAppMount(() => initBasicWatchers(inject('spatialNavigation')));
+onAfterAppMount(initBasicWatchers);
 onWindowFocus(resume);
 onWindowUnfocus(pause);
