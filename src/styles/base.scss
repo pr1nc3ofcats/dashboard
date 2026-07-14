@@ -1,0 +1,31 @@
+body {
+    margin: 0 0;
+    overflow: hidden;
+}
+
+h1,
+h2,
+h3,
+p {
+    margin: 0 0;
+    margin-block-start: 0;
+    margin-block-end: 0;
+    padding: 0 0;
+    font-family: 'SST', sans-serif;
+    font-weight: 300;
+    color: white;
+}
+
+bold {
+    font-weight: 700;
+}
+regular {
+    font-weight: 400;
+}
+light {
+    font-weight: 300;
+}
+
+*:focus {
+    outline: none;
+}

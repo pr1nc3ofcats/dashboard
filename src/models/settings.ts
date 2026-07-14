@@ -9,6 +9,8 @@ interface SettingsData {
     sfx_volume: number;
     background_music: string,
     background_music_volume: number
+
+    main_storage_directory: string,
 }
 
 export class Settings {
@@ -19,7 +21,9 @@ export class Settings {
 
         sfx_volume: 0,
         background_music: '',
-        background_music_volume: 0
+        background_music_volume: 0,
+
+        main_storage_directory: '',
     });
 
     public static watch<K extends keyof SettingsData>(prop: K, f: WatchCallback, immediate: boolean = false) {

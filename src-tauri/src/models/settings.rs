@@ -10,6 +10,8 @@ pub struct Settings {
     sfx_volume: f32,
     background_music: String,
     background_music_volume: f32,
+
+    main_storage_directory: String,
 }
 
 impl Default for Settings {
@@ -21,7 +23,13 @@ impl Default for Settings {
 
             sfx_volume: 0.3,
             background_music: String::default(),
-            background_music_volume: 0.1
+            background_music_volume: 0.1,
+
+            #[cfg(target_os = "windows")]
+            main_storage_directory: String::from("C:/"),
+
+            #[cfg(target_os = "linux")]
+            main_storage_directory: String::from("/home"),
         }
     }
 }

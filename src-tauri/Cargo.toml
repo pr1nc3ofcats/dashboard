@@ -29,3 +29,4 @@ windows = { version = "0.58", features = [
     "Win32_UI_WindowsAndMessaging",
     "Win32_System_Threading",
 ] }
+sysinfo = "0.38.4"

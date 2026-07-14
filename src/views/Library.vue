@@ -7,6 +7,7 @@ import { Settings } from '../models/settings.ts';
 import { onViewMountedHook } from '../services/globalHooks.ts';
 import { contentHeight, solidBgColor } from '../services/stylingHelper.ts';
 import { useLibraryVM } from '../view_models/libraryViewModel.ts';
+import FreeSpaceWidget from '../components/library/FreeSpaceWidget.vue';
 
 const { appIsGame, appIsSelected } = useLibraryVM();
 
@@ -19,6 +20,7 @@ onMounted(onViewMountedHook)
         <div class="page-content">
             <div class="left-part">
                 <CategoryList />
+                <FreeSpaceWidget />
             </div>
             <div class="right-part">
                 <AppGrid />
@@ -53,6 +55,11 @@ onMounted(onViewMountedHook)
 .left-part {
     width: 23vw;
     height: 100%;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
 
     border-right: 1px solid v-bind('Settings.get("accent_color") + "40"');
 }

@@ -18,6 +18,8 @@ pub fn run() {
             settings::dump_settings,
             utils::get_user_name,
             utils::show_window,
+            utils::get_free_space,
+            utils::get_all_space,
             windows_utils::try_spawn_detached,
             windows_utils::try_focuse_window,
             library::dump_applications,

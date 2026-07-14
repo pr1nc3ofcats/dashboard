@@ -14,7 +14,7 @@ onBeforeMount(execOnBeforeAppMount);
 
 onMounted(async () => {
   setTimeout(() => invoke('show_window'), 3000);
-  
+
   execOnAfterAppMount();
 
   await getCurrentWindow().onFocusChanged(({ payload }) => {
@@ -41,24 +41,7 @@ onMounted(async () => {
 <style lang="scss">
 @use "./styles/pages-transition.scss";
 @use "./styles/pulse.scss";
-
-body {
-  margin: 0 0;
-  overflow: hidden;
-}
-
-h1,
-h2,
-h3,
-p {
-  margin: 0 0;
-  margin-block-start: 0;
-  margin-block-end: 0;
-  padding: 0 0;
-  font-family: 'SST', sans-serif;
-  font-weight: 300;
-  color: white;
-}
+@use "./styles/base.scss";
 
 h1 {
   font-size: v-bind(scale(40));
@@ -71,10 +54,6 @@ h2 {
 h3,
 p {
   font-size: v-bind(scale(20));
-}
-
-*:focus {
-  outline: none;
 }
 
 .focusable-br7 {
@@ -100,7 +79,8 @@ p {
     inset: v-bind(scale(-6));
     border: v-bind(scale(3)) solid v-bind('Settings.get("accent_color")');
     border-radius: 100%;
-    box-shadow: 0 0 v-bind(scale(4)) v-bind(scale(4)) v-bind('Settings.get("accent_color") + "40"'); /* 40 = 25% */
+    box-shadow: 0 0 v-bind(scale(4)) v-bind(scale(4)) v-bind('Settings.get("accent_color") + "40"');
+    /* 40 = 25% */
     pointer-events: none;
   }
 }
