@@ -6,11 +6,10 @@ import TopBar from './components/TopBar.vue';
 import { Settings } from './models/settings.ts';
 import Backgorund from './components/Backgorund.vue';
 import { getCurrentWindow } from '@tauri-apps/api/window';
-import { execOnAfterAppMount, execOnAppSetup, execOnBeforeAppMount, execOnWindowFocus, execOnWindowUnfocus } from './services/dependencyInjector.ts';
+import { execOnAfterAppMount, execOnBeforeAppMount, execOnWindowFocus, execOnWindowUnfocus } from './services/dependencyInjector.ts';
 import './services/gamepad.ts';
 import { invoke } from '@tauri-apps/api/core';
 
-execOnAppSetup();
 onBeforeMount(execOnBeforeAppMount);
 
 onMounted(async () => {
