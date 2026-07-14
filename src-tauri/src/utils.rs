@@ -15,7 +15,6 @@ pub fn show_window(window: tauri::Window) {
 fn get_disk_by_path(p: PathBuf, disks: &Disks) -> Option<&Disk> {
     // By longest prefix
     disks.iter().max_by_key(|disk| {
-        println!("{}", disk.available_space());
         let mount_point = disk.mount_point();
         if p.starts_with(mount_point) {
             mount_point.as_os_str().len()

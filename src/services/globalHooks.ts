@@ -1,19 +1,18 @@
 import { useAudioManager } from "./audioManager";
-import { onAfterAppMount } from "./dependencyInjector";
 import { performPulse } from "./stylingHelper";
 
-export function onViewMountedHook() {
-    const { sfxNav, sfxActivate } = useAudioManager();
+const { sfxNav, sfxActivate } = useAudioManager();
+const sfxNavPlay = () => sfxNav.play();
+const sfxActivatePlay = () => sfxActivate.play();
 
+export function onViewUpdatedHook() {
     document.querySelectorAll('.sfx-nav-handler').forEach((el) => {
-        el.addEventListener('sn:focused', () => sfxNav.play());
+        el.addEventListener('sn:focused', sfxNavPlay);
     })
     document.querySelectorAll('.sfx-activation-handler').forEach((el) => {
-        el.addEventListener('sn:enter-down', () => sfxActivate.play());
+        el.addEventListener('sn:enter-down', sfxActivatePlay);
     })
     document.querySelectorAll('.pulse-handler').forEach((el) => {
         el.addEventListener('sn:enter-down', performPulse);
     })
 }
-
-onAfterAppMount(onViewMountedHook);
