@@ -4,6 +4,7 @@ import ControllerHint from '../components/ControllerHint.vue';
 import Ribbon from '../components/home/Ribbon.vue';
 import { useHomeVM } from '../view_models/homeViewModel.ts';
 import { onViewUpdatedHook } from '../services/globalHooks.ts';
+import { contentHeight } from '../services/stylingHelper.ts';
 
 const { appIsGame, appIsSelected } = useHomeVM();
 
@@ -20,12 +21,20 @@ onUpdated(onViewUpdatedHook)
     </div> -->
 
     <div class="page">
-        <Ribbon/>
+        <Ribbon />
         <ControllerHint :is-game="appIsGame" :should-show="appIsSelected" />
     </div>
 </template>
 
 <style scoped>
+.page {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: v-bind(contentHeight);
+}
+
 /* .content-container {
     & .logo-container {
         position: relative;
