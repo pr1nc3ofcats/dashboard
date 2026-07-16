@@ -1,12 +1,12 @@
 <script setup lang="ts">
 import { convertFileSrc, invoke } from '@tauri-apps/api/core';
 import { onBeforeUnmount, onMounted, ref } from 'vue';
-import { Settings } from '../models/settings';
-import { scale, scaleH, scaleW } from '../services/stylingHelper';
+import { Settings } from '../../models/settings';
+import { scale, scaleH, scaleW } from '../../services/stylingHelper';
 import { RouterLink } from 'vue-router';
-import HomeIcon from '../assets/svg/home.svg';
-import SettingsIcon from '../assets/svg/settings.svg';
-import LibraryIcon from '../assets/svg/library.svg';
+import HomeIcon from '../../assets/svg/home.svg';
+import SettingsIcon from '../../assets/svg/settings.svg';
+import LibraryIcon from '../../assets/svg/library.svg';
 import dayjs from 'dayjs'
 
 const pfpImgUrl = ref('');
@@ -42,7 +42,8 @@ onMounted(async () => {
     <div id="top-bar">
         <div v-focus-section class="user-profile-container">
             <div v-focus class="avatar-wrapper focusable-circle pulse-handler sfx-nav-handler sfx-activation-handler">
-                <img :src="pfpImgUrl" class="avatar"></div>
+                <img :src="pfpImgUrl" class="avatar">
+            </div>
             <h3>{{ userName }}</h3>
         </div>
 

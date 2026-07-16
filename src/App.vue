@@ -2,7 +2,7 @@
 import { onBeforeMount, onMounted } from 'vue';
 import { RouterView } from 'vue-router';
 import { scale } from './services/stylingHelper.ts';
-import TopBar from './components/TopBar.vue';
+import TopBar from './components/modals/TopBar.vue';
 import { Settings } from './models/settings.ts';
 import Backgorund from './components/Backgorund.vue';
 import { getCurrentWindow } from '@tauri-apps/api/window';

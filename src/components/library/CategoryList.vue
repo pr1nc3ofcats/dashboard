@@ -2,12 +2,16 @@
 import { useLibraryVM } from '../../view_models/libraryViewModel';
 import GamepadIcon from '../../assets/svg/category_games.svg';
 import AppsIcon from '../../assets/svg/category_apps.svg';
+import AddIcon from '../../assets/svg/plus.svg';
 import { scale, scaleH, scaleW } from '../../services/stylingHelper';
 import { Settings } from '../../models/settings';
-import { inject } from 'vue';
+import { inject, ref } from 'vue';
+import FileSelectionModal from '../modals/FileSelectionModal.vue';
 
 const { categories, currentCategory, currentCategoryIndex, categoriesLengths } = useLibraryVM();
 const spatialNavigation: any = inject('spatialNavigation');
+
+const showFileSelection = ref(true);
 
 const select = (index: number) => {
     currentCategoryIndex.value = index;
@@ -27,10 +31,23 @@ const select = (index: number) => {
 
             <h2 class="second-item">{{ categoriesLengths[index] }}</h2>
         </div>
+
+        <div v-focus class="add-btn list-element sfx-nav-handler sfx-activation-handler">
+            <div class="first-item">
+                <AddIcon class="icon" />
+                <h2>Add from file</h2>
+            </div>
+
+            <div class="second-item"></div>
+        </div>
     </div>
+
+    <Transition name="modal">
+        <FileSelectionModal v-if="showFileSelection" @modal-close="() => showFileSelection = false"/>
+    </Transition>
 </template>
 
-<style scoped>
+<style scoped lang="scss">
 .container {
     width: 100%;
 }
@@ -76,5 +93,9 @@ const select = (index: number) => {
     & .second-item {
         color: white;
     }
+}
+
+.add-btn {
+    border-top: 1px solid v-bind('Settings.get("accent_color") + "40"');
 }
 </style>

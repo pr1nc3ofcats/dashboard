@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { onMounted, onUpdated } from 'vue';
-import ControllerHint from '../components/ControllerHint.vue';
+import { onUpdated } from 'vue';
+import ControllerHint from '../components/modals/ControllerHint.vue';
 import Ribbon from '../components/home/Ribbon.vue';
 import { useHomeVM } from '../view_models/homeViewModel.ts';
 import { onViewUpdatedHook } from '../services/globalHooks.ts';
