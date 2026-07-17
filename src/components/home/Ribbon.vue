@@ -26,7 +26,7 @@ onMounted(() => {
             @sn:enter-down="Library.tryLaunch(app.id)"
             class="tile focusable-br7 pulse-handler sfx-nav-handler sfx-activation-handler">
             <img :src="convertFileSrc(app.imgSquare)" class="tile-image">
-            <h2>{{ app.title }}</h2>
+            <!-- <h2>{{ app.title }}</h2> -->
         </div>
 
         <div v-for="_ in (9 - appsStripped.length)" class="tile"></div>
