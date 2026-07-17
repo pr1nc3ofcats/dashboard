@@ -2,7 +2,7 @@
 import { scale, solidBgColor } from '../../services/stylingHelper';
 import BackIcon from '../../assets/svg/arrow_left_curved.svg';
 import ForwardIcon from '../../assets/svg/arrow_right_curved.svg';
-import UpIcon from '../../assets/svg/arrow_up.svg';
+import UpIcon from '../../assets/svg/double_arrow_up.svg';
 import ArrowUpIcon from '../../assets/svg/triangle_up.svg';
 import ArrowDownIcon from '../../assets/svg/triangle_down.svg'
 import { ref } from 'vue';
@@ -33,26 +33,43 @@ const sortingMode = ref<"a-z" | "z-a" | "lastModified" | "firstModified" | "bigg
                 </div>
             </div>
 
-            <div class="sorting-bar">
-                <div class="group">
-                    <h2>Name</h2>
-                    <ArrowUpIcon v-if="sortingMode == 'a-z'" class="icon" />
-                    <ArrowDownIcon v-if="sortingMode == 'z-a'" class="icon" />
-                </div>
-                <div class="group">
-                    <h2>Modified</h2>
-                    <ArrowUpIcon v-if="sortingMode == 'firstModified'" class="icon" />
-                    <ArrowDownIcon v-if="sortingMode == 'lastModified'" class="icon" />
-                </div>
-                <div class="group">
-                    <h2>Size</h2>
-                    <ArrowUpIcon v-if="sortingMode == 'smallest'" class="icon" />
-                    <ArrowDownIcon v-if="sortingMode == 'biggest'" class="icon" />
+            <div class="main-content-container">
+                <div class="quick-places"></div>
+                <div class="files">
+                    <div v-focus-section class="sorting-bar">
+                        <div v-focus class="group focusable-br7 sfx-nav-handler sfx-activation-handler">
+                            <h2>Name</h2>
+                            <ArrowUpIcon v-if="sortingMode == 'a-z'" class="icon" />
+                            <ArrowDownIcon v-if="sortingMode == 'z-a'" class="icon" />
+                        </div>
+                        <div v-focus class="group focusable-br7 sfx-nav-handler sfx-activation-handler">
+                            <h2>Modified</h2>
+                            <ArrowUpIcon v-if="sortingMode == 'firstModified'" class="icon" />
+                            <ArrowDownIcon v-if="sortingMode == 'lastModified'" class="icon" />
+                        </div>
+                        <div v-focus class="group focusable-br7 sfx-nav-handler sfx-activation-handler">
+                            <h2>Size</h2>
+                            <ArrowUpIcon v-if="sortingMode == 'smallest'" class="icon" />
+                            <ArrowDownIcon v-if="sortingMode == 'biggest'" class="icon" />
+                        </div>
+                    </div>
+
+                    <div class="items-container"></div>
                 </div>
             </div>
 
-            <div class="items-container"></div>
-            <div class="buttons-container"></div>
+            <div v-focus-section class="buttons-container">
+                <div v-focus class="button focusable-br7 sfx-nav-handler sfx-activation-handler">
+                    <h2>
+                        Select
+                    </h2>
+                </div>
+                <div v-focus class="button focusable-br7 sfx-nav-handler sfx-activation-handler">
+                    <h2>
+                        Cancel
+                    </h2>
+                </div>
+            </div>
         </div>
     </div>
 </template>
@@ -84,6 +101,9 @@ const sortingMode = ref<"a-z" | "z-a" | "lastModified" | "firstModified" | "bigg
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
+
+    display: flex;
+    flex-direction: column;
 }
 
 .icon-holder {
@@ -96,13 +116,19 @@ const sortingMode = ref<"a-z" | "z-a" | "lastModified" | "firstModified" | "bigg
     width: v-bind(scale(40));
     height: v-bind(scale(40));
     color: white;
+
+    box-sizing: border-box;
+    padding: v-bind(scale(2));
 }
 
 .top-bar {
     display: flex;
     align-items: center;
     margin-left: v-bind(scale(40));
+    margin-bottom: v-bind(scale(10));
     gap: v-bind(scale(50));
+
+    flex-shrink: 0;
 
     height: v-bind(scale(65));
 
@@ -113,7 +139,71 @@ const sortingMode = ref<"a-z" | "z-a" | "lastModified" | "firstModified" | "bigg
     }
 }
 
-.sorting-bar {
-    height: v-bind(scale(45));
+.main-content-container {
+    width: 100%;
+    height: 100%;
+    display: flex;
+
+    flex: 1;
+
+    & .quick-places {
+        height: 100%;
+        width: 30%;
+    }
+
+    & .files {
+        width: 100%;
+        height: 100%;
+
+        & .sorting-bar {
+            height: v-bind(scale(45));
+            display: flex;
+
+            background-color: #38373A;
+
+            & .group {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                gap: v-bind(scale(5));
+
+                width: 33%;
+                height: 100%;
+
+                & .icon {
+                    padding: v-bind(scale(5));
+                }
+            }
+        }
+    }
+}
+
+.buttons-container {
+    height: v-bind(scale(90));
+    width: 100%;
+
+    display: flex;
+    justify-content: end;
+    align-items: center;
+    gap: v-bind(scale(25));
+
+    flex-shrink: 0;
+
+    & .button {
+        width: v-bind(scale(200));
+        height: v-bind(scale(50));
+        background-color: #38373A;
+        border-radius: 7px;
+
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    // Right margin because i don't know anything else doesn't work
+    &::after {
+        content: '';
+        flex-shrink: 0;
+    }
 }
 </style>
