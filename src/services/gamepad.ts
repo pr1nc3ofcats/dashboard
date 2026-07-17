@@ -1,7 +1,7 @@
 import { mapGamepadToXbox360Controller, useGamepad } from '@vueuse/core';
 import { computed, inject, ref, watch } from 'vue';
 import router from '../router';
-import { onAfterAppMount, onWindowFocus, onWindowUnfocus } from './dependencyInjector';
+import { onAfterAppMount, onWindowFocus, onWindowUnfocus } from './utils/dependencyInjector';
 
 const { pause, resume, gamepads, onConnected, onDisconnected } = useGamepad();
 const currentGamepadIndex = ref(0);

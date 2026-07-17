@@ -4,7 +4,7 @@ import { Settings } from '../models/settings';
 import { useHomeVM } from '../view_models/homeViewModel';
 import { Library } from '../models/library';
 import { convertFileSrc } from '@tauri-apps/api/core';
-import { solidBgColor } from '../services/stylingHelper';
+import { solidBgColor } from '../services/utils/stylingHelper';
 
 const { currentId } = useHomeVM();
 

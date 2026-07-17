@@ -1,4 +1,4 @@
-import { useAudioManager } from "./audioManager";
+import { useAudioManager } from "../audioManager";
 import { performPulse } from "./stylingHelper";
 
 const { sfxNav, sfxActivate } = useAudioManager();

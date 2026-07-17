@@ -3,7 +3,7 @@ import XboxButtonA from '../../assets/svg/xbox_button_a.svg';
 import XboxButtonB from '../../assets/svg/xbox_button_b.svg';
 import XboxButtonX from '../../assets/svg/xbox_button_x.svg';
 import XboxButtonY from '../../assets/svg/xbox_button_y.svg';
-import { scaleH, scaleW, solidBgColor } from '../../services/stylingHelper';
+import { scaleH, scaleW, solidBgColor } from '../../services/utils/stylingHelper';
 
 defineProps({
     isGame: Boolean,

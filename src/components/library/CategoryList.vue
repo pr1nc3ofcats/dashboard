@@ -3,7 +3,7 @@ import { useLibraryVM } from '../../view_models/libraryViewModel';
 import GamepadIcon from '../../assets/svg/category_games.svg';
 import AppsIcon from '../../assets/svg/category_apps.svg';
 import AddIcon from '../../assets/svg/plus.svg';
-import { scale, scaleH, scaleW } from '../../services/stylingHelper';
+import { scale, scaleH, scaleW } from '../../services/utils/stylingHelper';
 import { Settings } from '../../models/settings';
 import { inject, ref } from 'vue';
 import FileSelectionModal from '../modals/FileSelectionModal.vue';
@@ -34,7 +34,7 @@ const importAppFromFile = (file_path: string) => {
                 <h2>{{ category }}</h2>
             </div>
 
-            <h2 class="second-item">{{ categoriesLengths[index] }}</h2>
+            <h2 class="second-item gray">{{ categoriesLengths[index] }}</h2>
         </div>
 
         <div v-focus @sn:enter-down="showFileSelection = true"
@@ -77,10 +77,6 @@ const importAppFromFile = (file_path: string) => {
         display: flex;
         align-items: center;
         gap: v-bind(scaleW(40));
-    }
-
-    & .second-item {
-        color: #717171;
     }
 
     & .icon {

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { convertFileSrc } from '@tauri-apps/api/core';
-import { scale, scaleH, scaleW } from '../../services/stylingHelper.ts';
+import { scale, scaleH, scaleW } from '../../services/utils/stylingHelper.ts';
 import { useHomeVM } from '../../view_models/homeViewModel.ts';
 import { inject, onMounted } from 'vue';
 import { Library } from '../../models/library.ts';

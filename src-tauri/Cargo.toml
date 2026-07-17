@@ -30,3 +30,4 @@ windows = { version = "0.58", features = [
     "Win32_System_Threading",
 ] }
 sysinfo = "0.38.4"
+tokio = { version = "1", features = ["fs", "rt-multi-thread"] }

@@ -1,6 +1,6 @@
 interface DirEntry {
     name: string;
-    last_modified: Date;
+    modified: Date;
     size: number;
     is_dir: boolean;
 }

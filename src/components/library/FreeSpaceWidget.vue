@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed, onMounted, ref } from 'vue';
 import { Settings } from '../../models/settings';
-import { scale } from '../../services/stylingHelper';
+import { scale } from '../../services/utils/stylingHelper';
 import { invoke } from '@tauri-apps/api/core';
 
 const freeSpaceMb = ref(0);

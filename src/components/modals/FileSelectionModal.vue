@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { scale, solidBgColor } from '../../services/stylingHelper';
+import { scale, solidBgColor } from '../../services/utils/stylingHelper';
 import BackIcon from '../../assets/svg/arrow_left_curved.svg';
 import ForwardIcon from '../../assets/svg/arrow_right_curved.svg';
 import UpIcon from '../../assets/svg/double_arrow_up.svg';
@@ -8,8 +8,25 @@ import ArrowDownIcon from '../../assets/svg/triangle_down.svg'
 import { computed, inject, onMounted, ref } from 'vue';
 import { Settings } from '../../models/settings';
 import { invoke } from '@tauri-apps/api/core';
+import { computedAsync } from '@vueuse/core';
 
 type SortingMode = "a-z" | "z-a" | "lastModified" | "firstModified" | "biggest" | "smallest";
+const sortEntries = (mode: SortingMode, target: DirEntry[]) => {
+    const compare = (a: DirEntry, b: DirEntry): number => {
+        // folders always on top
+        if (a.is_dir !== b.is_dir) return a.is_dir ? -1 : 1
+
+        if (mode === "lastModified") return b.modified.getTime() - a.modified.getTime()
+        else if (mode === "firstModified") return a.modified.getTime() - b.modified.getTime()
+        else if (mode === "a-z") return a.name.localeCompare(b.name)
+        else if (mode === "z-a") return b.name.localeCompare(a.name)
+        else if (mode === "biggest") return b.size - a.size
+        else if (mode === "smallest") return a.size - b.size
+        return 0
+    }
+
+    return target.toSorted(compare)
+}
 
 const emit = defineEmits(['modal-close']);
 
@@ -26,12 +43,12 @@ const currentDirTidy = computed(() => {
     return pathEntries.pop();
 })
 
-const currentDirEntries = ref<DirEntry[]>([]);
-const places = ref<Places>();
+const currentDirEntries = computedAsync(async () => {
+    return await invoke<DirEntry[]>('get_dir_entries', { directory: currentDir.value });
+}, []);
+const dirEntriesSorted = computed(() => sortEntries(sortingMode.value, currentDirEntries.value));
 
-const props = defineProps<{
-    callback: (file: string) => void
-}>()
+const places = ref<Places>();
 
 onMounted(async () => {
     const spatialNavigation: any = inject('spatialNavigation');
@@ -44,8 +61,11 @@ onMounted(async () => {
         }
         return v;
     })
-    console.log(places.value)
 })
+
+const props = defineProps<{
+    callback: (file: string) => void
+}>()
 </script>
 
 <template>

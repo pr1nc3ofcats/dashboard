@@ -1,15 +1,15 @@
 <script setup lang="ts">
 import { onBeforeMount, onMounted } from 'vue';
 import { RouterView } from 'vue-router';
-import { scale } from './services/stylingHelper.ts';
+import { scale } from './services/utils/stylingHelper.ts';
 import TopBar from './components/modals/TopBar.vue';
 import { Settings } from './models/settings.ts';
 import Backgorund from './components/Backgorund.vue';
 import { getCurrentWindow } from '@tauri-apps/api/window';
-import { execOnAfterAppMount, execOnBeforeAppMount, execOnWindowFocus, execOnWindowUnfocus } from './services/dependencyInjector.ts';
+import { execOnAfterAppMount, execOnBeforeAppMount, execOnWindowFocus, execOnWindowUnfocus } from './services/utils/dependencyInjector.ts';
 import './services/gamepad.ts';
 import { invoke } from '@tauri-apps/api/core';
-import { onDomUpdatedHook } from './services/globalHooks.ts';
+import { onDomUpdatedHook } from './services/utils/globalHooks.ts';
 
 const observer = new MutationObserver(onDomUpdatedHook);
 

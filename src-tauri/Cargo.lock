@@ -1497,6 +1497,7 @@ dependencies = [
  "tauri",
  "tauri-build",
  "tauri-plugin-opener",
+ "tokio",
  "whoami",
  "windows 0.58.0",
 ]

@@ -3,7 +3,7 @@ import ControllerHint from '../components/modals/ControllerHint.vue';
 import AppGrid from '../components/library/AppGrid.vue';
 import CategoryList from '../components/library/CategoryList.vue';
 import { Settings } from '../models/settings.ts';
-import { contentHeight, solidBgColor } from '../services/stylingHelper.ts';
+import { contentHeight, solidBgColor } from '../services/utils/stylingHelper.ts';
 import { useLibraryVM } from '../view_models/libraryViewModel.ts';
 import FreeSpaceWidget from '../components/library/FreeSpaceWidget.vue';
 

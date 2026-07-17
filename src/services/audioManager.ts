@@ -2,7 +2,7 @@ import Navigation from '../assets/sound/sfx/deck_ui_navigation.wav'
 import Activation from '../assets/sound/sfx/deck_ui_default_activation.wav'
 import { Settings } from "../models/settings";
 import { convertFileSrc } from "@tauri-apps/api/core";
-import { onAfterAppMount, onWindowFocus, onWindowUnfocus } from "./dependencyInjector";
+import { onAfterAppMount, onWindowFocus, onWindowUnfocus } from "./utils/dependencyInjector";
 import { WatchCallback } from "vue";
 import { Howl } from 'howler';
 

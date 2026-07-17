@@ -2,7 +2,7 @@
 import { convertFileSrc, invoke } from '@tauri-apps/api/core';
 import { onBeforeUnmount, onMounted, ref } from 'vue';
 import { Settings } from '../../models/settings';
-import { scale, scaleH, scaleW } from '../../services/stylingHelper';
+import { scale, scaleH, scaleW } from '../../services/utils/stylingHelper';
 import { RouterLink } from 'vue-router';
 import HomeIcon from '../../assets/svg/home.svg';
 import SettingsIcon from '../../assets/svg/settings.svg';

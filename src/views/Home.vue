@@ -2,7 +2,7 @@
 import ControllerHint from '../components/modals/ControllerHint.vue';
 import Ribbon from '../components/home/Ribbon.vue';
 import { useHomeVM } from '../view_models/homeViewModel.ts';
-import { contentHeight } from '../services/stylingHelper.ts';
+import { contentHeight } from '../services/utils/stylingHelper.ts';
 
 const { appIsGame, appIsSelected } = useHomeVM();
 </script>
