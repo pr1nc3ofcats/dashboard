@@ -6,6 +6,7 @@ import UpIcon from '../../assets/svg/double_arrow_up.svg';
 import ArrowUpIcon from '../../assets/svg/triangle_up.svg';
 import ArrowDownIcon from '../../assets/svg/triangle_down.svg'
 import { ref } from 'vue';
+import { Settings } from '../../models/settings';
 
 const sortingMode = ref<"a-z" | "z-a" | "lastModified" | "firstModified" | "biggest" | "smallest">("a-z");
 
@@ -37,17 +38,17 @@ const sortingMode = ref<"a-z" | "z-a" | "lastModified" | "firstModified" | "bigg
                 <div class="quick-places"></div>
                 <div class="files">
                     <div v-focus-section class="sorting-bar">
-                        <div v-focus class="group focusable-br7 sfx-nav-handler sfx-activation-handler">
+                        <div v-focus class="group sfx-nav-handler sfx-activation-handler">
                             <h2>Name</h2>
                             <ArrowUpIcon v-if="sortingMode == 'a-z'" class="icon" />
                             <ArrowDownIcon v-if="sortingMode == 'z-a'" class="icon" />
                         </div>
-                        <div v-focus class="group focusable-br7 sfx-nav-handler sfx-activation-handler">
+                        <div v-focus class="group  sfx-nav-handler sfx-activation-handler">
                             <h2>Modified</h2>
                             <ArrowUpIcon v-if="sortingMode == 'firstModified'" class="icon" />
                             <ArrowDownIcon v-if="sortingMode == 'lastModified'" class="icon" />
                         </div>
-                        <div v-focus class="group focusable-br7 sfx-nav-handler sfx-activation-handler">
+                        <div v-focus class="group  sfx-nav-handler sfx-activation-handler">
                             <h2>Size</h2>
                             <ArrowUpIcon v-if="sortingMode == 'smallest'" class="icon" />
                             <ArrowDownIcon v-if="sortingMode == 'biggest'" class="icon" />
@@ -59,12 +60,12 @@ const sortingMode = ref<"a-z" | "z-a" | "lastModified" | "firstModified" | "bigg
             </div>
 
             <div v-focus-section class="buttons-container">
-                <div v-focus class="button focusable-br7 sfx-nav-handler sfx-activation-handler">
+                <div v-focus class="button focusable-br7 sfx-nav-handler sfx-activation-handler pulse-handler">
                     <h2>
                         Select
                     </h2>
                 </div>
-                <div v-focus class="button focusable-br7 sfx-nav-handler sfx-activation-handler">
+                <div v-focus class="button focusable-br7 sfx-nav-handler sfx-activation-handler pulse-handler">
                     <h2>
                         Cancel
                     </h2>
@@ -92,10 +93,13 @@ const sortingMode = ref<"a-z" | "z-a" | "lastModified" | "firstModified" | "bigg
 }
 
 .frame {
-    width: 75%;
+    width: 80%;
     aspect-ratio: 16 / 9;
     background-color: v-bind(solidBgColor);
     border-radius: 7px;
+
+    box-sizing: border-box;
+    padding: v-bind(scale(20));
 
     position: absolute;
     top: 50%;
@@ -124,13 +128,17 @@ const sortingMode = ref<"a-z" | "z-a" | "lastModified" | "firstModified" | "bigg
 .top-bar {
     display: flex;
     align-items: center;
-    margin-left: v-bind(scale(40));
     margin-bottom: v-bind(scale(10));
     gap: v-bind(scale(50));
 
     flex-shrink: 0;
 
     height: v-bind(scale(65));
+
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    border-radius: 7px;
+
+    padding: 0 v-bind(scale(40));
 
     & .group {
         display: flex;
@@ -146,9 +154,15 @@ const sortingMode = ref<"a-z" | "z-a" | "lastModified" | "firstModified" | "bigg
 
     flex: 1;
 
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    border-radius: 7px;
+
     & .quick-places {
         height: 100%;
         width: 30%;
+
+        border-right: 1px solid rgba(255, 255, 255, 0.25);
+        border-radius: 7px 0 0 7px;
     }
 
     & .files {
@@ -158,8 +172,7 @@ const sortingMode = ref<"a-z" | "z-a" | "lastModified" | "firstModified" | "bigg
         & .sorting-bar {
             height: v-bind(scale(45));
             display: flex;
-
-            background-color: #38373A;
+            align-items: center;
 
             & .group {
                 display: flex;
@@ -167,11 +180,21 @@ const sortingMode = ref<"a-z" | "z-a" | "lastModified" | "firstModified" | "bigg
                 align-items: center;
                 gap: v-bind(scale(5));
 
-                width: 33%;
+                flex: 1;
                 height: 100%;
+
+                background-color: #38373A;
 
                 & .icon {
                     padding: v-bind(scale(5));
+                }
+
+                &:focus {
+                    background-color: v-bind('Settings.get("accent_color")');
+                }
+
+                &:last-child {
+                    border-radius: 0 7px 0 0;
                 }
             }
         }
@@ -179,12 +202,12 @@ const sortingMode = ref<"a-z" | "z-a" | "lastModified" | "firstModified" | "bigg
 }
 
 .buttons-container {
-    height: v-bind(scale(90));
+    height: v-bind(scale(70));
     width: 100%;
 
     display: flex;
     justify-content: end;
-    align-items: center;
+    align-items: end;
     gap: v-bind(scale(25));
 
     flex-shrink: 0;
@@ -198,12 +221,6 @@ const sortingMode = ref<"a-z" | "z-a" | "lastModified" | "firstModified" | "bigg
         display: flex;
         justify-content: center;
         align-items: center;
-    }
-
-    // Right margin because i don't know anything else doesn't work
-    &::after {
-        content: '';
-        flex-shrink: 0;
     }
 }
 </style>
