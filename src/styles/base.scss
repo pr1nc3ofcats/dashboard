@@ -16,16 +16,20 @@ p {
     color: white;
 }
 
-bold {
+.bold {
     font-weight: 700;
 }
-regular {
+.regular {
     font-weight: 400;
 }
-light {
+.light {
     font-weight: 300;
 }
 
 *:focus {
     outline: none;
+}
+
+.gray {
+    color: #717171;
 }

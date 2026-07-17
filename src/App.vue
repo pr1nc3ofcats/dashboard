@@ -9,6 +9,16 @@ import { getCurrentWindow } from '@tauri-apps/api/window';
 import { execOnAfterAppMount, execOnBeforeAppMount, execOnWindowFocus, execOnWindowUnfocus } from './services/dependencyInjector.ts';
 import './services/gamepad.ts';
 import { invoke } from '@tauri-apps/api/core';
+import { onDomUpdatedHook } from './services/globalHooks.ts';
+
+const observer = new MutationObserver(onDomUpdatedHook);
+
+observer.observe(document.getElementById('app'), {
+  childList: true,
+  subtree: true,
+  attributes: true,
+  characterData: true
+});
 
 onBeforeMount(execOnBeforeAppMount);
 
@@ -42,6 +52,7 @@ onMounted(async () => {
 @use "./styles/pages-transition.scss";
 @use "./styles/pulse.scss";
 @use "./styles/base.scss";
+@use "./styles/modal-transition.scss";
 
 h1 {
   font-size: v-bind(scale(40));

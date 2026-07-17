@@ -5,19 +5,50 @@ import ForwardIcon from '../../assets/svg/arrow_right_curved.svg';
 import UpIcon from '../../assets/svg/double_arrow_up.svg';
 import ArrowUpIcon from '../../assets/svg/triangle_up.svg';
 import ArrowDownIcon from '../../assets/svg/triangle_down.svg'
-import { ref } from 'vue';
+import { computed, inject, onMounted, ref } from 'vue';
 import { Settings } from '../../models/settings';
+
+interface DirEntry {
+    name: string;
+    lastModified: Date;
+    size: number;
+    isDir: boolean;
+}
+
+const emit = defineEmits(['modal-close']);
 
 const sortingMode = ref<"a-z" | "z-a" | "lastModified" | "firstModified" | "biggest" | "smallest">("a-z");
 
+// Path must always be normalized and absolute
+const currentDir = ref(Settings.get('main_storage_directory'));
+const currentDirTidy = computed(() => {
+    const pathEntries = currentDir.value.split('/').filter(Boolean);
+    for (let i = pathEntries.length; i >= 1; i--) {
+        const joined = pathEntries.slice(-i).join(' > ');
+        if (joined.length <= 60) return joined.replaceAll(' > ', '<span class="gray"> > </span>');
+    }
+    return pathEntries.pop();
+})
+
+const currentDirEntries = ref<DirEntry[]>([]);
+
+const props = defineProps<{
+    callback: (file: string) => void
+}>()
+
+onMounted(() => {
+    const spatialNavigation: any = inject('spatialNavigation');
+    spatialNavigation.focus("modal-frame");
+})
 </script>
 
 <template>
-    <div class="container">
+    <div v-focus-section:modal-frame="{ restrict: 'self-only', defaultElement: '#cancel-btn' }"
+        @keydown.delete="emit('modal-close')" class="container">
         <div class="overlay"></div>
 
         <div class="frame">
-            <div v-focus-section class="top-bar">
+            <div class="top-bar">
                 <div class="group">
                     <div v-focus class="icon-holder focusable-br7 sfx-nav-handler sfx-activation-handler">
                         <BackIcon class="icon" />
@@ -30,25 +61,30 @@ const sortingMode = ref<"a-z" | "z-a" | "lastModified" | "firstModified" | "bigg
                     <div v-focus class="icon-holder focusable-br7 sfx-nav-handler sfx-activation-handler">
                         <UpIcon class="icon" />
                     </div>
-                    <h1>Path text</h1>
+                    <h1 v-html="currentDirTidy"></h1>
                 </div>
             </div>
 
             <div class="main-content-container">
                 <div class="quick-places"></div>
                 <div class="files">
-                    <div v-focus-section class="sorting-bar">
-                        <div v-focus class="group sfx-nav-handler sfx-activation-handler">
+                    <div class="sorting-bar">
+                        <div v-focus @sn:enter-down="() => sortingMode = sortingMode == 'a-z' ? 'z-a' : 'a-z'"
+                            class="group sfx-nav-handler sfx-activation-handler">
                             <h2>Name</h2>
                             <ArrowUpIcon v-if="sortingMode == 'a-z'" class="icon" />
                             <ArrowDownIcon v-if="sortingMode == 'z-a'" class="icon" />
                         </div>
-                        <div v-focus class="group  sfx-nav-handler sfx-activation-handler">
+                        <div v-focus
+                            @sn:enter-down="() => sortingMode = sortingMode == 'firstModified' ? 'lastModified' : 'firstModified'"
+                            class="group  sfx-nav-handler sfx-activation-handler">
                             <h2>Modified</h2>
                             <ArrowUpIcon v-if="sortingMode == 'firstModified'" class="icon" />
                             <ArrowDownIcon v-if="sortingMode == 'lastModified'" class="icon" />
                         </div>
-                        <div v-focus class="group  sfx-nav-handler sfx-activation-handler">
+                        <div v-focus
+                            @sn:enter-down="() => sortingMode = sortingMode == 'smallest' ? 'biggest' : 'smallest'"
+                            class="group  sfx-nav-handler sfx-activation-handler">
                             <h2>Size</h2>
                             <ArrowUpIcon v-if="sortingMode == 'smallest'" class="icon" />
                             <ArrowDownIcon v-if="sortingMode == 'biggest'" class="icon" />
@@ -59,13 +95,14 @@ const sortingMode = ref<"a-z" | "z-a" | "lastModified" | "firstModified" | "bigg
                 </div>
             </div>
 
-            <div v-focus-section class="buttons-container">
+            <div class="buttons-container">
                 <div v-focus class="button focusable-br7 sfx-nav-handler sfx-activation-handler pulse-handler">
                     <h2>
                         Select
                     </h2>
                 </div>
-                <div v-focus class="button focusable-br7 sfx-nav-handler sfx-activation-handler pulse-handler">
+                <div v-focus id="cancel-btn"
+                    class="button focusable-br7 sfx-nav-handler sfx-activation-handler pulse-handler">
                     <h2>
                         Cancel
                     </h2>

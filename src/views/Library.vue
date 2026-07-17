@@ -1,17 +1,13 @@
 <script setup lang="ts">
-import { onUpdated } from 'vue';
 import ControllerHint from '../components/modals/ControllerHint.vue';
 import AppGrid from '../components/library/AppGrid.vue';
 import CategoryList from '../components/library/CategoryList.vue';
 import { Settings } from '../models/settings.ts';
-import { onViewUpdatedHook } from '../services/globalHooks.ts';
 import { contentHeight, solidBgColor } from '../services/stylingHelper.ts';
 import { useLibraryVM } from '../view_models/libraryViewModel.ts';
 import FreeSpaceWidget from '../components/library/FreeSpaceWidget.vue';
 
 const { appIsGame, appIsSelected } = useLibraryVM();
-
-onUpdated(onViewUpdatedHook)
 </script>
 
 <template>

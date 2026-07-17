@@ -46,6 +46,18 @@ function initBasicWatchers() {
         if (v) dispatchKeyEvents('Enter', 'Enter', 13);
     });
 
+    watch(() => currentGamepadMapped.value?.buttons.b.pressed, (v) => {
+        if (v) dispatchKeyEvents('Backspace', 'Backspace', 8);
+    });
+
+    watch(() => currentGamepadMapped.value?.buttons.x.pressed, (v) => {
+        if (v) dispatchKeyEvents('x', 'KeyX', 88);
+    });
+
+    watch(() => currentGamepadMapped.value?.buttons.y.pressed, (v) => {
+        if (v) dispatchKeyEvents('y', 'KeyY', 89);
+    });
+
     watch(() => currentGamepadMapped.value?.dpad.up.pressed, (v) => {
         if (v) dispatchKeyEvents('ArrowUp', 'ArrowUp', 38);
     });

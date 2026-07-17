@@ -5,7 +5,7 @@ const { sfxNav, sfxActivate } = useAudioManager();
 const sfxNavPlay = () => sfxNav.play();
 const sfxActivatePlay = () => sfxActivate.play();
 
-export function onViewUpdatedHook() {
+export function onDomUpdatedHook() {
     document.querySelectorAll('.sfx-nav-handler').forEach((el) => {
         el.addEventListener('sn:focused', sfxNavPlay);
     })

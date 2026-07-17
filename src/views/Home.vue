@@ -1,14 +1,10 @@
 <script setup lang="ts">
-import { onUpdated } from 'vue';
 import ControllerHint from '../components/modals/ControllerHint.vue';
 import Ribbon from '../components/home/Ribbon.vue';
 import { useHomeVM } from '../view_models/homeViewModel.ts';
-import { onViewUpdatedHook } from '../services/globalHooks.ts';
 import { contentHeight } from '../services/stylingHelper.ts';
 
 const { appIsGame, appIsSelected } = useHomeVM();
-
-onUpdated(onViewUpdatedHook)
 </script>
 
 <template>

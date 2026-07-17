@@ -11,10 +11,15 @@ import FileSelectionModal from '../modals/FileSelectionModal.vue';
 const { categories, currentCategory, currentCategoryIndex, categoriesLengths } = useLibraryVM();
 const spatialNavigation: any = inject('spatialNavigation');
 
-const showFileSelection = ref(true);
+const showFileSelection = ref(false);
 
 const select = (index: number) => {
     currentCategoryIndex.value = index;
+}
+
+const importAppFromFile = (file_path: string) => {
+    // TODO
+    console.log(file_path);
 }
 </script>
 
@@ -32,7 +37,8 @@ const select = (index: number) => {
             <h2 class="second-item">{{ categoriesLengths[index] }}</h2>
         </div>
 
-        <div v-focus class="add-btn list-element sfx-nav-handler sfx-activation-handler">
+        <div v-focus @sn:enter-down="showFileSelection = true"
+            class="add-btn list-element sfx-nav-handler sfx-activation-handler">
             <div class="first-item">
                 <AddIcon class="icon" />
                 <h2>Add from file</h2>
@@ -43,7 +49,10 @@ const select = (index: number) => {
     </div>
 
     <Transition name="modal">
-        <FileSelectionModal v-if="showFileSelection" @modal-close="() => showFileSelection = false"/>
+        <FileSelectionModal v-if="showFileSelection" @modal-close="() => {
+            showFileSelection = false;
+            spatialNavigation.focus('cat-list');
+        }" :callback="importAppFromFile" />
     </Transition>
 </template>
 

@@ -22,10 +22,10 @@ onMounted(async () => {
 <template>
     <div class="container">
         <h2 class="title">
-            <bold>{{ Settings.get('main_storage_directory') }}</bold><br>
+            <span class="bold">{{ Settings.get('main_storage_directory') }}</span><br>
             {{ `${freeSpaceMb < 1024 ? freeSpaceMb.toFixed(1) : (freeSpaceMb / 1024).toFixed(1)} ${freeSpaceMb < 1024
                 ? 'Mb' : 'Gb'} / ${allSpaceMb < 1024 ? allSpaceMb.toFixed(1) : (allSpaceMb / 1024).toFixed(1)}
-                ${allSpaceMb < 1024 ? 'Mb' : 'Gb' } available` }} </h2>
+                ${allSpaceMb < 1024 ? 'Mb' : 'Gb'} available` }} </h2>
 
                 <div class="indicator">
                     <h2 class="title">{{ spaceTakenPercentage }}</h2>
