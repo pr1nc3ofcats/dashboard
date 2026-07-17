@@ -1,4 +1,4 @@
-import { Application } from "./application";
+import { Application } from "../types/application";
 import { reactive, watch, WatchCallback } from "vue";
 import { invoke } from "@tauri-apps/api/core";
 import dayjs from "dayjs";

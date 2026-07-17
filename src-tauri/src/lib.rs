@@ -4,6 +4,7 @@ use tauri::Manager;
 
 mod models;
 mod utils;
+mod fs_utils;
 mod windows_utils;
 
 use models::{settings, library};
@@ -18,8 +19,9 @@ pub fn run() {
             settings::dump_settings,
             utils::get_user_name,
             utils::show_window,
-            utils::get_free_space,
-            utils::get_all_space,
+            fs_utils::get_free_space,
+            fs_utils::get_all_space,
+            fs_utils::get_fs_places,
             windows_utils::try_spawn_detached,
             windows_utils::try_focuse_window,
             library::dump_applications,

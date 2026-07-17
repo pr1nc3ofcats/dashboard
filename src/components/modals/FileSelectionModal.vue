@@ -7,17 +7,13 @@ import ArrowUpIcon from '../../assets/svg/triangle_up.svg';
 import ArrowDownIcon from '../../assets/svg/triangle_down.svg'
 import { computed, inject, onMounted, ref } from 'vue';
 import { Settings } from '../../models/settings';
+import { invoke } from '@tauri-apps/api/core';
 
-interface DirEntry {
-    name: string;
-    lastModified: Date;
-    size: number;
-    isDir: boolean;
-}
+type SortingMode = "a-z" | "z-a" | "lastModified" | "firstModified" | "biggest" | "smallest";
 
 const emit = defineEmits(['modal-close']);
 
-const sortingMode = ref<"a-z" | "z-a" | "lastModified" | "firstModified" | "biggest" | "smallest">("a-z");
+const sortingMode = ref<SortingMode>("a-z");
 
 // Path must always be normalized and absolute
 const currentDir = ref(Settings.get('main_storage_directory'));
@@ -31,14 +27,24 @@ const currentDirTidy = computed(() => {
 })
 
 const currentDirEntries = ref<DirEntry[]>([]);
+const places = ref<Places>();
 
 const props = defineProps<{
     callback: (file: string) => void
 }>()
 
-onMounted(() => {
+onMounted(async () => {
     const spatialNavigation: any = inject('spatialNavigation');
     spatialNavigation.focus("modal-frame");
+
+    places.value = await invoke('get_fs_places');
+    places.value.volumes.map((v) => {
+        if (!v.name) {
+            v.name = v.mount_point;
+        }
+        return v;
+    })
+    console.log(places.value)
 })
 </script>
 
