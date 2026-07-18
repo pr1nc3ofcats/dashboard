@@ -6,20 +6,25 @@ export interface Application {
     categories: string[];
     playtime: number;
     lastLaunched?: Date;
-    shortDescription?: string;
     dataPath?: string;
 
     steamDetails?: SteamDetails;
+    howLongToBeat?: HowLongToBeat;
 }
 
 export interface SteamDetails {
     imgHero?: string; // 16:9
     imgSteamHorizontal?: string; // 92:43
     screeenshots?: string[];
+
+    shortDescription?: string;
     detailedDescription?: string;
+
     releaseDate?: Date;
+
     developers?: string[];
     publishers?: string[];
+
     pcRequirements?: {
         minimal: string;
         recommended: string;
@@ -28,14 +33,17 @@ export interface SteamDetails {
         minimal: string;
         recommended: string;
     };
+    controllerSupport?: string;
+
     achievements?: Achievement[];
-    howLongToBeat?: {
-        mainStory: number;
-        mainPlusSides: number;
-        completionist: number;
-    };
 
     steamId?: number;
+}
+
+export interface HowLongToBeat {
+    mainStory: number;
+    mainPlusSides: number;
+    completionist: number;
 }
 
 export interface Achievement {

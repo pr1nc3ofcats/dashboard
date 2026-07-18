@@ -10,6 +10,7 @@ import { execOnAfterAppMount, execOnBeforeAppMount, execOnWindowFocus, execOnWin
 import './services/gamepad.ts';
 import { invoke } from '@tauri-apps/api/core';
 import { onDomUpdatedHook } from './services/utils/globalHooks.ts';
+import { fetchSteamDetailsByName } from './services/api/steamDetails.ts';
 
 const observer = new MutationObserver(onDomUpdatedHook);
 
@@ -34,6 +35,9 @@ onMounted(async () => {
       execOnWindowUnfocus();
     }
   });
+
+  // Testing it
+  //console.log(await fetchSteamDetailsByName("nine sols", "ru", "russian"))
 });
 </script>
 
