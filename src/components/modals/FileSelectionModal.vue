@@ -6,12 +6,15 @@ import UpIcon from '../../assets/svg/double_arrow_up.svg';
 import ArrowUpIcon from '../../assets/svg/triangle_up.svg';
 import ArrowDownIcon from '../../assets/svg/triangle_down.svg';
 import FolderIcon from '../../assets/svg/meta_folder.svg';
+import FileIcon from '../../assets/svg/meta_file.svg';
 import OpticalStorageIcon from '../../assets/svg/storage_optical.svg';
 import DriveStorageIcon from '../../assets/svg/hard_drive.svg';
-import { computed, inject, onBeforeMount, onMounted, onUnmounted, ref } from 'vue';
+import { computed, inject, onMounted, onUnmounted, ref } from 'vue';
 import { Settings } from '../../models/settings';
 import { invoke } from '@tauri-apps/api/core';
 import { computedAsync } from '@vueuse/core';
+import dayjs from 'dayjs';
+import { scrollContainerIntoView } from '../../services/utils/scrollingHelper';
 
 type SortingMode = "a-z" | "z-a" | "lastModified" | "firstModified" | "biggest" | "smallest";
 const sortEntries = (mode: SortingMode, target: DirEntry[]) => {
@@ -19,8 +22,10 @@ const sortEntries = (mode: SortingMode, target: DirEntry[]) => {
         // folders always on top
         if (a.is_dir !== b.is_dir) return a.is_dir ? -1 : 1
 
-        if (mode === "lastModified") return b.modified.getTime() - a.modified.getTime()
-        else if (mode === "firstModified") return a.modified.getTime() - b.modified.getTime()
+        // fucking thing never stores numbers
+        if (mode === "lastModified") return new Date(b.modified).getTime() - new Date(a.modified).getTime()
+        else if (mode === "firstModified") return new Date(a.modified).getTime() - new Date(b.modified).getTime()
+
         else if (mode === "a-z") return a.name.localeCompare(b.name)
         else if (mode === "z-a") return b.name.localeCompare(a.name)
         else if (mode === "biggest") return b.size - a.size
@@ -30,11 +35,22 @@ const sortEntries = (mode: SortingMode, target: DirEntry[]) => {
 
     return target.toSorted(compare)
 }
+const displaySizePretty = (bytes: number) => {
+    const KB = 1024
+    const MB = KB * 1024
+    const GB = MB * 1024
+
+    if (bytes < KB) return `${bytes} B`
+    if (bytes < MB) return `${(bytes / KB).toFixed(1)} KB`
+    if (bytes < GB) return `${(bytes / MB).toFixed(1)} MB`
+    return `${(bytes / GB).toFixed(1)} GB`
+}
 
 const emit = defineEmits(['modal-close']);
 
 const spatialNavigation: any = inject('spatialNavigation');
 const rootElement = ref(null);
+const filesScrollClip = ref(null);
 
 const sortingMode = ref<SortingMode>("a-z");
 
@@ -50,9 +66,17 @@ const currentDirTidy = computed(() => {
 })
 
 const currentDirEntries = computedAsync(async () => {
-    return await invoke<DirEntry[]>('get_dir_entries', { directory: currentDir.value });
+    try {
+        let result = await invoke<DirEntry[]>('get_dir_entries', { directory: currentDir.value + "/" });
+        return result;
+    } catch (err) {
+        console.error(err)
+    }
 }, []);
 const dirEntriesSorted = computed(() => sortEntries(sortingMode.value, currentDirEntries.value));
+/*   /\
+     |   */
+const currentEntrySelected = ref<number>();
 
 const places = computedAsync(async () => {
     let result = await invoke<Places>('get_fs_places');
@@ -171,12 +195,41 @@ const props = defineProps<{
                         </div>
                     </div>
 
-                    <div class="items-container"></div>
+                    <div class="scroll-container" ref="filesScrollClip">
+                        <div v-focus-section:entries-list class="item-container">
+                            <div v-for="(entry, index) in dirEntriesSorted" v-focus
+                                class="item sfx-nav-handler sfx-activation-handler" @sn:enter-down="() => {
+                                    if (entry.is_dir) currentDir += `/${entry.name}`
+                                    else {
+                                        currentEntrySelected = index;
+                                        spatialNavigation.focus('#select-btn');
+                                    }
+                                }" @sn:focused="(e) => scrollContainerIntoView(e, filesScrollClip, 1)"
+                                :class="{ selected: currentEntrySelected == index }">
+
+                                <div class="section">
+                                    <FolderIcon v-if="entry.is_dir" class="icon" />
+                                    <FileIcon v-if="!entry.is_dir" class="icon" />
+                                    <h2>{{ entry.name }}</h2>
+                                </div>
+                                <div class="section">
+                                    <h2>{{ dayjs(entry.modified).format('DD.MM.YYYY') }}</h2>
+                                </div>
+                                <div class="section">
+                                    <h2>{{ entry.is_dir ? '' : displaySizePretty(entry.size) }}</h2>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
 
             <div class="buttons-container">
-                <div v-focus class="button focusable-br7 sfx-nav-handler sfx-activation-handler pulse-handler">
+                <div v-focus
+                    @sn:enter-down="() => { callback(`${currentDir}/${dirEntriesSorted[currentEntrySelected].name}`); emit('modal-close'); }"
+                    @sn:unfocused="currentEntrySelected = null" id="select-btn"
+                    class="button focusable-br7 sfx-nav-handler sfx-activation-handler pulse-handler">
                     <h2>
                         Select
                     </h2>
@@ -308,10 +361,14 @@ const props = defineProps<{
         width: 100%;
         height: 100%;
 
+        display: flex;
+        flex-direction: column;
+
         & .sorting-bar {
             height: v-bind(scale(45));
             display: flex;
             align-items: center;
+            flex-shrink: 0;
 
             & .group {
                 display: flex;
@@ -334,6 +391,45 @@ const props = defineProps<{
 
                 &:last-child {
                     border-radius: 0 7px 0 0;
+                }
+            }
+        }
+
+        & .scroll-container {
+            width: 100%;
+            flex: 1;
+            overflow-y: auto;
+            overflow-x: hidden;
+            scrollbar-width: none;
+        }
+
+        & .item-container {
+            width: 100%;
+
+            & .item {
+                width: 100%;
+                height: v-bind(45);
+                display: flex;
+
+                & .section {
+                    height: 100%;
+                    flex: 1;
+                    display: flex;
+                    align-items: center;
+                    gap: v-bind(scale(10));
+
+                    box-sizing: border-box;
+                    padding-left: v-bind(scale(20));
+
+                    word-break: break-all;
+                }
+
+                &:focus {
+                    background-color: v-bind('Settings.get("accent_color")');
+                }
+
+                &.selected {
+                    background-color: #38373A;
                 }
             }
         }

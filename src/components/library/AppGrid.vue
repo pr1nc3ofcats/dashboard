@@ -4,28 +4,14 @@ import { scale } from '../../services/utils/stylingHelper';
 import { useLibraryVM } from '../../view_models/libraryViewModel';
 import { inject, onMounted, ref } from 'vue';
 import { Library } from '../../models/library';
+import { scrollContainerIntoView } from '../../services/utils/scrollingHelper';
 
 const { currentGridView, currentAppId } = useLibraryVM();
-const scrollClip = ref<HTMLElement | null>(null);
+const scrollClip = ref(null);
 const extraScroll = Number(scale(130).replace('px', ''));
 
 const select = (id: number) => {
     currentAppId.value = id;
-}
-const scrollGridIntoView = (event: any) => {
-    const containerRect = scrollClip.value.getBoundingClientRect();
-    const targetRect = event.target.getBoundingClientRect();
-
-    // If > 0 tile is beneath clip area and vice versa
-    const offsetTop = targetRect.top - containerRect.top;
-    // Same
-    const offsetBottom = targetRect.bottom - containerRect.bottom;
-
-    if (offsetTop < 0) {
-        scrollClip.value.scrollTo({ top: scrollClip.value.scrollTop + offsetTop - extraScroll, behavior: 'smooth' })
-    } else if (offsetBottom > 0) {
-        scrollClip.value.scrollTo({ top: scrollClip.value.scrollTop + offsetBottom + extraScroll, behavior: 'smooth' })
-    }
 }
 const leaveSection = (event: any) => {
     if (event.detail.nextSectionId !== "app-grid") currentAppId.value = -1
@@ -40,7 +26,7 @@ onMounted(() => {
 <template>
     <div class="scroll-clip" ref="scrollClip">
         <div v-focus-section:app-grid class="container">
-            <div v-for="app in currentGridView" v-focus @sn:focused="(e) => { select(app.id); scrollGridIntoView(e) }"
+            <div v-for="app in currentGridView" v-focus @sn:focused="(e) => { select(app.id); scrollContainerIntoView(e, scrollClip, extraScroll) }"
                 @sn:unfocused="leaveSection" @sn:enter-down="Library.tryLaunch(app.id)"
                 class="tile focusable-br7 pulse-handler sfx-nav-handler sfx-activation-handler">
                 <img :src="convertFileSrc(app.imgSquare)" class="tile-image">
