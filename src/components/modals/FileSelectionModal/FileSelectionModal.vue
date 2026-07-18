@@ -30,7 +30,7 @@ const props = defineProps<{
 </script>
 
 <template>
-    <div v-focus-section:modal-frame="{ defaultElement: '#cancel-btn' }" @keydown.delete="emit('modal-close')"
+    <div v-focus-section:modal-frame="{ defaultElement: '#cancel-btn' }"
         class="container" ref="rootElement">
         <div class="overlay"></div>
 

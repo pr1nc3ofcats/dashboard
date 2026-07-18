@@ -1,11 +1,10 @@
 <script setup lang="ts">
 import path from 'path-browserify';
-import { currentDir, currentDirEntries, currentEntrySelected, dirEntriesSorted, sortingMode } from '../../../view_models/modals/fileSelectionModalViewModel';
+import { currentDir, currentDirEntries, currentEntrySelected, directoryGoUp, dirEntriesSorted, sortingMode } from '../../../view_models/modals/fileSelectionModalViewModel';
 import ArrowUpIcon from '../../../assets/svg/triangle_up.svg';
 import ArrowDownIcon from '../../../assets/svg/triangle_down.svg';
 import FolderIcon from '../../../assets/svg/meta_folder.svg';
 import FileIcon from '../../../assets/svg/meta_file.svg';
-
 import { inject, ref, watch } from 'vue';
 import { scrollContainerIntoView } from '../../../services/utils/scrollingHelper';
 import dayjs from 'dayjs';
@@ -30,7 +29,7 @@ const displaySizePretty = (bytes: number) => {
 </script>
 
 <template>
-    <div class="files">
+    <div class="files" @keydown.delete="directoryGoUp">
         <div class="sorting-bar">
             <div v-focus @sn:enter-down="() => sortingMode = sortingMode == 'a-z' ? 'z-a' : 'a-z'"
                 class="group sfx-nav-handler sfx-activation-handler">
@@ -147,8 +146,9 @@ const displaySizePretty = (bytes: number) => {
 
         & .item {
             width: 100%;
-            height: v-bind(scale(45));
+            min-height: v-bind(scale(45));
             display: flex;
+            align-items: center;
 
             & .section {
                 height: 100%;

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { scale } from '../../../services/utils/stylingHelper';
-import { currentDir, currentDirTidy } from '../../../view_models/modals/fileSelectionModalViewModel';
+import { currentDir, currentDirTidy, directoryGoUp } from '../../../view_models/modals/fileSelectionModalViewModel';
 import BackIcon from '../../../assets/svg/arrow_left_curved.svg';
 import ForwardIcon from '../../../assets/svg/arrow_right_curved.svg';
 import UpIcon from '../../../assets/svg/double_arrow_up.svg';
@@ -18,7 +18,7 @@ import path from 'path-browserify';
             </div>
         </div> -->
         <div class="group">
-            <div v-focus @sn:enter-down="currentDir = path.join(currentDir, '../')" class="icon-holder focusable-br7 sfx-nav-handler sfx-activation-handler">
+            <div v-focus @sn:enter-down="directoryGoUp" class="icon-holder focusable-br7 sfx-nav-handler sfx-activation-handler">
                 <UpIcon class="icon" />
             </div>
             <h1 v-html="currentDirTidy"></h1>

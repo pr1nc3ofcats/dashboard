@@ -1,9 +1,9 @@
 import { invoke } from "@tauri-apps/api/core";
 import { computedAsync } from "@vueuse/core";
+import path from "path-browserify";
 import { computed, ref, watch } from "vue";
 
 type SortingMode = "a-z" | "z-a" | "lastModified" | "firstModified" | "biggest" | "smallest";
-
 const sortEntries = (mode: SortingMode, target: DirEntry[]) => {
     const compare = (a: DirEntry, b: DirEntry): number => {
         // folders always on top
@@ -21,6 +21,13 @@ const sortEntries = (mode: SortingMode, target: DirEntry[]) => {
     }
 
     return target.toSorted(compare)
+}
+
+export const directoryGoUp = () => {
+    const parent = path.dirname(currentDir.value);
+    if (parent !== currentDir.value) {
+        currentDir.value = parent;
+    }
 }
 
 export const sortingMode = ref<SortingMode>("a-z");
