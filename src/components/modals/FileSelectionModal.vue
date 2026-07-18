@@ -9,12 +9,13 @@ import FolderIcon from '../../assets/svg/meta_folder.svg';
 import FileIcon from '../../assets/svg/meta_file.svg';
 import OpticalStorageIcon from '../../assets/svg/storage_optical.svg';
 import DriveStorageIcon from '../../assets/svg/hard_drive.svg';
-import { computed, inject, onMounted, onUnmounted, ref } from 'vue';
+import { computed, inject, onMounted, onUnmounted, ref, watch } from 'vue';
 import { Settings } from '../../models/settings';
 import { invoke } from '@tauri-apps/api/core';
 import { computedAsync } from '@vueuse/core';
 import dayjs from 'dayjs';
 import { scrollContainerIntoView } from '../../services/utils/scrollingHelper';
+import path from 'path-browserify';
 
 type SortingMode = "a-z" | "z-a" | "lastModified" | "firstModified" | "biggest" | "smallest";
 const sortEntries = (mode: SortingMode, target: DirEntry[]) => {
@@ -55,7 +56,7 @@ const filesScrollClip = ref(null);
 const sortingMode = ref<SortingMode>("a-z");
 
 // Path must always be normalized and absolute
-const currentDir = ref(Settings.get('main_storage_directory'));
+const currentDir = ref('');
 const currentDirTidy = computed(() => {
     const pathEntries = currentDir.value.split('/').filter(Boolean);
     for (let i = pathEntries.length; i >= 1; i--) {
@@ -77,6 +78,7 @@ const dirEntriesSorted = computed(() => sortEntries(sortingMode.value, currentDi
 /*   /\
      |   */
 const currentEntrySelected = ref<number>();
+watch(currentDirEntries, () => spatialNavigation.focus('entries-list'))
 
 const places = computedAsync(async () => {
     let result = await invoke<Places>('get_fs_places');
@@ -86,6 +88,7 @@ const places = computedAsync(async () => {
         }
         return v;
     });
+    currentDir.value = result.volumes[0].mount_point
     return result;
 });
 
@@ -196,10 +199,13 @@ const props = defineProps<{
                     </div>
 
                     <div class="scroll-container" ref="filesScrollClip">
-                        <div v-focus-section:entries-list class="item-container">
+                        <div v-focus-section:entries-list="{
+                            enterTo: 'default-element',
+                            defaultElement: '#entries-focus-section .item:first-child'
+                        }" class="item-container" id="entries-focus-section">
                             <div v-for="(entry, index) in dirEntriesSorted" v-focus
                                 class="item sfx-nav-handler sfx-activation-handler" @sn:enter-down="() => {
-                                    if (entry.is_dir) currentDir += `/${entry.name}`
+                                    if (entry.is_dir) currentDir = path.join(currentDir, entry.name)
                                     else {
                                         currentEntrySelected = index;
                                         spatialNavigation.focus('#select-btn');
@@ -227,7 +233,7 @@ const props = defineProps<{
 
             <div class="buttons-container">
                 <div v-focus
-                    @sn:enter-down="() => { callback(`${currentDir}/${dirEntriesSorted[currentEntrySelected].name}`); emit('modal-close'); }"
+                    @sn:enter-down="() => { callback(path.join(currentDir, dirEntriesSorted[currentEntrySelected].name)); emit('modal-close'); }"
                     @sn:unfocused="currentEntrySelected = null" id="select-btn"
                     class="button focusable-br7 sfx-nav-handler sfx-activation-handler pulse-handler">
                     <h2>
