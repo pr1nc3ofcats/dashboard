@@ -6,10 +6,9 @@ import AddIcon from '../../assets/svg/plus.svg';
 import { scale, scaleH, scaleW } from '../../services/utils/stylingHelper';
 import { Settings } from '../../models/settings';
 import { inject, ref } from 'vue';
-import FileSelectionModal from '../modals/FileSelectionModal.vue';
+import FileSelectionModal from '../modals/FileSelectionModal/FileSelectionModal.vue';
 
 const { categories, currentCategory, currentCategoryIndex, categoriesLengths } = useLibraryVM();
-const spatialNavigation: any = inject('spatialNavigation');
 
 const showFileSelection = ref(false);
 
