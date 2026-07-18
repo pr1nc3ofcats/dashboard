@@ -25,8 +25,8 @@ const importAppFromFile = (file_path: string) => {
 
 <template>
     <div v-focus-section:cat-list="{ enterTo: 'last-focused' }" class="container">
-        <div v-for="(category, index) in categories" v-focus @sn:focused="select(index)"
-            @sn:enter-down="() => spatialNavigation.move('right')" class="list-element sfx-nav-handler"
+        <div v-for="(category, index) in categories" v-focus @sn:enter-down="select(index)"
+            class="list-element sfx-nav-handler sfx-activation-handler"
             :class="{ active: currentCategory === category }">
             <div class="first-item">
                 <GamepadIcon v-if="category === 'Games'" class="icon" />
@@ -49,10 +49,7 @@ const importAppFromFile = (file_path: string) => {
     </div>
 
     <Transition name="modal">
-        <FileSelectionModal v-if="showFileSelection" @modal-close="() => {
-            showFileSelection = false;
-            spatialNavigation.focus('cat-list');
-        }" :callback="importAppFromFile" />
+        <FileSelectionModal v-if="showFileSelection" @modal-close="showFileSelection = false" :callback="importAppFromFile" />
     </Transition>
 </template>
 

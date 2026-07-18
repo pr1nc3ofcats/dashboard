@@ -15,7 +15,7 @@ interface Places {
     home: string;
     desktop: string;
     documents: string;
-    downlod: string;
+    download: string;
     videos: string;
     pictures: string;
     music: string;

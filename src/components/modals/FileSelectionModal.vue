@@ -4,8 +4,11 @@ import BackIcon from '../../assets/svg/arrow_left_curved.svg';
 import ForwardIcon from '../../assets/svg/arrow_right_curved.svg';
 import UpIcon from '../../assets/svg/double_arrow_up.svg';
 import ArrowUpIcon from '../../assets/svg/triangle_up.svg';
-import ArrowDownIcon from '../../assets/svg/triangle_down.svg'
-import { computed, inject, onMounted, ref } from 'vue';
+import ArrowDownIcon from '../../assets/svg/triangle_down.svg';
+import FolderIcon from '../../assets/svg/meta_folder.svg';
+import OpticalStorageIcon from '../../assets/svg/storage_optical.svg';
+import DriveStorageIcon from '../../assets/svg/hard_drive.svg';
+import { computed, inject, onBeforeMount, onMounted, onUnmounted, ref } from 'vue';
 import { Settings } from '../../models/settings';
 import { invoke } from '@tauri-apps/api/core';
 import { computedAsync } from '@vueuse/core';
@@ -30,6 +33,9 @@ const sortEntries = (mode: SortingMode, target: DirEntry[]) => {
 
 const emit = defineEmits(['modal-close']);
 
+const spatialNavigation: any = inject('spatialNavigation');
+const rootElement = ref(null);
+
 const sortingMode = ref<SortingMode>("a-z");
 
 // Path must always be normalized and absolute
@@ -48,20 +54,25 @@ const currentDirEntries = computedAsync(async () => {
 }, []);
 const dirEntriesSorted = computed(() => sortEntries(sortingMode.value, currentDirEntries.value));
 
-const places = ref<Places>();
-
-onMounted(async () => {
-    const spatialNavigation: any = inject('spatialNavigation');
-    spatialNavigation.focus("modal-frame");
-
-    places.value = await invoke('get_fs_places');
-    places.value.volumes.map((v) => {
+const places = computedAsync(async () => {
+    let result = await invoke<Places>('get_fs_places');
+    result.volumes.map((v) => {
         if (!v.name) {
             v.name = v.mount_point;
         }
         return v;
-    })
+    });
+    return result;
+});
+
+onMounted(() => {
+    spatialNavigation.focus("modal-frame");
+    spatialNavigation.set({
+        navigableFilter: (el) => rootElement.value?.contains(el) ?? false // restrict focus escape
+    });
 })
+
+onUnmounted(() => { spatialNavigation.set({ navigableFilter: null }); spatialNavigation.focus() }) // release focus
 
 const props = defineProps<{
     callback: (file: string) => void
@@ -69,8 +80,8 @@ const props = defineProps<{
 </script>
 
 <template>
-    <div v-focus-section:modal-frame="{ restrict: 'self-only', defaultElement: '#cancel-btn' }"
-        @keydown.delete="emit('modal-close')" class="container">
+    <div v-focus-section:modal-frame="{ defaultElement: '#cancel-btn' }" @keydown.delete="emit('modal-close')"
+        class="container" ref="rootElement">
         <div class="overlay"></div>
 
         <div class="frame">
@@ -92,7 +103,50 @@ const props = defineProps<{
             </div>
 
             <div class="main-content-container">
-                <div class="quick-places"></div>
+                <div v-focus-section:places class="quick-places">
+                    <div v-focus class="item sfx-nav-handler sfx-activation-handler"
+                        @sn:enter-down="currentDir = places.home">
+                        <FolderIcon class="icon" />
+                        <h2>Home</h2>
+                    </div>
+                    <div v-focus class="item sfx-nav-handler sfx-activation-handler"
+                        @sn:enter-down="currentDir = places.desktop">
+                        <FolderIcon class="icon" />
+                        <h2>Desktop</h2>
+                    </div>
+                    <div v-focus class="item sfx-nav-handler sfx-activation-handler"
+                        @sn:enter-down="currentDir = places.documents">
+                        <FolderIcon class="icon" />
+                        <h2>Documents</h2>
+                    </div>
+                    <div v-focus class="item sfx-nav-handler sfx-activation-handler"
+                        @sn:enter-down="currentDir = places.download">
+                        <FolderIcon class="icon" />
+                        <h2>Download</h2>
+                    </div>
+                    <div v-focus class="item sfx-nav-handler sfx-activation-handler"
+                        @sn:enter-down="currentDir = places.music">
+                        <FolderIcon class="icon" />
+                        <h2>Music</h2>
+                    </div>
+                    <div v-focus class="item sfx-nav-handler sfx-activation-handler"
+                        @sn:enter-down="currentDir = places.pictures">
+                        <FolderIcon class="icon" />
+                        <h2>Pictures</h2>
+                    </div>
+                    <div v-focus class="item sfx-nav-handler sfx-activation-handler"
+                        @sn:enter-down="currentDir = places.videos">
+                        <FolderIcon class="icon" />
+                        <h2>Videos</h2>
+                    </div>
+
+                    <div v-for="volume in places.volumes" v-focus class="item sfx-nav-handler sfx-activation-handler"
+                        @sn:enter-down="currentDir = volume.mount_point">
+                        <OpticalStorageIcon v-if="volume.is_removable" class="icon" />
+                        <DriveStorageIcon v-if="!volume.is_removable" class="icon" />
+                        <h2>{{ volume.name }}</h2>
+                    </div>
+                </div>
                 <div class="files">
                     <div class="sorting-bar">
                         <div v-focus @sn:enter-down="() => sortingMode = sortingMode == 'a-z' ? 'z-a' : 'a-z'"
@@ -127,7 +181,7 @@ const props = defineProps<{
                         Select
                     </h2>
                 </div>
-                <div v-focus id="cancel-btn"
+                <div v-focus @sn:enter-down="emit('modal-close')" id="cancel-btn"
                     class="button focusable-br7 sfx-nav-handler sfx-activation-handler pulse-handler">
                     <h2>
                         Cancel
@@ -226,6 +280,28 @@ const props = defineProps<{
 
         border-right: 1px solid rgba(255, 255, 255, 0.25);
         border-radius: 7px 0 0 7px;
+
+        & .item {
+            width: 100%;
+            height: v-bind(scale(45));
+
+            display: flex;
+            align-items: center;
+            gap: v-bind(scale(10));
+
+            box-sizing: border-box;
+            padding-left: v-bind(scale(20));
+
+            & .icon {
+                width: v-bind(scale(30));
+                height: v-bind(scale(30));
+                color: white;
+            }
+
+            &:focus {
+                background-color: v-bind('Settings.get("accent_color")');
+            }
+        }
     }
 
     & .files {
