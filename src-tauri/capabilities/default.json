@@ -19,6 +19,12 @@
         },
         {
           "url": "https://www.steamgriddb.com/*"
+        },
+        {
+          "url": "https://cdn2.steamgriddb.com/*"
+        },
+        {
+          "url": "https://hltbapi.codepotatoes.de/*"
         }
       ]
     }
