@@ -11,7 +11,7 @@ const { currentId } = useHomeVM();
 const wallapper = ref('');
 
 const currentBg = computed(() => {
-    const bg = Library.get(currentId.value)?.steamDetails?.imgHero;
+    const bg = Library.get(currentId.value)?.steam_details?.img_hero;
     return bg ? convertFileSrc(bg!) : wallapper.value
 });
 

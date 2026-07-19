@@ -16,9 +16,9 @@ const appIsGame = computed(() => {
 const preloadContainer = computed(() => {
     let preloadImages = [];
     for (let app of appsStripped.value) {
-        if (app.steamDetails?.imgHero) {
+        if (app.steam_details?.img_hero) {
             let preload = new Image();
-            preload.src = convertFileSrc(app.steamDetails.imgHero);
+            preload.src = convertFileSrc(app.steam_details.img_hero);
             preloadImages.push(preload);
         }
     }

@@ -29,7 +29,7 @@ onMounted(() => {
             <div v-for="app in currentGridView" v-focus @sn:focused="(e) => { select(app.id); scrollContainerIntoView(e, scrollClip, extraScroll) }"
                 @sn:unfocused="leaveSection" @sn:enter-down="Library.tryLaunch(app.id)"
                 class="tile focusable-br7 pulse-handler sfx-nav-handler sfx-activation-handler">
-                <img :src="convertFileSrc(app.imgSquare)" class="tile-image">
+                <img :src="convertFileSrc(app.img_square)" class="tile-image">
                 <!-- <h2>{{ app.title }}</h2> -->
             </div>
         </div>

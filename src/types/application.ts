@@ -2,30 +2,30 @@ export interface Application {
     id: number;
     title: string;
     command: string[];
-    imgSquare: string;
+    img_square: string;
     categories: string[];
     playtime: number;
-    lastLaunched?: Date;
-    dataPath?: string;
 
-    steamDetails?: SteamDetails;
-    howLongToBeat?: HowLongToBeat;
+    last_launched?: Date;
+    data_path?: string;
+
+    steam_details?: SteamDetails;
+    steam_drid_db_data?: SteamGridDbData;
+    how_long_to_beat?: HowLongToBeat;
 }
 
 export interface SteamDetails {
-    imgHero?: string; // 16:9
-    imgSteamHorizontal?: string; // 92:43
     screeenshots?: string[];
 
-    shortDescription?: string;
-    detailedDescription?: string;
+    short_description?: string;
+    detailed_description?: string;
 
-    releaseDate?: Date;
+    release_date?: Date;
 
     developers?: string[];
     publishers?: string[];
 
-    pcRequirements?: {
+    pc_requirements?: {
         minimal: string;
         recommended: string;
     };
@@ -36,8 +36,11 @@ export interface SteamDetails {
     controllerSupport?: string;
 
     achievements?: Achievement[];
+}
 
-    steamId?: number;
+export interface SteamGridDbData {
+    img_hero?: string; // 16:9
+    img_steam_horizontal?: string; // 92:43
 }
 
 export interface HowLongToBeat {

@@ -25,7 +25,7 @@ onMounted(() => {
         <div v-for="app in appsStripped" v-focus @sn:focused="select(app.id)" @sn:unfocused="leaveSection"
             @sn:enter-down="Library.tryLaunch(app.id)"
             class="tile focusable-br7 pulse-handler sfx-nav-handler sfx-activation-handler">
-            <img :src="convertFileSrc(app.imgSquare)" class="tile-image">
+            <img :src="convertFileSrc(app.img_square)" class="tile-image">
             <!-- <h2>{{ app.title }}</h2> -->
         </div>
 

@@ -17,7 +17,7 @@ export class Library {
         
         // In runtime this property becomes a string 
         for (let app of this.applications) {
-            app.lastLaunched = app.lastLaunched ? new Date(app.lastLaunched) : undefined;
+            app.last_launched = app.last_launched ? new Date(app.last_launched) : undefined;
         }
     }
 
@@ -59,7 +59,7 @@ export class Library {
         invoke('try_focuse_window', { cmd: cmd }).catch((err) => {
             if (err === "process is not running") {
                 invoke('try_spawn_detached', { cmd: cmd }).then(() =>
-                    this.set(id, "lastLaunched", dayjs().toDate())).catch((err) =>
+                    this.set(id, 'last_launched', dayjs().toDate())).catch((err) =>
                         console.error("Error while spawning process: ", err));
             } else {
                 console.error(err);
@@ -68,7 +68,7 @@ export class Library {
     }
 
     private static sort(arr: Application[], sort: "last_launch" | "a-z" | "z-a"): Application[] {
-        if (sort === "last_launch") return arr.toSorted((a, b) => (b.lastLaunched?.getTime() ?? 0) - (a.lastLaunched?.getTime() ?? 0))
+        if (sort === "last_launch") return arr.toSorted((a, b) => (b.last_launched?.getTime() ?? 0) - (a.last_launched?.getTime() ?? 0))
         else if (sort === "a-z") return arr.toSorted((a, b) => a.title.localeCompare(b.title))
         else return arr.toSorted((a, b) => b.title.localeCompare(a.title))
     }

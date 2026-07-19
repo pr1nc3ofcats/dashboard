@@ -82,15 +82,13 @@ function normalizeRequirements(
 }
 
 function toSteamDetails(
-    appid: number,
     data: NonNullable<Awaited<ReturnType<typeof getAppDetails>>>
 ): SteamDetails {
     return {
-        steamId: appid,
         screeenshots: data.screenshots?.map((s) => s.path_full),
-        shortDescription: data.short_description,
-        detailedDescription: data.detailed_description,
-        releaseDate: data.release_date?.date
+        short_description: data.short_description,
+        detailed_description: data.detailed_description,
+        release_date: data.release_date?.date
             ? new Date(data.release_date.date)
             : undefined,
         developers: data.developers,
@@ -106,7 +104,7 @@ export async function fetchSteamDetailsByName(
     title: string,
     countryCode = "us",
     language = "english"
-): Promise<SteamDetails | undefined> {
+): Promise<[SteamDetails | undefined, number]> {
     const results = await searchSteamApp(title, countryCode, language);
     if (results.length === 0) return undefined;
 
@@ -116,5 +114,5 @@ export async function fetchSteamDetailsByName(
     const data = await getAppDetails(match.appid, countryCode, language);
     if (!data) return undefined;
 
-    return toSteamDetails(match.appid, data);
+    return [toSteamDetails(data), match.appid];
 }
