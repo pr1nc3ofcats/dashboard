@@ -3,6 +3,7 @@ use std::path::PathBuf;
 pub mod space;
 pub mod places;
 pub mod enumeration;
+pub mod crud_operations;
 
 fn clean_path(p: &PathBuf) -> String {
     let p = p.canonicalize().unwrap();

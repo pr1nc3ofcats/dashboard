@@ -11,6 +11,7 @@ import './services/gamepad.ts';
 import { invoke } from '@tauri-apps/api/core';
 import { onDomUpdatedHook } from './services/utils/globalHooks.ts';
 import { fetchSteamDetailsByName } from './services/api/steamDetails.ts';
+import { getHeroesBySteamAppId, getSquareGridsBySteamAppId } from './services/api/steamGridDb.ts';
 
 const observer = new MutationObserver(onDomUpdatedHook);
 
@@ -38,6 +39,7 @@ onMounted(async () => {
 
   // Testing it
   //console.log(await fetchSteamDetailsByName("nine sols", "ru", "russian"))
+  // 1809540 Nine sols
 });
 </script>
 

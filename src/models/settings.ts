@@ -11,6 +11,8 @@ interface SettingsData {
     background_music_volume: number
 
     main_storage_directory: string,
+
+    sgdb_api_key: string,
 }
 
 export class Settings {
@@ -24,6 +26,8 @@ export class Settings {
         background_music_volume: 0,
 
         main_storage_directory: '',
+
+        sgdb_api_key: '',
     });
 
     public static watch<K extends keyof SettingsData>(prop: K, f: WatchCallback, immediate: boolean = false) {

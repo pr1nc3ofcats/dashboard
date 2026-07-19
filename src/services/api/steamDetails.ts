@@ -93,9 +93,9 @@ function toSteamDetails(
             : undefined,
         developers: data.developers,
         publishers: data.publishers,
-        pcRequirements: normalizeRequirements(data.pc_requirements),
-        linuxRequirements: normalizeRequirements(data.linux_requirements),
-        controllerSupport: data.controller_support,
+        pc_requirements: normalizeRequirements(data.pc_requirements),
+        linux_requirements: normalizeRequirements(data.linux_requirements),
+        controller_support: data.controller_support,
     };
 }
 

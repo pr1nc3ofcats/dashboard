@@ -12,6 +12,8 @@ pub struct Settings {
     background_music_volume: f32,
 
     main_storage_directory: String,
+
+    sgdb_api_key: String,
 }
 
 impl Default for Settings {
@@ -30,6 +32,8 @@ impl Default for Settings {
 
             #[cfg(target_os = "linux")]
             main_storage_directory: String::from("/home"),
+
+            sgdb_api_key: String::default(),
         }
     }
 }

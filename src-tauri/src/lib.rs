@@ -24,6 +24,7 @@ pub fn run() {
             fs_utils::space::get_all_space,
             fs_utils::places::get_fs_places,
             fs_utils::enumeration::get_dir_entries,
+            fs_utils::crud_operations::save_bytes_to_file,
             windows_utils::try_spawn_detached,
             windows_utils::try_focuse_window,
             library::dump_applications,

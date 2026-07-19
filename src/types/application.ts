@@ -29,11 +29,11 @@ export interface SteamDetails {
         minimal: string;
         recommended: string;
     };
-    linuxRequirements?: {
+    linux_requirements?: {
         minimal: string;
         recommended: string;
     };
-    controllerSupport?: string;
+    controller_support?: string;
 
     achievements?: Achievement[];
 }
@@ -44,8 +44,8 @@ export interface SteamGridDbData {
 }
 
 export interface HowLongToBeat {
-    mainStory: number;
-    mainPlusSides: number;
+    main_story: number;
+    main_plus_sides: number;
     completionist: number;
 }
 
