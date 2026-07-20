@@ -57,8 +57,8 @@ function pickBestMatch(
 
 export async function getAppDetails(
     appid: number,
-    countryCode: string,
-    language: string
+    countryCode: string = "us",
+    language: string = "english",
 ): Promise<SteamAppDetailsResponse[string]["data"] | undefined> {
     const url = `${APPDETAILS_URL}?appids=${appid}&l=${language}&cc=${countryCode}`;
     const res = await fetch(url);
@@ -101,19 +101,26 @@ function toSteamDetails(
     };
 }
 
+// Fallbacks to english data if not found anything for language from settings
 export async function fetchSteamDetailsByName(
     title: string,
     countryCode = "us",
     language = "english"
 ): Promise<[SteamDetails | undefined, number]> {
     const results = await searchSteamApp(title, countryCode, language);
-    if (results.length === 0) return undefined;
+    if (results.length === 0) return [undefined, 0];
 
     const match = pickBestMatch(results, title);
-    if (!match) return undefined;
+    if (!match) return [undefined, 0];
 
     const data = await getAppDetails(match.appid, countryCode, language);
-    if (!data) return undefined;
+    if (!data) {
+        const fallback_data = await getAppDetails(match.appid);
+        if (fallback_data) {
+            return [toSteamDetails(fallback_data), match.appid];
+        }
+        return [undefined, 0];
+    }
 
     return [toSteamDetails(data), match.appid];
 }

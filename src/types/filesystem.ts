@@ -21,3 +21,8 @@ interface Places {
     music: string;
     volumes: Volume[];
 }
+
+interface LinkData {
+    command: string[],
+    working_dir: string,
+}

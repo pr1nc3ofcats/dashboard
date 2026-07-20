@@ -5,8 +5,9 @@ import AppsIcon from '../../assets/svg/category_apps.svg';
 import AddIcon from '../../assets/svg/plus.svg';
 import { scale, scaleH, scaleW } from '../../services/utils/stylingHelper';
 import { Settings } from '../../models/settings';
-import { inject, ref } from 'vue';
+import { ref } from 'vue';
 import FileSelectionModal from '../modals/FileSelectionModal/FileSelectionModal.vue';
+import { tryAddGameFromLnk } from '../../services/import/fromLnk.ts';
 
 const { categories, currentCategory, currentCategoryIndex, categoriesLengths } = useLibraryVM();
 
@@ -16,9 +17,8 @@ const select = (index: number) => {
     currentCategoryIndex.value = index;
 }
 
-const importAppFromFile = (file_path: string) => {
-    // TODO
-    console.log(file_path);
+const importAppFromFile = (filePath: string) => {
+    if (filePath.endsWith('.lnk')) tryAddGameFromLnk(filePath).catch((err) => console.error(err));
 }
 </script>
 

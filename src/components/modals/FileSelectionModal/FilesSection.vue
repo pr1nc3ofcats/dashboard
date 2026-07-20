@@ -59,7 +59,7 @@ const displaySizePretty = (bytes: number) => {
                 defaultElement: '#entries-focus-section .item:first-child'
             }" class="item-container" id="entries-focus-section">
                 <div v-for="(entry, index) in dirEntriesSorted" v-focus
-                    class="item sfx-nav-handler sfx-activation-handler" @sn:enter-down="() => {
+                    class="item sfx-nav-handler" @sn:enter-down="() => {
                         if (entry.is_dir) currentDir = path.join(currentDir, entry.name)
                         else {
                             currentEntrySelected = index;
