@@ -3,7 +3,6 @@ import { computed, onMounted, ref } from 'vue';
 import { Settings } from '../models/settings';
 import { useHomeVM } from '../view_models/homeViewModel';
 import { Library } from '../models/library';
-import { convertFileSrc } from '@tauri-apps/api/core';
 import { solidBgColor } from '../services/utils/stylingHelper';
 import { getResourceUrl } from '../services/metadata';
 
@@ -12,12 +11,12 @@ const { currentId } = useHomeVM();
 const wallapper = ref('');
 
 const currentBg = computed(() => {
-    const bg = Library.get(currentId.value)?.steam_drid_db_data.img_hero;
+    const bg = Library.get(currentId.value)?.steam_drid_db_data?.img_hero;
     return bg ? getResourceUrl(bg!) : wallapper.value
 });
 
 onMounted(() => {
-    wallapper.value = convertFileSrc(Settings.get("wallapper"));
+    wallapper.value = getResourceUrl(Settings.get("wallapper"));
 })
 </script>
 

@@ -17,7 +17,7 @@ const appIsGame = computed(() => {
 const preloadContainer = computed(() => {
     let preloadImages = [];
     for (let app of appsStripped.value) {
-        if (app.steam_drid_db_data.img_hero) {
+        if (app?.steam_drid_db_data?.img_hero) {
             let preload = new Image();
             preload.src = getResourceUrl(app.steam_drid_db_data.img_hero);
             preloadImages.push(preload);
@@ -29,7 +29,7 @@ const preloadContainer = computed(() => {
 export function useHomeVM() {
     appsStripped.value = Library.getAll("last_launch").slice(0, 9);
 
-    return { currentId, appsStripped, appIsSelected, appIsGame }
+    return { preloadContainer, currentId, appsStripped, appIsSelected, appIsGame }
 }
 
 Library.watch(useHomeVM)
