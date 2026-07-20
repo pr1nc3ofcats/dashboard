@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import { convertFileSrc } from '@tauri-apps/api/core';
 import { scale, scaleH, scaleW } from '../../services/utils/stylingHelper.ts';
 import { useHomeVM } from '../../view_models/homeViewModel.ts';
 import { inject, onMounted } from 'vue';
 import { Library } from '../../models/library.ts';
+import { getResourceUrl } from '../../services/metadata.ts';
 
 const { appsStripped, currentId } = useHomeVM();
 
@@ -25,7 +25,7 @@ onMounted(() => {
         <div v-for="app in appsStripped" v-focus @sn:focused="select(app.id)" @sn:unfocused="leaveSection"
             @sn:enter-down="Library.tryLaunch(app.id)"
             class="tile focusable-br7 pulse-handler sfx-nav-handler sfx-activation-handler">
-            <img :src="convertFileSrc(app.img_square)" class="tile-image">
+            <img :src="getResourceUrl(app.img_square)" class="tile-image">
             <!-- <h2>{{ app.title }}</h2> -->
         </div>
 

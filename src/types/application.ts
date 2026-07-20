@@ -15,6 +15,7 @@ export interface Application {
 }
 
 export interface SteamDetails {
+    img_steam_horizontal?: string; // 92:43
     screeenshots?: string[];
 
     short_description?: string;
@@ -40,7 +41,6 @@ export interface SteamDetails {
 
 export interface SteamGridDbData {
     img_hero?: string; // 16:9
-    img_steam_horizontal?: string; // 92:43
 }
 
 export interface HowLongToBeat {

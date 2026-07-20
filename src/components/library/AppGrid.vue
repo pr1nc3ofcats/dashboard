@@ -1,10 +1,10 @@
 <script setup lang="ts">
-import { convertFileSrc } from '@tauri-apps/api/core';
 import { scale } from '../../services/utils/stylingHelper';
 import { useLibraryVM } from '../../view_models/libraryViewModel';
 import { inject, onMounted, ref } from 'vue';
 import { Library } from '../../models/library';
 import { scrollContainerIntoView } from '../../services/utils/scrollingHelper';
+import { getResourceUrl } from '../../services/metadata';
 
 const { currentGridView, currentAppId } = useLibraryVM();
 const scrollClip = ref(null);
@@ -29,7 +29,7 @@ onMounted(() => {
             <div v-for="app in currentGridView" v-focus @sn:focused="(e) => { select(app.id); scrollContainerIntoView(e, scrollClip, extraScroll) }"
                 @sn:unfocused="leaveSection" @sn:enter-down="Library.tryLaunch(app.id)"
                 class="tile focusable-br7 pulse-handler sfx-nav-handler sfx-activation-handler">
-                <img :src="convertFileSrc(app.img_square)" class="tile-image">
+                <img :src="getResourceUrl(app.img_square)" class="tile-image">
                 <!-- <h2>{{ app.title }}</h2> -->
             </div>
         </div>

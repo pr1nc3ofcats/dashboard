@@ -23,6 +23,7 @@ interface SteamAppDetailsResponse {
             release_date?: { coming_soon: boolean; date: string };
             pc_requirements?: { minimum?: string; recommended?: string } | any[];
             linux_requirements?: { minimum?: string; recommended?: string } | any[];
+            header_image?: string;
             screenshots?: { id: number; path_thumbnail: string; path_full: string }[];
             controller_support?: string;
         };
@@ -86,6 +87,7 @@ function toSteamDetails(
 ): SteamDetails {
     return {
         screeenshots: data.screenshots?.map((s) => s.path_full),
+        img_steam_horizontal: data.header_image,
         short_description: data.short_description,
         detailed_description: data.detailed_description,
         release_date: data.release_date?.date
@@ -99,7 +101,6 @@ function toSteamDetails(
     };
 }
 
-// It returns images as urls. You need to download them and convert paths to use it in app
 export async function fetchSteamDetailsByName(
     title: string,
     countryCode = "us",

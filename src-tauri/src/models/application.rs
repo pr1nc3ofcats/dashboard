@@ -24,13 +24,13 @@ pub struct HowLongToBeat {
 pub struct SteamGridDbData {
     #[serde(skip_serializing_if = "Option::is_none")]
     pub img_hero: Option<String>,
-
-    #[serde(skip_serializing_if = "Option::is_none")]
-    pub img_steam_horizontal: Option<String>,
 }
 
 #[derive(Debug, Serialize, Deserialize, Clone, Default)]
 pub struct SteamDetails {
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub img_steam_horizontal: Option<String>,
+    
     #[serde(skip_serializing_if = "Option::is_none")]
     pub screeenshots: Option<Vec<String>>,
 

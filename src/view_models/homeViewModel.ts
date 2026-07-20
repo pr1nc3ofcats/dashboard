@@ -2,6 +2,7 @@ import { computed, Ref, ref } from "vue";
 import { Library } from "../models/library";
 import { convertFileSrc } from "@tauri-apps/api/core";
 import { Application } from "../types/application";
+import { getResourceUrl } from "../services/metadata";
 
 const currentId = ref(-1);
 const appsStripped: Ref<Application[], Application[]> = ref([]);
@@ -16,9 +17,9 @@ const appIsGame = computed(() => {
 const preloadContainer = computed(() => {
     let preloadImages = [];
     for (let app of appsStripped.value) {
-        if (app.steam_details?.img_hero) {
+        if (app.steam_drid_db_data.img_hero) {
             let preload = new Image();
-            preload.src = convertFileSrc(app.steam_details.img_hero);
+            preload.src = getResourceUrl(app.steam_drid_db_data.img_hero);
             preloadImages.push(preload);
         }
     }

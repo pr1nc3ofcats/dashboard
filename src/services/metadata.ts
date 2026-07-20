@@ -1,3 +1,4 @@
+import { convertFileSrc } from "@tauri-apps/api/core";
 import { Settings } from "../models/settings";
 import { Application, HowLongToBeat, SteamDetails, SteamGridDbData } from "../types/application";
 import { getHltbBySteamAppId, toHowLongToBeat } from "./api/howLongToBeat";
@@ -46,4 +47,8 @@ export async function tryGetFullMetadata(target: Application) {
     } catch (err) {
         console.error(err);
     }
+}
+
+export function getResourceUrl(target: string) {
+    return target.startsWith("http") ? target : convertFileSrc(target);
 }
