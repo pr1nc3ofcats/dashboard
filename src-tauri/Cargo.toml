@@ -32,3 +32,4 @@ windows = { version = "0.58", features = [
 sysinfo = "0.38.4"
 tokio = { version = "1", features = ["fs", "rt-multi-thread"] }
 tauri-plugin-http = "2"
+lnk = "0.6.4"
