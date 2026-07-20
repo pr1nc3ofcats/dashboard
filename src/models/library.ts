@@ -21,6 +21,11 @@ export class Library {
         }
     }
 
+    public static add(app: Application) {
+        this.applications.push(app);
+        invoke('dump_applications', { apps: this.applications }).catch((err) => console.error(err));
+    }
+
     public static set<K extends keyof Application, V extends Application[K]>(id: number, property: K, value: V) {
         for (let app of this.applications) {
             if (app.id === id) {

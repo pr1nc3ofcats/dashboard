@@ -13,6 +13,9 @@ interface SettingsData {
     main_storage_directory: string,
 
     sgdb_api_key: string,
+
+    country_code: string,
+    language: string,
 }
 
 export class Settings {
@@ -28,6 +31,9 @@ export class Settings {
         main_storage_directory: '',
 
         sgdb_api_key: '',
+
+        country_code: '',
+        language: ''
     });
 
     public static watch<K extends keyof SettingsData>(prop: K, f: WatchCallback, immediate: boolean = false) {

@@ -14,6 +14,9 @@ pub struct Settings {
     main_storage_directory: String,
 
     sgdb_api_key: String,
+
+    country_code: String,
+    language: String,
 }
 
 impl Default for Settings {
@@ -34,6 +37,9 @@ impl Default for Settings {
             main_storage_directory: String::from("/home"),
 
             sgdb_api_key: String::default(),
+
+            country_code: String::from("us"),
+            language: String::from("english")
         }
     }
 }
