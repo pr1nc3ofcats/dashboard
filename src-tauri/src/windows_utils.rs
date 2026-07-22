@@ -86,7 +86,7 @@ pub async fn try_spawn_detached(
     let pid = proc.id();
 
     tauri::async_runtime::spawn_blocking(move || {
-        try_focus_with_timeout(pid, Duration::from_secs(20))
+        try_focus_with_timeout(pid, Duration::from_secs(100))
     })
     .await
     .map_err(|err| err.to_string())??;
