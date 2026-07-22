@@ -10,6 +10,8 @@ import { execOnAfterAppMount, execOnBeforeAppMount, execOnWindowFocus, execOnWin
 import './services/gamepad.ts';
 import { invoke } from '@tauri-apps/api/core';
 import { onDomUpdatedHook } from './services/utils/globalHooks.ts';
+import { showSgdbModal } from './view_models/modals/sgdbViewModel.ts';
+import SgdbModal from './components/modals/SgdbModal.vue';
 
 const observer = new MutationObserver(onDomUpdatedHook);
 
@@ -40,6 +42,10 @@ onMounted(async () => {
 <template>
   <Backgorund />
   <TopBar />
+
+  <Transition name="modal">
+    <SgdbModal v-if="showSgdbModal" />
+  </Transition>
 
   <RouterView v-slot="{ Component, route }">
     <Transition name="page">

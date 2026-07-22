@@ -6,23 +6,16 @@ import { currentDir, currentEntrySelected, dirEntriesSorted } from '../../../vie
 import TopBar from './TopBar.vue';
 import QuickPlaces from './QuickPlaces.vue';
 import FilesSection from './FilesSection.vue';
+import { grabFocus, releaseFocus } from '../../../services/utils/modalHelper.ts';
 
 const emit = defineEmits(['modal-close']);
 
 const spatialNavigation: any = inject('spatialNavigation');
 const rootElement = ref(null);
 
-onMounted(() => {
-    spatialNavigation.focus("modal-frame");
-    spatialNavigation.set({
-        navigableFilter: (el) => rootElement.value?.contains(el) ?? false // restrict focus escape
-    });
-})
+onMounted(() => grabFocus(rootElement, spatialNavigation));
 
-onUnmounted(() => {
-    spatialNavigation.set({ navigableFilter: null });
-    spatialNavigation.focus();
-}) // release focus
+onUnmounted(() => releaseFocus(spatialNavigation));
 
 const props = defineProps<{
     callback: (file: string) => void
@@ -30,8 +23,7 @@ const props = defineProps<{
 </script>
 
 <template>
-    <div v-focus-section:modal-frame="{ defaultElement: '#cancel-btn' }"
-        class="container" ref="rootElement">
+    <div v-focus-section:modal-frame="{ defaultElement: '#cancel-btn' }" class="container" ref="rootElement">
         <div class="overlay"></div>
 
         <div class="frame">

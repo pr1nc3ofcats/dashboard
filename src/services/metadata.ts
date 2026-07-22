@@ -4,6 +4,7 @@ import { Application, SteamGridDbData } from "../types/application";
 import { getHltbBySteamAppId, toHowLongToBeat } from "./api/howLongToBeat";
 import { fetchSteamDetailsByName } from "./api/steamDetails";
 import { getHeroesByName, getHeroesBySteamAppId, getSquareGridsByName, getSquareGridsBySteamAppId, SgdbImage } from "./api/steamGridDb";
+import { useSgdbModal } from "../view_models/modals/sgdbViewModel";
 
 function sortBySgdbImagesByKeywords(target: SgdbImage[], keywords: string[]) {
     const keywordMatch = (item: SgdbImage): boolean => keywords.some((kw) => item.notes && item.notes.toLowerCase().includes(kw));
@@ -39,8 +40,13 @@ export async function tryGetFullMetadata(target: Application) {
     heroes = tidyHeroes(heroes);
 
     let sgdb_data: SteamGridDbData = {};
+    
     if (squares.length > 0) target.img_square = squares[0].url;
-    if (heroes.length > 0) sgdb_data.img_hero = heroes[0].url;
+    if (heroes.length > 0) {
+        let selectedImage = await useSgdbModal(heroes);
+        sgdb_data.img_hero = selectedImage.url;
+    }
+
     target.steam_drid_db_data = sgdb_data;
 
     if (steamId) {
