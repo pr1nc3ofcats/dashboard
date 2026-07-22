@@ -61,9 +61,10 @@ export class Library {
 
     public static tryLaunch(id: number) {
         const cmd = this.get(id)?.command;
+        const working_dir = this.get(id)?.data_path;
         invoke('try_focuse_window', { cmd: cmd }).catch((err) => {
             if (err === "process is not running") {
-                invoke('try_spawn_detached', { cmd: cmd }).then(() =>
+                invoke('try_spawn_detached', { cmd: cmd, working_dir: working_dir}).then(() =>
                     this.set(id, 'last_launched', dayjs().toDate())).catch((err) =>
                         console.error("Error while spawning process: ", err));
             } else {

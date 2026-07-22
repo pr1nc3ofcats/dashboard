@@ -1,5 +1,7 @@
 use std::collections::HashMap;
+use std::path::PathBuf;
 use std::process::{Child, Command};
+use std::str::FromStr;
 use std::sync::Mutex;
 use std::time::{Duration, Instant};
 use windows::Win32::Foundation::{BOOL, HWND, LPARAM};
@@ -74,13 +76,16 @@ pub struct RunningProcesses {
 pub async fn try_spawn_detached(
     state: tauri::State<'_, Mutex<RunningProcesses>>,
     cmd: Vec<String>,
+    working_dir: Option<String>,
 ) -> Result<(), String> {
     if cmd.is_empty() {
         return Err(String::from("Empty command provided"));
     }
+    let working_dir = PathBuf::from_str(&working_dir.unwrap_or(String::from("."))).map_err(|err| err.to_string())?;
 
     let proc = Command::new(cmd.get(0).unwrap())
         .args(&cmd[1..])
+        .current_dir(working_dir)
         .spawn()
         .map_err(|err| err.to_string())?;
     let pid = proc.id();
