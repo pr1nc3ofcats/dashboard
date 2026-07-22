@@ -6,7 +6,9 @@ use crate::fs_utils::clean_path;
 
 #[tauri::command]
 pub async fn save_bytes_to_file(bytes: Vec<u8>, path: String) -> Result<(), String> {
-    tokio::fs::write(path, bytes).await.map_err(|e| e.to_string())
+    tokio::fs::write(path, bytes)
+        .await
+        .map_err(|e| e.to_string())
 }
 
 #[derive(Serialize, Deserialize, Default)]
@@ -17,7 +19,12 @@ pub struct LinkData {
 
 #[tauri::command]
 pub fn read_lnk_file(path: String) -> Result<LinkData, String> {
-    let link = lnk::ShellLink::open(path, lnk::encoding::WINDOWS_1252).map_err(|e| e.to_string())?;
+    // Encodings might be problem on different versions of Windows
+    // since it can save strings in any encoding based on locale and it's not stored anywhere
+    // On windows 11 utf-16 encoding is prefered but 10 almost never saves this way.
+    // >:3
+    let link =
+        lnk::ShellLink::open(path, lnk::encoding::WINDOWS_1251).map_err(|e| e.to_string())?;
     let mut result = LinkData::default();
 
     if let Some(working_dir) = link.string_data().working_dir() {
@@ -34,6 +41,6 @@ pub fn read_lnk_file(path: String) -> Result<LinkData, String> {
         let mut splitted = args.split(" ").map(String::from).collect::<Vec<String>>();
         result.command.append(&mut splitted);
     }
-    
+
     Ok(result)
 }
