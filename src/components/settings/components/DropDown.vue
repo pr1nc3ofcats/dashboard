@@ -70,6 +70,7 @@ const tryCollapse = (event) => {
 
     & h2 {
         padding: v-bind(scale(10)) v-bind(scale(30));
+        text-align: center;
     }
 }
 

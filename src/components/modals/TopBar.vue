@@ -8,8 +8,11 @@ import HomeIcon from '../../assets/svg/home.svg';
 import SettingsIcon from '../../assets/svg/settings.svg';
 import LibraryIcon from '../../assets/svg/library.svg';
 import dayjs from 'dayjs'
+import { getResourceUrl } from '../../services/metadata';
 
 const pfpImgUrl = ref('');
+Settings.watch('avatar_image', (v) => pfpImgUrl.value = getResourceUrl(v), true);
+
 const userName = ref('');
 const time = ref('');
 const date = ref('');
@@ -30,7 +33,6 @@ onBeforeUnmount(() => {
 
 onMounted(async () => {
     try {
-        pfpImgUrl.value = convertFileSrc(Settings.get("avatar_image"));
         userName.value = await invoke('get_user_name');
     } catch (err) {
         console.error(err);
