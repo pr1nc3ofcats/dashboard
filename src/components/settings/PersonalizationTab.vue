@@ -1,34 +1,27 @@
 <script setup lang="ts">
-import { ref } from 'vue';
+import { inject, onMounted, ref } from 'vue';
 import { Settings } from '../../models/settings';
-import PropertyList from './components/PropertyList.vue';
-import { scale } from '../../services/utils/stylingHelper.ts';
+import DropDown from './components/DropDown.vue';
 
-const scrollClip = ref(null);
-const accentColor = ref(Settings.get('accent_color'));
+const spatialNavigation: any = inject('spatialNavigation');
+
+const accentColorOption = ref(Settings.get('accent_color'));
+
+onMounted(() => {
+    spatialNavigation.focus('tab-content')
+})
 </script>
 
 <template>
-    <div v-focus-section:tab-content class="scroll-clip" ref="scrollClip">
-        <div class="container">
-            <PropertyList :title="'Accent color'"
-                :values="['#C48A61', '#C46161', '#75C461', '#61C4BC', '#6178C4', '#7361C4', '#C261C4']"
-                :displayValues="['Orange', 'Red', 'Green', 'Cyan', 'Blue', 'Purple', 'Pink']"
-                :source="accentColor",
-                :callback="(selected: string) => Settings.set('accent_color', selected)" class="item" />
-        </div>
+    <div v-focus-section:tab-content class="container">
+        <DropDown :title="'Accent color'"
+            :values="['#C48A61', '#C46161', '#75C461', '#61C4BC', '#6178C4', '#7361C4', '#C261C4']"
+            :displayValues="['Orange', 'Red', 'Green', 'Cyan', 'Blue', 'Purple', 'Pink']" :source="accentColorOption" ,
+            :callback="(selected: string) => {
+                Settings.set('accent_color', selected);
+                accentColorOption = Settings.get('accent_color')
+            }" class="item" />
     </div>
 </template>
 
-<style scoped lang="scss">
-.scroll-clip {
-    overflow-y: auto;
-    overflow-x: hidden;
-    height: 100%;
-    width: 100%;
-    scrollbar-width: none;
-
-    box-sizing: border-box;
-    padding: v-bind(scale(10)) v-bind(scale(40));
-}
-</style>
+<style scoped lang="scss"></style>

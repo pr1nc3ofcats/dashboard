@@ -1,10 +1,12 @@
 <script setup lang="ts">
+import { ref } from 'vue';
 import PersonalizationTab from '../components/settings/PersonalizationTab.vue';
 import TabList from '../components/settings/TabList.vue';
 import { Settings } from '../models/settings';
-import { contentHeight, solidBgColor } from '../services/utils/stylingHelper';
+import { contentHeight, scale, solidBgColor } from '../services/utils/stylingHelper';
 import { currentTab } from '../view_models/settingsViewModel.ts';
 
+const scrollClip = ref(null);
 </script>
 
 <template>
@@ -15,7 +17,7 @@ import { currentTab } from '../view_models/settingsViewModel.ts';
             <div class="left-part">
                 <TabList />
             </div>
-            <div class="right-part">
+            <div class="right-part" ref="scrollClip">
                 <PersonalizationTab v-if="currentTab === 'Personalization'" />
             </div>
         </div>
@@ -59,5 +61,11 @@ import { currentTab } from '../view_models/settingsViewModel.ts';
 .right-part {
     width: 100%;
     height: 100%;
+    box-sizing: border-box;
+    padding: v-bind(scale(10)) v-bind(scale(40));
+
+    overflow-y: auto;
+    overflow-x: hidden;
+    scrollbar-width: none;
 }
 </style>

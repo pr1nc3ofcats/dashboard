@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { scale, solidBgColor } from '../../../services/utils/stylingHelper';
+import { btnColor, scale, solidBgColor } from '../../../services/utils/stylingHelper';
 import { inject, onMounted, onUnmounted, ref } from 'vue';
 import path from 'path-browserify';
 import { currentDir, currentEntrySelected, dirEntriesSorted } from '../../../view_models/modals/fileSelectionModalViewModel';
@@ -115,7 +115,7 @@ const props = defineProps<{
     & .button {
         width: v-bind(scale(200));
         height: v-bind(scale(50));
-        background-color: #38373A;
+        background-color: v-bind(btnColor);
         border-radius: 7px;
 
         display: flex;
