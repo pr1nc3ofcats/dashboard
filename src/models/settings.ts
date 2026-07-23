@@ -45,6 +45,10 @@ export class Settings {
         invoke('dump_settings', { settings: { ...this.data } }).catch((err) => console.error(err));
     }
 
+    public static async getDefault<K extends keyof SettingsData>(k: K): Promise<SettingsData[K]> {
+        return invoke<SettingsData[K]>('get_default_option', { option_name: k });
+    }
+
     public static get<K extends keyof SettingsData>(k: K) {
         return this.data[k]
     }

@@ -39,13 +39,13 @@ const tryCollapse = (event) => {
 </script>
 
 <template>
-    <div class="container">
+    <div class="dropdown-menu-container">
         <h2>{{ title }}:</h2>
 
         <div class="dropdown-menu">
             <div v-focus @sn:enter-down="expand"
                 class="current-value-box focusable-br7 sfx-nav-handler sfx-activation-handler pulse-handler">
-                <h2>{{ mappedDisplayValues.get(source) }}</h2>
+                <h2>{{ mappedDisplayValues.get(source) ?? source }}</h2>
             </div>
 
             <div v-focus-section:dropdown-options class="other-options-box" :class="{ expanded }">
@@ -59,7 +59,7 @@ const tryCollapse = (event) => {
 </template>
 
 <style scoped lang="scss">
-.container {
+.dropdown-menu-container {
     display: flex;
     align-items: center;
     gap: v-bind(scale(20));
@@ -67,6 +67,10 @@ const tryCollapse = (event) => {
 
 .dropdown-menu {
     position: relative;
+
+    & h2 {
+        padding: v-bind(scale(10)) v-bind(scale(30));
+    }
 }
 
 .current-value-box {
@@ -82,15 +86,15 @@ const tryCollapse = (event) => {
 
 .other-options-box {
     position: absolute;
-    top: calc(100% + v-bind(scale(20)));
-
-    min-width: v-bind(scale(200));
+    z-index: 100;
+    top: calc(100% + v-bind(scale(15)));
 
     display: none;
     opacity: 0;
     transition: opacity 0.2s ease;
 
     & .item {
+        min-width: v-bind(scale(200));
         min-height: v-bind(scale(50));
         background-color: v-bind(btnColor);
 

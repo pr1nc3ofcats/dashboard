@@ -18,6 +18,7 @@ pub fn run() {
         .invoke_handler(tauri::generate_handler![
             settings::parse_settings,
             settings::dump_settings,
+            settings::get_default_option,
             utils::get_user_name,
             utils::show_window,
             fs_utils::space::get_free_space,

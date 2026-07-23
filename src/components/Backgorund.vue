@@ -9,15 +9,12 @@ import { getResourceUrl } from '../services/metadata';
 const { currentId } = useHomeVM();
 
 const wallapper = ref('');
+Settings.watch('wallapper', (v) => wallapper.value = getResourceUrl(v), true);
 
 const currentBg = computed(() => {
     const bg = Library.get(currentId.value)?.steam_drid_db_data?.img_hero;
     return bg ? getResourceUrl(bg!) : wallapper.value
 });
-
-onMounted(() => {
-    wallapper.value = getResourceUrl(Settings.get("wallapper"));
-})
 </script>
 
 <template>

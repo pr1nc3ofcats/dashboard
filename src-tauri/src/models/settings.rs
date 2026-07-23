@@ -39,34 +39,54 @@ impl Default for Settings {
             sgdb_api_key: String::default(),
 
             country_code: String::from("us"),
-            language: String::from("english")
+            language: String::from("english"),
         }
     }
 }
 
-#[tauri::command]
-pub fn parse_settings(app_handle: tauri::AppHandle) -> Result<Settings, String> {
+fn compute_default_settings(app_handle: &tauri::AppHandle) -> Result<Settings, String> {
     let mut settings = Settings::default();
     settings.wallapper = app_handle
         .path()
         .resource_dir()
-        .map_err(|e| e.to_string())?.join("images/backgrounds/default.webp").to_str().unwrap().into();
+        .map_err(|e| e.to_string())?
+        .join("images/backgrounds/default.webp")
+        .to_str()
+        .unwrap()
+        .into();
     settings.avatar_image = app_handle
         .path()
         .resource_dir()
-        .map_err(|e| e.to_string())?.join("images/default-avatar.webp").to_str().unwrap().into();
+        .map_err(|e| e.to_string())?
+        .join("images/default-avatar.webp")
+        .to_str()
+        .unwrap()
+        .into();
     settings.background_music = app_handle
         .path()
         .resource_dir()
-        .map_err(|e| e.to_string())?.join("music/The Night Swim.wav").to_str().unwrap().into();
+        .map_err(|e| e.to_string())?
+        .join("music/The Night Swim.wav")
+        .to_str()
+        .unwrap()
+        .into();
+
+    return Ok(settings);
+}
+
+#[tauri::command]
+pub fn parse_settings(app_handle: tauri::AppHandle) -> Result<Settings, String> {
+    let mut settings = compute_default_settings(&app_handle)?;
 
     let file_path = app_handle
         .path()
         .app_local_data_dir()
-        .map_err(|e| e.to_string())?.join("settings.json");
+        .map_err(|e| e.to_string())?
+        .join("settings.json");
     if file_path.exists() {
         let json_string = fs::read_to_string(file_path).map_err(|e| e.to_string())?;
-        settings = serde_json::from_str(&json_string).map_err(|e| format!("Settings file corrupted: {}", e.to_string()))?;
+        settings = serde_json::from_str(&json_string)
+            .map_err(|e| format!("Settings file corrupted: {}", e.to_string()))?;
     }
 
     Ok(settings)
@@ -77,8 +97,20 @@ pub fn dump_settings(app_handle: tauri::AppHandle, settings: Settings) -> Result
     let file_path = app_handle
         .path()
         .app_local_data_dir()
-        .map_err(|e| e.to_string())?.join("settings.json");
+        .map_err(|e| e.to_string())?
+        .join("settings.json");
     let json_string = serde_json::to_string_pretty(&settings).map_err(|e| e.to_string())?;
-    
+
     fs::write(file_path, json_string).map_err(|e| e.to_string())
+}
+
+#[tauri::command(rename_all = "snake_case")]
+pub fn get_default_option(app_handle: tauri::AppHandle, option_name: String) -> Result<serde_json::Value, String> {
+    let default_settings = compute_default_settings(&app_handle)?;
+    let json_value = serde_json::to_value(&default_settings).map_err(|e| e.to_string())?;
+
+    json_value
+        .get(&option_name)
+        .cloned()
+        .ok_or_else(|| format!("Unknown option: {}", option_name))
 }
