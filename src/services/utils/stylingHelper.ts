@@ -3,6 +3,7 @@ import { onAfterAppMount } from "./dependencyInjector";
 
 // Consts
 export const solidBgColor = "#1A191C";
+export const btnColor = "#38373A";
 
 // Pulse
 export function performPulse(event: any) {
