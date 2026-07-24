@@ -1,12 +1,13 @@
 <script setup lang="ts">
-import { computed, inject, onMounted, ref } from 'vue';
+import { computed, inject, onMounted, ref, useId } from 'vue';
 import { Settings } from '../../models/settings';
 import DropDown from './components/DropDown.vue';
-import { scale } from '../../services/utils/stylingHelper.ts';
 import { computedAsync } from '@vueuse/core';
 import { basename } from '@tauri-apps/api/path';
+import { selectOptionFromFile } from '../../view_models/settingsViewModel.ts';
 
 const spatialNavigation: any = inject('spatialNavigation');
+const tabSectionId = `tab-content-${useId()}`;
 
 const accentColorOption = ref(Settings.get('accent_color'));
 Settings.watch('accent_color', (newValue) => accentColorOption.value = newValue)
@@ -23,38 +24,33 @@ const defaultWallpaper = computedAsync(async () => await Settings.getDefault('wa
 const defaultAvatar = computedAsync(async () => await Settings.getDefault('avatar_image'), '');
 
 onMounted(() => {
-    spatialNavigation.focus('tab-content')
+    spatialNavigation.focus(tabSectionId)
 })
 </script>
 
 <template>
-    <div v-focus-section:tab-content class="tab-content-container">
+    <div v-focus-section:[tabSectionId] class="tab-content-container">
         <DropDown :title="'Accent color'"
             :values="['#C48A61', '#C46161', '#75C461', '#61C4BC', '#6178C4', '#7361C4', '#C261C4']"
             :displayValues="['Orange', 'Red', 'Green', 'Cyan', 'Blue', 'Purple', 'Pink']" :source="accentColorOption" ,
             :callback="(selected: string) => Settings.set('accent_color', selected)" class="item" />
 
-        <DropDown :title="'Wallpaper'" :values="['default.webp', 'file']"
-            :displayValues="['Neon Rain Orange', 'From file...']" :source="wallapperOptionPretty" :callback="async (selected: string) => {
-                if (selected === 'default.webp') {
+        <DropDown :title="'Wallpaper'" :values="['default', 'file']"
+            :displayValues="['Neon Rain Orange', 'From file...']" :source="wallapperOptionPretty" :callback="(selected: string) => {
+                if (selected === 'default') {
                     Settings.set('wallapper', defaultWallpaper)
+                } else {
+                    selectOptionFromFile('wallapper');
                 }
             }" class="item" />
 
-        <DropDown :title="'Avatar'" :values="['default-avatar.webp', 'file']"
+        <DropDown :title="'Avatar'" :values="['default', 'file']"
             :displayValues="['Default', 'From file...']" :source="avatarOptionPretty" :callback="async (selected: string) => {
-                if (selected === 'default-avatar.webp') {
-                    Settings.set('wallapper', defaultAvatar)
+                if (selected === 'default') {
+                    Settings.set('avatar_image', defaultAvatar)
+                } else {
+                    selectOptionFromFile('avatar_image');
                 }
             }" class="item" />
     </div>
 </template>
-
-<style scoped lang="scss">
-.tab-content-container {
-    display: flex;
-    align-items: start;
-    flex-direction: column;
-    gap: v-bind(scale(20));
-}
-</style>

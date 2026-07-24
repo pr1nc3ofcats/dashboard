@@ -2,24 +2,22 @@
 import { btnColor, scale, solidBgColor } from '../../../services/utils/stylingHelper';
 import { inject, onMounted, onUnmounted, ref } from 'vue';
 import path from 'path-browserify';
-import { currentDir, currentEntrySelected, dirEntriesSorted } from '../../../view_models/modals/fileSelectionModalViewModel';
+import { currentDir, currentEntrySelected, dirEntriesSorted, resolveExplorerModal } from '../../../view_models/modals/fileSelectionModalViewModel';
 import TopBar from './TopBar.vue';
 import QuickPlaces from './QuickPlaces.vue';
 import FilesSection from './FilesSection.vue';
 import { grabFocus, releaseFocus } from '../../../services/utils/modalHelper.ts';
 
-const emit = defineEmits(['modal-close']);
-
 const spatialNavigation: any = inject('spatialNavigation');
 const rootElement = ref(null);
+
+const closeModal = (path: string | null) => {
+    resolveExplorerModal(path)
+}
 
 onMounted(() => grabFocus(rootElement, spatialNavigation));
 
 onUnmounted(() => releaseFocus(spatialNavigation));
-
-const props = defineProps<{
-    callback: (file: string) => void
-}>()
 </script>
 
 <template>
@@ -37,14 +35,14 @@ const props = defineProps<{
 
             <div class="buttons-container">
                 <div v-focus
-                    @sn:enter-down="() => { callback(path.join(currentDir, dirEntriesSorted[currentEntrySelected].name)); emit('modal-close'); }"
+                    @sn:enter-down="() => closeModal(path.join(currentDir, dirEntriesSorted[currentEntrySelected].name))"
                     @sn:unfocused="currentEntrySelected = null" id="select-btn"
                     class="button focusable-br7 sfx-nav-handler sfx-activation-handler pulse-handler">
                     <h2>
                         Select
                     </h2>
                 </div>
-                <div v-focus @sn:enter-down="emit('modal-close')" id="cancel-btn"
+                <div v-focus @sn:enter-down="closeModal(null)" id="cancel-btn"
                     class="button focusable-br7 sfx-nav-handler sfx-activation-handler pulse-handler">
                     <h2>
                         Cancel

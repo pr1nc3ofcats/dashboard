@@ -1,9 +1,10 @@
 <script setup lang="ts">
-import { computed, inject, ref } from 'vue';
+import { computed, inject, ref, useId } from 'vue';
 import { btnColor, scale } from '../../../services/utils/stylingHelper';
 import { Settings } from '../../../models/settings';
 
 const spatialNavigation: any = inject('spatialNavigation');
+const optionsSectionId = `options-section-${useId()}`;
 
 const props = defineProps<{
     title: string,
@@ -26,15 +27,14 @@ const expanded = ref(false);
 const select = (value: string) => {
     props.callback(value);
     expanded.value = false;
-    spatialNavigation.focus('tab-content');
 }
 
-const expand = () => {
+const expand = async () => {
     expanded.value = true;
 }
 
 const tryCollapse = (event) => {
-    if (event.detail.nextSectionId !== "dropdown-options") expanded.value = false;
+    if (event.detail.nextSectionId !== optionsSectionId) expanded.value = false;
 };
 </script>
 
@@ -43,12 +43,12 @@ const tryCollapse = (event) => {
         <h2>{{ title }}:</h2>
 
         <div class="dropdown-menu">
-            <div v-focus @sn:enter-down="expand"
+            <div v-focus @sn:enter-down="expand" @sn:unfocused="tryCollapse"
                 class="current-value-box focusable-br7 sfx-nav-handler sfx-activation-handler pulse-handler">
                 <h2>{{ mappedDisplayValues.get(source) ?? source }}</h2>
             </div>
 
-            <div v-focus-section:dropdown-options class="other-options-box" :class="{ expanded }">
+            <div v-focus-section:[optionsSectionId] class="other-options-box":class="{ expanded }">
                 <div v-for="value in values.filter((v) => v !== source)" v-focus @sn:enter-down="select(value)"
                     @sn:unfocused="tryCollapse" class="item sfx-nav-handler sfx-activation-handler">
                     <h2>{{ mappedDisplayValues.get(value) }}</h2>

@@ -1,7 +1,7 @@
 import { invoke } from "@tauri-apps/api/core";
 import { computedAsync } from "@vueuse/core";
 import path from "path-browserify";
-import { computed, ref, watch } from "vue";
+import { computed, Ref, ref } from "vue";
 
 type SortingMode = "a-z" | "z-a" | "lastModified" | "firstModified" | "biggest" | "smallest";
 const sortEntries = (mode: SortingMode, target: DirEntry[]) => {
@@ -68,3 +68,21 @@ export const places = computedAsync(async () => {
     currentDir.value = result.volumes[0].mount_point
     return result;
 });
+
+let resolvePromise: ((path: string | null) => void) | null = null;
+let close: () => void;
+
+export function useExplorerModal(showHandle: Ref<boolean>, closeCb: () => void): Promise<string | null> {
+    close = closeCb;
+    showHandle.value = true;
+
+    return new Promise((resolve) => {
+        resolvePromise = resolve;
+    });
+}
+
+export function resolveExplorerModal(path: string | null) {
+    close();
+    resolvePromise?.(path);
+    resolvePromise = null;
+}

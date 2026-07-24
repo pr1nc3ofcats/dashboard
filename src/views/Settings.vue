@@ -4,7 +4,9 @@ import PersonalizationTab from '../components/settings/PersonalizationTab.vue';
 import TabList from '../components/settings/TabList.vue';
 import { Settings } from '../models/settings';
 import { contentHeight, scale, solidBgColor } from '../services/utils/stylingHelper';
-import { currentTab } from '../view_models/settingsViewModel.ts';
+import { currentTab, shouldShowExplorer } from '../view_models/settingsViewModel.ts';
+import FileSelectionModal from '../components/modals/FileSelectionModal/FileSelectionModal.vue';
+import AudioTab from '../components/settings/AudioTab.vue';
 
 const scrollClip = ref(null);
 </script>
@@ -19,8 +21,11 @@ const scrollClip = ref(null);
             </div>
             <div class="right-part" ref="scrollClip">
                 <PersonalizationTab v-if="currentTab === 'Personalization'" />
+                <AudioTab v-if="currentTab === 'Audio'" />
             </div>
         </div>
+
+        <FileSelectionModal v-if="shouldShowExplorer"/>
     </div>
 </template>
 
@@ -67,5 +72,14 @@ const scrollClip = ref(null);
     overflow-y: auto;
     overflow-x: hidden;
     scrollbar-width: none;
+}
+</style>
+
+<style lang="scss">
+.tab-content-container {
+    display: flex;
+    align-items: start;
+    flex-direction: column;
+    gap: v-bind(scale(20));
 }
 </style>

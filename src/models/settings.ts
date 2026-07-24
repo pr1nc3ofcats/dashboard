@@ -1,7 +1,7 @@
 import { invoke } from "@tauri-apps/api/core";
 import { reactive, watch, WatchCallback } from "vue";
 
-interface SettingsData {
+export interface SettingsData {
     accent_color: string;
     wallapper: string;
     avatar_image: string;

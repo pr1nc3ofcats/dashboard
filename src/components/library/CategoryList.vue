@@ -8,6 +8,7 @@ import { Settings } from '../../models/settings';
 import { ref } from 'vue';
 import FileSelectionModal from '../modals/FileSelectionModal/FileSelectionModal.vue';
 import { tryAddGameFromLnk } from '../../services/import/fromLnk.ts';
+import { useExplorerModal } from '../../view_models/modals/fileSelectionModalViewModel.ts';
 
 const { categories, currentCategory, currentCategoryIndex, categoriesLengths } = useLibraryVM();
 
@@ -19,6 +20,10 @@ const select = (index: number) => {
 
 const importAppFromFile = (filePath: string) => {
     if (filePath.endsWith('.lnk')) tryAddGameFromLnk(filePath).catch((err) => console.error(err));
+}
+
+const selectFile = async () => {
+    importAppFromFile(await useExplorerModal(showFileSelection, () => showFileSelection.value = false))
 }
 </script>
 
@@ -36,7 +41,7 @@ const importAppFromFile = (filePath: string) => {
             <h2 class="second-item gray">{{ categoriesLengths[index] }}</h2>
         </div>
 
-        <div v-focus @sn:enter-down="showFileSelection = true"
+        <div v-focus @sn:enter-down="selectFile"
             class="add-btn list-element sfx-nav-handler sfx-activation-handler">
             <div class="first-item">
                 <AddIcon class="icon" />
@@ -48,7 +53,7 @@ const importAppFromFile = (filePath: string) => {
     </div>
 
     <Transition name="modal">
-        <FileSelectionModal v-if="showFileSelection" @modal-close="showFileSelection = false" :callback="importAppFromFile" />
+        <FileSelectionModal v-if="showFileSelection" />
     </Transition>
 </template>
 
