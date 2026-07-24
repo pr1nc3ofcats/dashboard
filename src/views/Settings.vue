@@ -7,6 +7,7 @@ import { contentHeight, scale, solidBgColor } from '../services/utils/stylingHel
 import { currentTab, shouldShowExplorer } from '../view_models/settingsViewModel.ts';
 import FileSelectionModal from '../components/modals/FileSelectionModal/FileSelectionModal.vue';
 import AudioTab from '../components/settings/AudioTab.vue';
+import UtilsTab from '../components/settings/UtilsTab.vue';
 
 const scrollClip = ref(null);
 </script>
@@ -22,6 +23,7 @@ const scrollClip = ref(null);
             <div class="right-part" ref="scrollClip">
                 <PersonalizationTab v-if="currentTab === 'Personalization'" />
                 <AudioTab v-if="currentTab === 'Audio'" />
+                <UtilsTab v-if="currentTab === 'Utils'" />
             </div>
         </div>
 

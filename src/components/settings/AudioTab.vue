@@ -38,7 +38,7 @@ onMounted(() => {
     <div v-focus-section:[tabSectionId] class="tab-content-container" @keydown.delete="() => spatialNavigation.focus('tab-list')">
         <DropDown :title="'Background music'" :values="['The Night Swim.wav', 'HOME - Resonance.wav', 'file']"
             :displayValues="['Raulinho - The Night Swim', 'HOME - Resonance', 'From file...']"
-            :source="bgMusicOptionPretty" :callback="async (selected: string) => {
+            :source="bgMusicOptionPretty" :callback="(selected: string) => {
                 if (selected === 'file') {
                     selectOptionFromFile('background_music');
                 } else if (builtInMusicPaths.has(selected)) {
