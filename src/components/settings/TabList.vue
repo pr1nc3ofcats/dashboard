@@ -1,11 +1,16 @@
 <script setup lang="ts">
+import { inject, onMounted } from 'vue';
 import { Settings } from '../../models/settings';
-import { scale, scaleH, scaleW } from '../../services/utils/stylingHelper';
+import { scaleH, scaleW } from '../../services/utils/stylingHelper';
 import { currentTab, tabs, TabType } from '../../view_models/settingsViewModel';
+
+const spatialNavigation: any = inject('spatialNavigation');
 
 const select = (tab: TabType) => {
     currentTab.value = tab;
 }
+
+onMounted(() => spatialNavigation.focus('tab-list'))
 </script>
 
 <template>

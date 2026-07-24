@@ -24,12 +24,12 @@ const defaultWallpaper = computedAsync(async () => await Settings.getDefault('wa
 const defaultAvatar = computedAsync(async () => await Settings.getDefault('avatar_image'), '');
 
 onMounted(() => {
-    spatialNavigation.focus(tabSectionId)
+    spatialNavigation.setDefaultSection(tabSectionId)
 })
 </script>
 
 <template>
-    <div v-focus-section:[tabSectionId] class="tab-content-container">
+    <div v-focus-section:[tabSectionId] class="tab-content-container" @keydown.delete="() => spatialNavigation.focus('tab-list')">
         <DropDown :title="'Accent color'"
             :values="['#C48A61', '#C46161', '#75C461', '#61C4BC', '#6178C4', '#7361C4', '#C261C4']"
             :displayValues="['Orange', 'Red', 'Green', 'Cyan', 'Blue', 'Purple', 'Pink']" :source="accentColorOption" ,

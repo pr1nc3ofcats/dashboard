@@ -27,6 +27,7 @@ const expanded = ref(false);
 const select = (value: string) => {
     props.callback(value);
     expanded.value = false;
+    spatialNavigation.focus();
 }
 
 const expand = async () => {

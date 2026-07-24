@@ -8,6 +8,7 @@ import { Howl } from 'howler';
 
 const sfxNav = new Howl({ src: [Navigation] });
 const sfxActivate = new Howl({ src: [Activation] });
+
 const backgroundMusic = new Audio();
 backgroundMusic.loop = true;
 
