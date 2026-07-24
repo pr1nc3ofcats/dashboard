@@ -2,7 +2,7 @@
 import { inject, onMounted, onUnmounted, ref } from 'vue';
 import { grabFocus, releaseFocus } from '../../services/utils/modalHelper';
 import { scale, solidBgColor } from '../../services/utils/stylingHelper';
-import { items, resolveSgdbModal, selectedImage } from '../../view_models/modals/sgdbViewModel';
+import { items, resolveSgdbModal } from '../../view_models/modals/sgdbViewModel';
 import { scrollContainerIntoView } from '../../services/utils/scrollingHelper';
 import { SgdbImage } from '../../services/api/steamGridDb';
 
