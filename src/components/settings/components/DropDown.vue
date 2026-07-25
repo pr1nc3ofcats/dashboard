@@ -49,7 +49,7 @@ const tryCollapse = (event) => {
                 <h2>{{ mappedDisplayValues.get(source) ?? source }}</h2>
             </div>
 
-            <div v-focus-section:[optionsSectionId] class="other-options-box":class="{ expanded }">
+            <div v-focus-section:[optionsSectionId] class="other-options-box" :class="{ expanded }">
                 <div v-for="value in values.filter((v) => v !== source)" v-focus @sn:enter-down="select(value)"
                     @sn:unfocused="tryCollapse" class="item sfx-nav-handler sfx-activation-handler">
                     <h2>{{ mappedDisplayValues.get(value) }}</h2>
@@ -68,11 +68,6 @@ const tryCollapse = (event) => {
 
 .dropdown-menu {
     position: relative;
-
-    & h2 {
-        padding: v-bind(scale(10)) v-bind(scale(30));
-        text-align: center;
-    }
 }
 
 .current-value-box {
@@ -80,6 +75,10 @@ const tryCollapse = (event) => {
     min-height: v-bind(scale(50));
     background-color: v-bind(btnColor);
     border-radius: 7px;
+
+    box-sizing: border-box;
+    padding: v-bind(scale(10)) v-bind(scale(30));
+    text-align: center;
 
     display: flex;
     justify-content: center;
@@ -103,6 +102,10 @@ const tryCollapse = (event) => {
         display: flex;
         justify-content: center;
         align-items: center;
+
+        box-sizing: border-box;
+        padding: v-bind(scale(10)) v-bind(scale(30));
+        text-align: center;
 
         &:focus {
             background-color: v-bind('Settings.get("accent_color")');
