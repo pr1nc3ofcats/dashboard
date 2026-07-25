@@ -2,9 +2,11 @@
 import { computed, inject, ref, useId } from 'vue';
 import { btnColor, scale } from '../../../services/utils/stylingHelper';
 import { Settings } from '../../../models/settings';
+import { scrollContainerIntoView } from '../../../services/utils/scrollingHelper';
 
 const spatialNavigation: any = inject('spatialNavigation');
 const optionsSectionId = `options-section-${useId()}`;
+const scrollClip = ref(null);
 
 const props = defineProps<{
     title: string,
@@ -49,9 +51,10 @@ const tryCollapse = (event) => {
                 <h2>{{ mappedDisplayValues.get(source) ?? source }}</h2>
             </div>
 
-            <div v-focus-section:[optionsSectionId] class="other-options-box" :class="{ expanded }">
+            <div v-focus-section:[optionsSectionId] class="other-options-box" :class="{ expanded }" ref="scrollClip">
                 <div v-for="value in values.filter((v) => v !== source)" v-focus @sn:enter-down="select(value)"
-                    @sn:unfocused="tryCollapse" class="item sfx-nav-handler sfx-activation-handler">
+                    @sn:unfocused="tryCollapse" @sn:focused="(e) => scrollContainerIntoView(e, scrollClip)"
+                    class="item sfx-nav-handler sfx-activation-handler">
                     <h2>{{ mappedDisplayValues.get(value) }}</h2>
                 </div>
             </div>
@@ -94,6 +97,13 @@ const tryCollapse = (event) => {
     opacity: 0;
     transition: opacity 0.2s ease;
 
+    border-radius: 7px;
+
+    max-height: v-bind('scale(50 * 7)');
+    overflow-y: auto;
+    overflow-x: hidden;
+    scrollbar-width: none;
+
     & .item {
         min-width: v-bind(scale(200));
         min-height: v-bind(scale(50));
@@ -109,14 +119,6 @@ const tryCollapse = (event) => {
 
         &:focus {
             background-color: v-bind('Settings.get("accent_color")');
-        }
-
-        &:first-child {
-            border-radius: 7px 7px 0 0;
-        }
-
-        &:last-child {
-            border-radius: 0 0 7px 7px;
         }
     }
 
