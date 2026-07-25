@@ -4,7 +4,7 @@ import Ribbon from '../components/home/Ribbon.vue';
 import { useHomeVM } from '../view_models/homeViewModel.ts';
 import { contentHeight } from '../services/utils/stylingHelper.ts';
 
-const { appIsGame, appIsSelected } = useHomeVM();
+const { appIsGame, appIsSelected, controllerHints } = useHomeVM();
 </script>
 
 <template>
@@ -18,7 +18,9 @@ const { appIsGame, appIsSelected } = useHomeVM();
 
     <div class="page">
         <Ribbon />
-        <ControllerHint :is-game="appIsGame" :should-show="appIsSelected" />
+        <Transition name="modal">
+            <ControllerHint v-if="appIsSelected" :hints="controllerHints"/>
+        </Transition>
     </div>
 </template>
 

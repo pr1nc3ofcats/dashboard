@@ -3,6 +3,8 @@ import { computed, inject, ref, watch } from 'vue';
 import router from '../router';
 import { onAfterAppMount, onWindowFocus, onWindowUnfocus } from './utils/dependencyInjector';
 
+export type ControllerButton = 'a' | 'b' | 'x' | 'y' | 'left_bumper' | 'right_bumper' | 'dpad_up' | 'dpad_down' | 'dpad_left' | 'dpad_right';
+
 const { pause, resume, gamepads, onConnected, onDisconnected } = useGamepad();
 const currentGamepadIndex = ref(0);
 

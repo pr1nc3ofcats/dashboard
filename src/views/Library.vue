@@ -7,7 +7,7 @@ import { contentHeight, solidBgColor } from '../services/utils/stylingHelper.ts'
 import { useLibraryVM } from '../view_models/libraryViewModel.ts';
 import FreeSpaceWidget from '../components/library/FreeSpaceWidget.vue';
 
-const { appIsGame, appIsSelected } = useLibraryVM();
+const { appIsGame, appIsSelected, controllerHints } = useLibraryVM();
 </script>
 
 <template>
@@ -22,7 +22,10 @@ const { appIsGame, appIsSelected } = useLibraryVM();
                 <AppGrid />
             </div>
         </div>
-        <ControllerHint :is-game="appIsGame" :should-show="appIsSelected" />
+
+        <Transition name="modal">
+            <ControllerHint v-if="appIsSelected" :hints="controllerHints" />
+        </Transition>
     </div>
 </template>
 
