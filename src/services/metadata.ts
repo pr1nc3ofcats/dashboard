@@ -40,7 +40,7 @@ export async function tryGetFullMetadata(target: Application) {
     heroes = tidyHeroes(heroes);
 
     let sgdb_data: SteamGridDbData = {};
-    
+
     if (squares.length > 0) target.img_square = squares[0].url;
     if (heroes.length > 0) {
         let selectedImage = await useSgdbModal(heroes);
@@ -50,8 +50,11 @@ export async function tryGetFullMetadata(target: Application) {
     target.steam_drid_db_data = sgdb_data;
 
     if (steamId) {
-        const hltb = toHowLongToBeat(await getHltbBySteamAppId(steamId));
-        target.how_long_to_beat = hltb;
+        const reqResult = await getHltbBySteamAppId(steamId);
+        if (reqResult) {
+            const hltb = toHowLongToBeat(reqResult);
+            target.how_long_to_beat = hltb;
+        }
     }
 
 }
