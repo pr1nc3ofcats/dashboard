@@ -12,6 +12,7 @@ const spatialNavigation: any = inject('spatialNavigation');
 const rootElement = ref(null);
 
 const closeModal = (path: string | null) => {
+    console.log(path)
     resolveExplorerModal(path)
 }
 
@@ -35,7 +36,7 @@ onUnmounted(() => releaseFocus(spatialNavigation));
 
             <div class="buttons-container">
                 <div v-focus
-                    @sn:enter-down="() => closeModal(path.join(currentDir, dirEntriesSorted[currentEntrySelected].name))"
+                    @sn:enter-down="() => closeModal(path.join(currentDir, dirEntriesSorted[currentEntrySelected]?.name ?? './'))"
                     @sn:unfocused="currentEntrySelected = null" id="select-btn"
                     class="button focusable-br7 sfx-nav-handler sfx-activation-handler pulse-handler">
                     <h2>

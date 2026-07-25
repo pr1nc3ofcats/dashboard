@@ -4,7 +4,7 @@ import { Settings } from '../../models/settings';
 import DropDown from './components/DropDown.vue';
 import { computedAsync } from '@vueuse/core';
 import { basename } from '@tauri-apps/api/path';
-import { selectOptionFromFile } from '../../view_models/settingsViewModel.ts';
+import { selectOptionFromFs } from '../../view_models/settingsViewModel.ts';
 
 const spatialNavigation: any = inject('spatialNavigation');
 const tabSectionId = `tab-content-${useId()}`;
@@ -40,7 +40,7 @@ onMounted(() => {
                 if (selected === 'default') {
                     Settings.set('wallapper', defaultWallpaper)
                 } else {
-                    selectOptionFromFile('wallapper');
+                    selectOptionFromFs('wallapper');
                 }
             }" class="item" />
 
@@ -49,7 +49,7 @@ onMounted(() => {
                 if (selected === 'default') {
                     Settings.set('avatar_image', defaultAvatar)
                 } else {
-                    selectOptionFromFile('avatar_image');
+                    selectOptionFromFs('avatar_image');
                 }
             }" class="item" />
     </div>

@@ -4,7 +4,7 @@ import { Settings } from '../../models/settings';
 import DropDown from './components/DropDown.vue';
 import { computedAsync } from '@vueuse/core';
 import { basename, join, resourceDir } from '@tauri-apps/api/path';
-import { selectOptionFromFile } from '../../view_models/settingsViewModel.ts';
+import { selectOptionFromFs } from '../../view_models/settingsViewModel.ts';
 import Slider from './components/Slider.vue';
 import SpeakerIcon from '../../assets/svg/volume_2.svg';
 
@@ -40,7 +40,7 @@ onMounted(() => {
             :displayValues="['Raulinho - The Night Swim', 'HOME - Resonance', 'From file...']"
             :source="bgMusicOptionPretty" :callback="(selected: string) => {
                 if (selected === 'file') {
-                    selectOptionFromFile('background_music');
+                    selectOptionFromFs('background_music');
                 } else if (builtInMusicPaths.has(selected)) {
                     Settings.set('background_music', builtInMusicPaths.get(selected));
                 }
