@@ -90,11 +90,10 @@ pub async fn try_spawn_detached(
         .map_err(|err| err.to_string())?;
     let pid = proc.id();
 
-    tauri::async_runtime::spawn_blocking(move || {
-        try_focus_with_timeout(pid, Duration::from_secs(100))
+    let _ = tauri::async_runtime::spawn_blocking(move || {
+        try_focus_with_timeout(pid, Duration::from_secs(20))
     })
-    .await
-    .map_err(|err| err.to_string())??;
+    .await;
 
     state.lock().unwrap().data.insert(cmd, proc);
 

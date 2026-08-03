@@ -14,7 +14,7 @@ export class Library {
 
     public static async init() {
         Object.assign(this.applications, await invoke<Application[]>("parse_applications"));
-        
+
         // In runtime this property becomes a string 
         for (let app of this.applications) {
             app.last_launched = app.last_launched ? new Date(app.last_launched) : undefined;
@@ -64,9 +64,9 @@ export class Library {
         const working_dir = this.get(id)?.data_path;
         invoke('try_focuse_window', { cmd: cmd }).catch((err) => {
             if (err === "process is not running") {
-                invoke('try_spawn_detached', { cmd: cmd, working_dir: working_dir}).then(() =>
-                    this.set(id, 'last_launched', dayjs().toDate())).catch((err) =>
-                        console.error("Error while spawning process: ", err));
+                this.set(id, 'last_launched', dayjs().toDate())
+                invoke('try_spawn_detached', { cmd: cmd, working_dir: working_dir }).catch((err) =>
+                    console.error("Error while spawning process: ", err));
             } else {
                 console.error(err);
             }
