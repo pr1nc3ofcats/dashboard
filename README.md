@@ -51,3 +51,7 @@ Maybe bundled music is copyrighted.
 
 ![scrn1](screens/Screenshot_1.png)
 ![scrn2](screens/Screenshot_2.png)
+
+---
+
+Todo: clean up repo somehow because it's fat as FUCK
